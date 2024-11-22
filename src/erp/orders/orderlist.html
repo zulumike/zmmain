@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settem Maskin</title>
+    <link rel="stylesheet" href="/styles/general.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <div class="burger">
+                    <h1>Ordrer</h1>
+                </div>
+            </nav>
+        </header>
+        <script src="/scripts/nav.js"></script>
+        <main>
+            <div class="main-div">
+                <a href="neworder.html"><button>Ny ordre</button></a>
+                <table id="list-table" class="list-table">
+                    <thead>
+                        <tr>
+                            <th>Nr</th>
+                            <th>Kunde</th>
+                            <th>Navn</th>
+                            <th>Sum</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div> 
+            <script type="module" src="orderlist.js"></script>
+        </main>
+  </body>
+</html>

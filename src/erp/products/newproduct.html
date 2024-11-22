@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settem Maskin</title>
+    <link rel="stylesheet" href="/styles/general.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <div class="burger">
+                    <h1>Produkt</h1>
+                </div>
+        </header>
+        </nav>
+        <script src="/scripts/nav.js"></script>
+        <main>
+            <div class="main-div">
+                <div class="productinfodiv">
+                    <form id="documentform">
+                        <label for="id">Produktnr: </label>
+                        <input type="text" id="id" name="id" required autofocus>
+                        <label for="name">Produktnavn: </label>
+                        <input type="text" id="name" name="name">
+                        <label for="description">Beskrivelse: </label>
+                        <textarea name="description" id="description" rows="4"></textarea>
+                        <label for="unit">Enhet: </label>
+                        <input type="text" id="unit" name="unit">
+                        <label for="price">Pris: </label>
+                        <input type="number" id="price" name="price" step="0.01">
+                        <label for="storage">Lagerbeholdning: </label>
+                        <input type="number" id="storage" name="storage">
+                        <label for="account">Std konto: </label>
+                        <input type="number" id="account" name="account">
+                        <label for="active">Aktiv: </label>
+                        <input type="checkbox" id="active" name="active">
+                        <label for="webshop">Synlig på webshop: </label>
+                        <input type="checkbox" id="webshop" name="webshop">
+                        <input type="submit" value="Lagre">
+                        <input type="button" value="Avbryt" onclick="window.location.replace('/products/productlist.html')">
+                    </form>
+                </div>
+            </div>
+            <script type="module" src="newproduct.js"></script>
+        </main>
+  </body>
+</html>

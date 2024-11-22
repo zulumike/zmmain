@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settem Maskin</title>
+    <link rel="stylesheet" href="/styles/general.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <div class="burger">
+                    <h1>Bilag</h1>
+                </div>
+            </nav>
+        </header>
+        <script src="/scripts/nav.js"></script>
+        <main>
+            <div class="main-div">
+                <div class="costinfodiv">
+                    <div class="costinfosubdiv">
+                        <form id="documentform">
+                            <h4 id="formheading">Bilagsnr: </h4>
+                            <br>
+                            <label for="date">Bilagsdato: </label>
+                            <input type="date" id="date" name="date">
+                            <label for="description">Beskrivelse: </label>
+                            <input type="text" id="description" name="description">
+                            <input type="submit" value="Lagre">
+                            <input type="button" value="Avbryt" onclick="window.location.replace('/costs/costlist.html')">
+                            <input type="button" id="delBtn" value="Slett">
+                            <br>
+                            <br>
+                            <p id="created-text">Opprettet: </p>
+                            <p id="updated-text">Sist oppdatert: </p>
+                        </form>
+                    </div>
+                    <div class="costinfosubdiv">
+                        <h3 id="costsumtext"></h3>
+                        <div id="costtoinvoicebtn"></div>
+                    </div>
+                </div>
+                <div class="costlineformdiv">
+                    <form id="costlineform"></form>
+                </div>
+                <div class="costlinediv" id="costlinediv"></div>
+            </div>
+            <script type="module" src="editcost.js"></script>
+        </main>
+  </body>
+</html>

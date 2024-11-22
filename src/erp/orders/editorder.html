@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settem Maskin</title>
+    <link rel="stylesheet" href="/styles/general.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <div class="burger">
+                    <h1>Ordrer</h1>
+                </div>
+            </nav>
+        </header>
+        <script src="/scripts/nav.js"></script>
+        <main>
+            <div class="main-div">
+                <div class="orderinfodiv">
+                    <div class="orderinfosubdiv">
+                        <form id="documentform">
+                            <h4 id="formheading">Ordrenr: </h4>
+                            <br>
+                            <label for="customer">Kunde: </label>
+                            <select name="customer" id="customer"></select>
+                            <label for="name">Ordrenavn: </label>
+                            <input type="text" id="name" name="name">
+                            <label for="date">Ordredato: </label>
+                            <input type="date" id="date" name="date">
+                            <input type="submit" value="Lagre">
+                            <input type="button" value="Avbryt" onclick="window.location.replace('/orders/orderlist.html')">
+                            <input type="button" id="delBtn" value="Slett">
+                            <input type="button" id="invoiceBtn" value="Lag faktura">
+                            <br>
+                            <br>
+                            <p id="created-text">Opprettet: </p>
+                            <p id="updated-text">Sist oppdatert: </p>
+                        </form>
+                    </div>
+                    <div class="orderinfosubdiv">
+                        <h3 id="ordersumtext"></h3>
+                    </div>
+                </div>
+                <div class="orderlineformdiv">
+                    <form id="orderlineform"></form>
+                </div>
+                <div class="orderlinediv" id="orderlinediv"></div>
+            </div>
+            <script type="module" src="editorder.js"></script>
+        </main>
+  </body>
+</html>

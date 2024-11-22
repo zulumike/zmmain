@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settem Maskin</title>
+    <link rel="stylesheet" href="/styles/general.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <div class="burger">
+                    <h1>Faktura</h1>
+                </div>
+            </nav>
+        </header>
+        <script src="/scripts/nav.js"></script>
+        <main>
+            <div class="main-div">
+                <div class="invoiceinfodiv">
+                    <form id="documentform">
+                        <label for="customer">Kunde: </label>
+                        <select name="customer" id="customer">
+                            <option>Velg kunde</option>
+                        </select>
+                        <label for="name">Fakturanavn: </label>
+                        <input type="text" id="name" name="name">
+                        <label for="date">Fakturadato: </label>
+                        <input type="date" id="date" name="date">
+                        <label for="date">Forfallsdato: </label>
+                        <input type="date" id="duedate" name="duedate">
+                        <input type="submit" value="Lagre">
+                        <input type="button" value="Avbryt" onclick="window.location.replace('/invoices/invoicelist.html')">
+                    </form>
+                </div>
+            </div>
+            <script type="module" src="newinvoice.js"></script>
+        </main>
+  </body>
+</html>

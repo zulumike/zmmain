@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settem Maskin</title>
+    <link rel="stylesheet" href="/styles/general.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <div class="burger">
+                    <h1>Kunder</h1>
+                </div>
+            </nav>
+        </header>
+        <script src="/scripts/nav.js"></script>
+        <main>
+            <div class="main-div">
+                <div class="customerinfodiv">
+                    <form id="documentform">
+                        <h4 id="formheading">Kundenr: </h4>
+                        <br>
+                        <label for="name">Kundenavn: </label>
+                        <input type="text" id="name" name="name" required autofocus>
+                        <label for="address">Adresse: </label>
+                        <input type="text" id="address" name="address">
+                        <label for="zip">Postnummer: </label>
+                        <input type="number" id="zip" name="zip">
+                        <label for="city">Poststed: </label>
+                        <input type="text" id="city" name="city">
+                        <label for="phone">Telefonnummer: </label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{8}">
+                        <label for="email">E-post: </label>
+                        <input type="email" id="email" name="email">
+                        <input type="submit" value="Lagre">
+                        <input type="button" value="Avbryt" onclick="window.location.replace('/customers/customerlist.html')">
+                        <input type="button" id="delBtn" value="Slett">
+                        <p id="created-text">Opprettet: </p>
+                        <p id="updated-text">Sist oppdatert: </p>
+                    </form>
+                </div>
+            </div>
+            <script type="module" src="editcustomer.js"></script>
+        </main>
+  </body>
+</html>

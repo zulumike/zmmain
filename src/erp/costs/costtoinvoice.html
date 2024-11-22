@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settem Maskin</title>
+    <link rel="stylesheet" href="/styles/general.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <div class="burger">
+                    <h1>Bilag</h1>
+                </div>
+            </nav>
+        </header>
+        <script src="/scripts/nav.js"></script>
+        <main>
+            <div class="main-div">
+                <h3 id="costinfo"></h3>
+                <h4 id="invoiceinfo"></h4>
+                <form id="costform">
+                    <label for="description">Fakturakommentar:</label>
+                    <input type="text" name="description" id="description">
+                    <label for="product">Velg produkt</label>
+                    <select name="product" id="product"></select>
+                    <label for="price">Pris pr enhet:</label>
+                    <input type="number" step="0.01" id="price" name="price" value="0">
+                </form>
+            </div> 
+
+            <script type="module" src="costtoinvoice.mjs"></script>
+        </main>
+  </body>
+</html>

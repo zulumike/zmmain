@@ -1,0 +1,195 @@
+@import './constants.css';
+
+/* Reset some basic elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--stdfont);
+}
+
+form {
+    border-radius: var(--stdborderradius);
+    background-color: var(--navbarcolor);
+    /* padding: 20px; */
+    font-size: var(--stdfontsize);
+    max-width: 400px;
+}
+
+form input[type="submit"], input[type="button"], input[type="reset"] {
+    display: inline;
+    margin-top: 10px;
+    background-color: var(--stdhovercolor);
+    color: var(--altcolor);
+    width: auto;
+}
+
+label {
+    margin: 5px;
+}
+
+input[type="submit"], input[type="button"], input[type="reset"]:hover {
+    cursor: pointer;
+}
+
+input, select {
+    border-radius: var(--stdborderradius);
+    font-size: var(--stdfontsize);
+    padding: 5px;
+    display: block;
+    width: 100%;
+    margin: 5px;
+    outline: none;
+}
+
+input:focus {
+    border: 3px solid var(--stdhovercolor);
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    display: inline;
+}
+
+input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+textarea {
+    border-radius: var(--stdborderradius);
+    font-size: var(--stdfontsize);
+    padding: 5px;
+    display: block;
+    width: 100%;
+    margin: 5px;
+    outline: none;
+}
+
+textarea:focus {
+    border: 3px solid var(--stdhovercolor);
+}
+
+p {
+    font-size: var(--smallfontsize);
+}
+
+/* .main-div {
+    margin: 10px;
+} */
+
+.orderinfodiv, .customerinfodiv, .productinfodiv, .costinfodiv, .invoiceinfodiv {
+    display: flex;
+    margin: 10px;
+    border-radius: var(--stdborderradius);
+    background-color: var(--navbarcolor);
+    padding: 20px;
+    font-size: var(--stdfontsize);
+    max-width: 1200px;
+    align-content: space-between;
+}
+
+.orderinfosubdiv, .costinfosubdiv, .invoiceinfosubdiv {
+    margin: 10px;
+}
+
+.orderlineformdiv, .costlineformdiv, .invoicelineformdiv {
+    margin: 10px;
+    border-radius: var(--stdborderradius);
+    background-color: var(--navbarcolor);
+    padding: 20px;
+    font-size: var(--stdfontsize);
+    max-width: 1200px;
+}
+
+.list-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.list-table tr {
+    border-bottom: 1em solid transparent;
+    /* padding: 5px; */
+    border-radius: 10px;
+}
+
+.list-table td {
+    text-align: center;
+    border-right: 1em solid transparent;
+    border-left: 1em solid transparent;
+}
+
+.list-table tr:hover{
+    cursor: pointer;
+    box-shadow: 0 0 0 2px var(--navbarcolor)
+}
+
+.orderlinediv, .costlinediv, .invoicelinediv {
+    margin-top: 10px;
+}
+
+#orderlineform, #costlineform, #invoicelineform {
+    margin-top: 10px;
+    max-width: 100%;
+    font-size: var(--smallfontsize);
+}
+
+#orderlineform, #costlineform, #invoicelineform div {
+    display: inline-block;
+    width: auto;
+}
+
+#orderlineform, #costlineform, #invoicelineform label {
+    display: block;
+    width: auto;
+}
+
+#orderlineform, #costlineform, #invoicelineform input {
+    /* display: block; */
+    width: auto;
+    font-size: var(--smallfontsize);
+}
+
+#orderlineform, #costlineform, #invoicelineform select {
+    display: block;
+    width: auto;
+    font-size: var(--smallfontsize);
+}
+
+#loadingdiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(2px);
+}
+
+#loader {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: -76px 0 0 -76px;
+    border: 16px solid var(--navbarcolor);
+    border-radius: 50%;
+    border-top: 16px solid var(--stdhovercolor);
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    backdrop-filter: blur(1000px);
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}

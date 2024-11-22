@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settem Maskin</title>
+    <link rel="stylesheet" href="/styles/general.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <div class="burger">
+                    <h1>Faktura</h1>
+                </div>
+            </nav>
+        </header>
+        <script src="/scripts/nav.js"></script>
+        <main>
+            <div class="main-div">
+                <div class="invoiceinfodiv">
+                    <div class="invoiceinfosubdiv">
+                        <form id="documentform">
+                            <h4 id="formheading">Ordrenr: </h4>
+                            <br>
+                            <label for="customer">Kunde: </label>
+                            <select name="customer" id="customer"></select>
+                            <label for="name">Fakturanavn: </label>
+                            <input type="text" id="name" name="name">
+                            <label for="date">Fakturadato: </label>
+                            <input type="date" id="date" name="date">
+                            <label for="duedate">Forfallsdato: </label>
+                            <input type="date" id="duedate" name="duedate">
+                            <input type="submit" value="Lagre" id="submitbtn">
+                            <input type="button" value="Avbryt" onclick="window.location.replace('/invoices/invoicelist.html')">
+                            <input type="button" id="delBtn" value="Slett">
+                            <br>
+                            <br>
+                            <p id="created-text">Opprettet: </p>
+                            <p id="updated-text">Sist oppdatert: </p>
+                        </form>
+                    </div>
+                    <div class="invoiceinfosubdiv">
+                        <h3 id="invoicesumtext"></h3>
+                        <h4 id="invoiceordertext"></h4>
+                        <input type="button" id="costBtn" value="Bokfør">
+                    </div>
+                </div>
+                <div class="invoicelineformdiv">
+                    <form id="invoicelineform"></form>
+                </div>
+                <div class="invoicelinediv" id="invoicelinediv"></div>
+            </div>
+            <script type="module" src="editinvoice.js"></script>
+        </main>
+  </body>
+</html>
