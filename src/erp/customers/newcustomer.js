@@ -7,7 +7,7 @@ documentForm.addEventListener('submit', async (event) => {
     loaderOn();
     const documentFormData = new FormData(documentForm);
     const documentData = Object.fromEntries(documentFormData);
-    await createCustomer(documentData);
+    const dbResponse = await createCustomer(documentData);
     loaderOff();
-    window.location.replace('/customers/customerlist.html');
+    window.location.replace('/erp/customers/editcustomer.html?id=' + dbResponse.itemId);
 })

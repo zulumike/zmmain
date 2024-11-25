@@ -2,12 +2,12 @@ const navTemplate = document.createElement('template');
 navTemplate.innerHTML = `
     <ul class="nav-links">
         <li id="navhome"><a href="/">Hjem</a></li>
-        <li id="navcustomers"><a href="/customers/customerlist.html">Kunder</a></li>
-        <li id="navproducts"><a href="/products/productlist.html">Produkter</a></li>
-        <li id="navorders"><a href="/orders/orderlist.html">Ordrer</a></li>
-        <li id="navinvoices"><a href="/invoices/invoicelist.html">Faktura</a></li>
-        <li id="navcosts"><a href="/costs/costlist.html">Bilag</a></li>
-        <li id="navadmin"><a href="/admin/admin.html">Admin</a></li>
+        <li id="navcustomers"><a href="/erp/customers/customerlist.html">Kunder</a></li>
+        <li id="navproducts"><a href="/erp/products/productlist.html">Produkter</a></li>
+        <li id="navorders"><a href="/erp/orders/orderlist.html">Ordrer</a></li>
+        <li id="navinvoices"><a href="/erp/invoices/invoicelist.html">Faktura</a></li>
+        <li id="navcosts"><a href="/erp/costs/costlist.html">Bilag</a></li>
+        <li id="navadmin"><a href="/erp/admin/admin.html">Admin</a></li>
     </ul>
     <div class="burger">
         <div class="line1"></div>

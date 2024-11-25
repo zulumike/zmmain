@@ -9,9 +9,9 @@ documentForm.addEventListener('submit', async (event) => {
     const documentData = Object.fromEntries(documentFormData);
     documentData.costLines = [];
     documentData.sum = 0;
-    await createCost(documentData);
+    const dbResponse = await createCost(documentData);
     loaderOff();
-    window.location.replace('/costs/costlist.html');
+    window.location.replace('/erp/costs/editcost.html?id=' + dbResponse.itemId);
 })
 
 const dateInput = document.getElementById('date');

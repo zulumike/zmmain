@@ -9,7 +9,7 @@ documentForm.addEventListener('submit', async (event) => {
     const documentData = Object.fromEntries(documentFormData);
     await updateCustomer(documentId, documentData);
     loaderOff();
-    window.location.replace('/customers/customerlist.html');
+    window.location.replace('/erp/customers/customerlist.html');
 })
 
 async function populatedocumentForm(customerId) {
@@ -43,7 +43,7 @@ async function deleteDocumentById() {
         loaderOn();
         await deleteCustomer(documentId);
         loaderOff();
-        window.location.replace('/customers/customerlist.html');
+        window.location.replace('/erp/customers/customerlist.html');
     }
 }
 

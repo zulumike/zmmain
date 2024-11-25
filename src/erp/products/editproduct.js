@@ -24,7 +24,7 @@ documentForm.addEventListener('submit', async (event) => {
     }
     await updateProduct(documentId, documentData);
     loaderOff();
-    window.location.replace('/products/productlist.html');
+    window.location.replace('/erp/products/productlist.html');
 })
 
 async function populatedocumentForm(customerId) {
@@ -60,7 +60,7 @@ async function deleteDocumentById() {
         loaderOn();
         await deleteProduct(documentId);
         loaderOff();
-        window.location.replace('/products/productlist.html');
+        window.location.replace('/erp/products/productlist.html');
     }
 }
 

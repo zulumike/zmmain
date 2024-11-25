@@ -1,92 +1,36 @@
 import { getUserInfo } from "../scripts/auth.js";
 
+const companyEndpoint = '/api/erpdb?containerid=company';
+const productsEndpoint = '/api/erpdb?containerid=products';
+const customersEndpoint = '/api/erpdb?containerid=customers';
+const ordersEndpoint = '/api/erpdb?containerid=orders';
+const invoicesEndpoint = '/api/erpdb?containerid=invoices';
+const costsEndpoint = '/api/erpdb?containerid=costs';
 // #####################################################################################
 // #                                                                        COMPANY    #
 // #####################################################################################
 
 export async function getCompany(id) {
 
-    const gql = `
-      query getById($id: ID!) {
-        company_by_pk(id: $id) {
-            id
-            name
-            address
-            city
-            phone
-            email
-            nrSeries {
-                customer
-                order
-                invoice
-                cost    
-            }
-            accounts {
-                nr
-                description
-            }
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-      },
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = companyEndpoint + '&id=' + id;
     const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query),
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
     });
     const result = await response.json();
-    return result.data.company_by_pk;
+    return result;
   }
 
   export async function updateCompany(id, data) {
-
-    const gql = `
-      mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdatecompanyInput!) {
-        updatecompany(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-            id
-            name
-            address
-            city
-            phone
-            email
-            nrSeries {
-                customer
-                order
-                invoice
-                cost    
-            }
-            accounts {
-                nr
-                description
-            }
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-        _partitionKeyValue: id,
-        item: data
-      } 
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = companyEndpoint + '&id=' + id;
     const res = await fetch(endpoint, {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const result = await res.json();
-    return result.data.updatecompany;
+    return result.data;
   }
 
 // #####################################################################################
@@ -94,75 +38,24 @@ export async function getCompany(id) {
 // #####################################################################################
 
 export async function readAllProducts() {
-    const query = `
-        {
-            products {
-                items {
-                  id
-                  name
-                  description
-                  unit
-                  price
-                  storage
-                  account
-                  active
-                  webshop
-                  image
-                  created
-                  created_by
-                  updated
-                  updated_by
-                }
-            }
-        }`;
-    const endpoint = '/data-api/graphql';
+    const endpoint = productsEndpoint;
     const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: query })
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
     });
     const result = await response.json();
-    return result.data.products.items;
+    return result;
 }
 
 export async function getProduct(id) {
-
-    const gql = `
-      query getById($id: ID!) {
-        products_by_pk(id: $id) {
-          id
-          name
-          description
-          unit
-          price
-          storage
-          account
-          active
-          webshop
-          image
-          created
-          created_by
-          updated
-          updated_by
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-      },
-    };
-  
-    const endpoint = "/data-api/graphql";
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query),
-    });
-    const result = await response.json();
-    return result.data.products_by_pk;
-  }
+  const endpoint = productsEndpoint + '&id=' + id;
+  const response = await fetch(endpoint, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  });
+  const result = await response.json();
+  return result;
+}
 
 export async function updateProduct(id, data) {
     const oldData = await getProduct(id);
@@ -174,44 +67,15 @@ export async function updateProduct(id, data) {
     const currentUser = await getUserInfo();
     data.updated_by = currentUser.userDetails;
 
-    const gql = `
-      mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdateproductsInput!) {
-        updateproducts(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-          id
-          name
-          description
-          unit
-          price
-          storage
-          account
-          active
-          webshop
-          image
-          created
-          created_by
-          updated
-          updated_by
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-        _partitionKeyValue: id,
-        item: data
-      } 
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = productsEndpoint + '&id=' + id;
     const res = await fetch(endpoint, {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const result = await res.json();
-    return result.data.updateproducts;
+    return result;
   }
 
 export async function createProduct(data) {
@@ -221,72 +85,30 @@ export async function createProduct(data) {
     const currentUser = await getUserInfo();
     data.created_by = currentUser.userDetails;
     
-    const gql = `
-      mutation create($item: CreateproductsInput!) {
-        createproducts(item: $item) {
-          id
-          name
-          description
-          unit
-          price
-          storage
-          account
-          active
-          webshop
-          image
-          created
-          created_by
-          updated
-          updated_by
-        }
-      }`;
-    
-    const query = {
-      query: gql,
-      variables: {
-        item: data
-      } 
-    };
-    
-    const endpoint = "/data-api/graphql";
+    const endpoint = productsEndpoint;
     const result = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const response = await result.json();
     
-    return response.data.createproducts;
+    return response;
   }
 
 //   Hard delete:
   export async function deleteProduct(id) {
+ 
+    const endpoint = productsEndpoint;
+    const productToBeDeleted = await getProduct(id);
 
-    const gql = `
-      mutation del($id: ID!, $_partitionKeyValue: String!) {
-        deleteproducts(id: $id, _partitionKeyValue: $_partitionKeyValue) {
-          id
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-      _partitionKeyValue: id
-      }
-    };
-  
-    const endpoint = "/data-api/graphql";
     const response = await fetch(endpoint, {
-      method: "POST",
+      method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(productToBeDeleted)
     });
   
-    const result = await response.json();
-    console.log(`Record deleted: ${ JSON.stringify(result.data) }`);
   }
 
 // #####################################################################################
@@ -294,69 +116,25 @@ export async function createProduct(data) {
 // #####################################################################################
 
 export async function readAllCustomers() {
-    const query = `
-        {
-            customers {
-                items {
-                    id
-                    name
-                    address
-                    city
-                    phone
-                    email
-                    created
-                    created_by
-                    updated
-                    updated_by
-                    deleted
-                }
-            }
-        }`;
-    const endpoint = '/data-api/graphql';
+
+    const endpoint = customersEndpoint;
     const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: query })
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
     });
     const result = await response.json();
-    return result.data.customers.items;
+    return result;
 }
 
 export async function getCustomer(id) {
 
-    const gql = `
-      query getById($id: ID!) {
-        customers_by_pk(id: $id) {
-            id
-            name
-            address
-            zip
-            city
-            phone
-            email
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-      },
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = customersEndpoint + '&id=' + id;
     const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query),
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
     });
     const result = await response.json();
-    return result.data.customers_by_pk;
+    return result;
   }
 
 export async function updateCustomer(id, data) {
@@ -368,47 +146,22 @@ export async function updateCustomer(id, data) {
     data.updated = timeNow;
     const currentUser = await getUserInfo();
     data.updated_by = currentUser.userDetails;
-
-    const gql = `
-      mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdatecustomersInput!) {
-        updatecustomers(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-            id
-            name
-            address
-            city
-            phone
-            email
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
   
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-        _partitionKeyValue: id,
-        item: data
-      } 
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = customersEndpoint + '&id=' + id;
     const res = await fetch(endpoint, {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const result = await res.json();
-    return result.data.updatecustomers;
+    return result;
   }
 
 export async function createCustomer(data) {
 
     const company = await getCompany('1');
+    console.log(company);
     company.nrSeries.customer++
     data.id = company.nrSeries.customer.toString();
     const timeNow = new Date();
@@ -417,42 +170,18 @@ export async function createCustomer(data) {
     data.created_by = currentUser.userDetails;
     data.deleted = false;
 
-    const gql = `
-      mutation create($item: CreatecustomersInput!) {
-        createcustomers(item: $item) {
-            id
-            name
-            address
-            city
-            phone
-            email
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-    
-    const query = {
-      query: gql,
-      variables: {
-        item: data
-      } 
-    };
-    
-    const endpoint = "/data-api/graphql";
+    const endpoint = customersEndpoint;
     const result = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const response = await result.json();
     
     await updateCompany('1', company)
 
-    return response.data.createcustomers;
+    return response;
   }
 
 //   Soft delete:
@@ -465,41 +194,15 @@ export async function createCustomer(data) {
     data.updated_by = currentUser.userDetails;
     data.deleted = true;
 
-    const gql = `
-      mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdatecustomersInput!) {
-        updatecustomers(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-            id
-            name
-            address
-            city
-            phone
-            email
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-        _partitionKeyValue: id,
-        item: data
-      } 
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = customersEndpoint + '&id=' + id;
     const res = await fetch(endpoint, {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const result = await res.json();
-    return result.data.updatecustomers;
+    return result;
   }
 
 // #####################################################################################
@@ -507,80 +210,25 @@ export async function createCustomer(data) {
 // #####################################################################################
 
 export async function readAllOrders() {
-    const query = `
-        {
-            orders {
-                items {
-                    id
-                    name
-                    customer
-                    date
-                    active
-                    sum
-                    invoices
-                    created
-                    created_by
-                    updated
-                    updated_by
-                    deleted
-                }
-            }
-        }`;
-    const endpoint = '/data-api/graphql';
+   
+    const endpoint = ordersEndpoint;
     const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: query })
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
     });
     const result = await response.json();
-    return result.data.orders.items;
+    return result;
 }
 
 export async function getOrder(id) {
-
-    const gql = `
-      query getById($id: ID!) {
-        orders_by_pk(id: $id) {
-            id
-            name
-            customer
-            date
-            active
-            sum
-            invoices
-            orderLines {
-              id
-              date
-              product
-              price
-              amount
-              unit
-              comment
-              user
-            }
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-      },
-    };
-  
-    const endpoint = "/data-api/graphql";
+ 
+    const endpoint = ordersEndpoint + '&id=' + id;
     const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query),
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
     });
     const result = await response.json();
-    return result.data.orders_by_pk;
+    return result;
   }
 
 export async function updateOrder(id, data) {
@@ -592,53 +240,16 @@ export async function updateOrder(id, data) {
     data.updated = timeNow;
     const currentUser = await getUserInfo();
     data.updated_by = currentUser.userDetails;
-
-    const gql = `
-      mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdateordersInput!) {
-        updateorders(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-            id
-            name
-            customer
-            date
-            active
-            sum
-            invoices
-            orderLines {
-              id
-              date
-              product
-              price
-              amount
-              unit
-              comment
-              user
-            }
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-        _partitionKeyValue: id,
-        item: data
-      } 
-    };
-  
-    const endpoint = "/data-api/graphql";
+ 
+    const endpoint = ordersEndpoint + '&id=' + id;
     const res = await fetch(endpoint, {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const result = await res.json();
-    return result.data.updateorders;
+    return result;
   }
 
 export async function createOrder(data) {
@@ -654,53 +265,18 @@ export async function createOrder(data) {
     data.orderLines = [];
     data.sum = 0;
 
-    const gql = `
-      mutation create($item: CreateordersInput!) {
-        createorders(item: $item) {
-            id
-            name
-            customer
-            date
-            active
-            sum
-            invoices
-            orderLines {
-              id
-              date
-              product
-              price
-              amount
-              unit
-              comment
-              user
-            }
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-    
-    const query = {
-      query: gql,
-      variables: {
-        item: data
-      } 
-    };
-    
-    const endpoint = "/data-api/graphql";
+    const endpoint = ordersEndpoint;
     const result = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const response = await result.json();
     
     await updateCompany('1', company)
 
-    return response.data.createorders;
+    return response;
   }
 
 //   Soft delete:
@@ -713,52 +289,15 @@ export async function createOrder(data) {
     data.updated_by = currentUser.userDetails;
     data.deleted = true;
 
-    const gql = `
-      mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdateordersInput!) {
-        updateorders(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-            id
-            name
-            customer
-            date
-            active
-            sum
-            invoices
-            orderLines {
-              id
-              date
-              product
-              price
-              amount
-              unit
-              comment
-              user
-            }
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-        _partitionKeyValue: id,
-        item: data
-      } 
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = ordersEndpoint + '&id=' + id;
     const res = await fetch(endpoint, {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const result = await res.json();
-    return result.data.updateorders;
+    return result;
   }
 
 // #####################################################################################
@@ -766,85 +305,25 @@ export async function createOrder(data) {
 // #####################################################################################
 
 export async function readAllInvoices() {
-  const query = `
-      {
-          invoices {
-              items {
-                  id
-                  name
-                  customer
-                  date
-                  duedate
-                  costed
-                  sum
-                  invorder
-                  invcost
-                  created
-                  created_by
-                  updated
-                  updated_by
-                  deleted
-              }
-          }
-      }`;
-  const endpoint = '/data-api/graphql';
+
+  const endpoint = invoicesEndpoint;
   const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: query })
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
   });
   const result = await response.json();
-  return result.data.invoices.items;
+  return result;
 }
 
 export async function getInvoice(id) {
 
-  const gql = `
-    query getById($id: ID!) {
-      invoices_by_pk(id: $id) {
-          id
-          name
-          customer
-          date
-          duedate
-          costed
-          sum
-          invorder
-          invcost
-          invoiceLines {
-            id
-            date
-            product
-            price
-            amount
-            unit
-            comment
-            account
-            user
-          }
-          created
-          created_by
-          updated
-          updated_by
-          deleted
-      }
-    }`;
-
-  const query = {
-    query: gql,
-    variables: {
-      id: id,
-    },
-  };
-
-  const endpoint = "/data-api/graphql";
+  const endpoint = invoicesEndpoint + '&id=' + id;
   const response = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(query),
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
   });
   const result = await response.json();
-  return result.data.invoices_by_pk;
+  return result;
 }
 
 export async function updateInvoice(id, data) {
@@ -857,55 +336,15 @@ export async function updateInvoice(id, data) {
   const currentUser = await getUserInfo();
   data.updated_by = currentUser.userDetails;
 
-  const gql = `
-    mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdateinvoicesInput!) {
-      updateinvoices(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-          id
-          name
-          customer
-          date
-          duedate
-          costed
-          sum
-          invorder
-          invcost
-          invoiceLines {
-            id
-            date
-            product
-            price
-            amount
-            unit
-            comment
-            account
-            user
-          }
-          created
-          created_by
-          updated
-          updated_by
-          deleted
-      }
-    }`;
-
-  const query = {
-    query: gql,
-    variables: {
-      id: id,
-      _partitionKeyValue: id,
-      item: data
-    } 
-  };
-
-  const endpoint = "/data-api/graphql";
+  const endpoint = invoicesEndpoint + '&id=' + id;
   const res = await fetch(endpoint, {
-    method: "POST",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(query)
+    body: JSON.stringify(data)
   });
 
   const result = await res.json();
-  return result.data.updateinvoices;
+  return result;
 }
 
 export async function createInvoice(data) {
@@ -919,56 +358,18 @@ export async function createInvoice(data) {
   data.created_by = currentUser.userDetails;
   data.deleted = false;
 
-  const gql = `
-    mutation create($item: CreateinvoicesInput!) {
-      createinvoices(item: $item) {
-          id
-          name
-          customer
-          date
-          duedate
-          costed
-          sum
-          invorder
-          invcost
-          invoiceLines {
-            id
-            date
-            product
-            price
-            amount
-            unit
-            comment
-            account
-            user
-          }
-          created
-          created_by
-          updated
-          updated_by
-          deleted
-      }
-    }`;
-  
-  const query = {
-    query: gql,
-    variables: {
-      item: data
-    } 
-  };
-  
-  const endpoint = "/data-api/graphql";
+  const endpoint = invoicesEndpoint;
   const result = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(query)
+    body: JSON.stringify(data)
   });
 
   const response = await result.json();
   
   await updateCompany('1', company)
 
-  return response.data.createinvoices;
+  return response;
 }
 
 //   Soft delete:
@@ -981,55 +382,15 @@ export async function deleteInvoice(id) {
   data.updated_by = currentUser.userDetails;
   data.deleted = true;
 
-  const gql = `
-    mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdateinvoicesInput!) {
-      updateinvoices(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-          id
-          name
-          customer
-          date
-          duedate
-          costed
-          sum
-          invorder
-          invcost
-          invoiceLines {
-            id
-            date
-            product
-            price
-            amount
-            unit
-            comment
-            account
-            user
-          }
-          created
-          created_by
-          updated
-          updated_by
-          deleted
-      }
-    }`;
-
-  const query = {
-    query: gql,
-    variables: {
-      id: id,
-      _partitionKeyValue: id,
-      item: data
-    } 
-  };
-
-  const endpoint = "/data-api/graphql";
+  const endpoint = invoicesEndpoint + '&id=' + id;
   const res = await fetch(endpoint, {
-    method: "POST",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(query)
+    body: JSON.stringify(data)
   });
 
   const result = await res.json();
-  return result.data.updateinvoices;
+  return result;
 }
 
 // #####################################################################################
@@ -1037,78 +398,25 @@ export async function deleteInvoice(id) {
 // #####################################################################################
 
 export async function readAllCosts() {
-    const query = `
-        {
-            costs {
-                items {
-                    id
-                    date
-                    description
-                    costLines {
-                        id
-                        date
-                        account
-                        price
-                        description
-                    }
-                    sum
-                    created
-                    created_by
-                    updated
-                    updated_by
-                    deleted
-                }
-            }
-        }`;
-    const endpoint = '/data-api/graphql';
+
+    const endpoint = costsEndpoint;
     const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: query })
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
     });
     const result = await response.json();
-    return result.data.costs.items;
+    return result;
 }
 
 export async function getCost(id) {
 
-    const gql = `
-      query getById($id: ID!) {
-        costs_by_pk(id: $id) {
-            id
-            date
-            description
-            costLines {
-                id
-                date
-                account
-                price
-                description
-            }
-            sum
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-      },
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = costsEndpoint + '&id=' + id;
     const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query),
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
     });
     const result = await response.json();
-    return result.data.costs_by_pk;
+    return result;
   }
 
 export async function updateCost(id, data) {
@@ -1120,48 +428,17 @@ export async function updateCost(id, data) {
     data.updated = timeNow;
     const currentUser = await getUserInfo();
     data.updated_by = currentUser.userDetails;
-
-    const gql = `
-      mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdatecostsInput!) {
-        updatecosts(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-            id
-            date
-            description
-            costLines {
-                id
-                date
-                account
-                price
-                description
-            }
-            sum
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
   
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-        _partitionKeyValue: id,
-        item: data
-      } 
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = costsEndpoint + '&id=' + id;
     const res = await fetch(endpoint, {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const result = await res.json();
     console.log(result);
-    return result.data.updatecosts;
+    return result;
   }
 
 export async function createCost(data) {
@@ -1175,47 +452,18 @@ export async function createCost(data) {
     data.created_by = currentUser.userDetails;
     data.deleted = false;
 
-    const gql = `
-      mutation create($item: CreatecostsInput!) {
-        createcosts(item: $item) {
-            id
-            date
-            description
-            costLines {
-                id
-                date
-                account
-                price
-                description
-            }
-            sum
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-    
-    const query = {
-      query: gql,
-      variables: {
-        item: data
-      } 
-    };
-    
-    const endpoint = "/data-api/graphql";
+    const endpoint = costsEndpoint;
     const result = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const response = await result.json();
     
     await updateCompany('1', company)
 
-    return response.data.createcosts;
+    return response;
   }
 
 //   Soft delete:
@@ -1228,44 +476,13 @@ export async function createCost(data) {
     data.updated_by = currentUser.userDetails;
     data.deleted = true;
 
-    const gql = `
-      mutation update($id: ID!, $_partitionKeyValue: String!, $item: UpdatecostsInput!) {
-        updatecosts(id: $id, _partitionKeyValue: $_partitionKeyValue, item: $item) {
-            id
-            date
-            description
-            costLines {
-                id
-                date
-                account
-                price
-                description
-            }
-            sum
-            created
-            created_by
-            updated
-            updated_by
-            deleted
-        }
-      }`;
-  
-    const query = {
-      query: gql,
-      variables: {
-        id: id,
-        _partitionKeyValue: id,
-        item: data
-      } 
-    };
-  
-    const endpoint = "/data-api/graphql";
+    const endpoint = costsEndpoint + '&id=' + id;
     const res = await fetch(endpoint, {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(query)
+      body: JSON.stringify(data)
     });
   
     const result = await res.json();
-    return result.data.updatecosts;
+    return result;
   }

@@ -1,0 +1,215 @@
+Startet prosjekt der tanken er å bygge en nettside for regnskap og fakturering
+Denne gang med basic html, css og js.
+Publisere i azure static web app og bruke azure functions som backend til å snakke med database smtp m.m
+Ikke sikkert azure functions gjør jobben, men plan b er å bygge backend vha node js. Må da publisere i azure web app istedenfor.
+Diverse lesestoff:
+Graphql: http://spec.graphql.org/October2021/#sec-Language.Operations
+Innebygd authentication: https://learn.microsoft.com/en-us/azure/static-web-apps/authentication-authorization
+og https://learn.microsoft.com/en-us/entra/identity-platform/howto-restrict-your-app-to-a-set-of-users
+
+
+
+* 24.09.2024
+> Opprettet prosjektet. Lagt inn basic html forside med en navigerings-meny både for desktop og mobil.
+> Fulgt guide her: https://volodymyrzh.medium.com/building-a-responsive-navigation-bar-with-css-593ffdb26887
+> Endret litt på styling.
+> Kjørt initial commit til github.
+
+* 25.09.2024
+> Fortsatte litt på styling av meny.
+> La til sider for Kunder, Ordrer, Faktura, Billag og admin
+
+Commit
+
+> Laget en midlertidig "database" for kunder. json-fil. Laget funksjon i fil dbfunctions.js for å hente kunder. Denne returnerer et array
+i costomerlist.js, så brukes denne funksjonen til å hente og presentere kunder.
+
+Commit
+
+* 30.09.2024
+> Opprettet newcustomer.html og laget skjema for å lagre kunde
+> Lagt på litt styling.
+
+Commit
+
+> Startet prosess med å kunne lagre til database
+> Opprettet azure static web app og deployed via github
+> Opprettet cosmos db i samme resource group
+> følger tutorial for å ordne connection til db fra static web app: https://learn.microsoft.com/en-us/azure/static-web-apps/database-azure-cosmos-db?tabs=powershell
+> Oppretter database settemmaskin og container customers og legger inn noe test-data
+> Hentet primary connection string fra cosmos db og kjørte kommando $env:DATABASE_CONNECTION_STRING='<primary connection string>
+> Deretter swa db init --database-type cosmosdb_nosql --cosmosdb_nosql-database settemmaskin
+> Dette oppretter mappe swa-db-connections med filene staticwebapp.database.config.json og staticwebapp.database.schema.gql
+> Endret litt på filene her i henhold til tutorial.
+> App må nå startes med følgende kommando: swa start --data-api-location swa-db-connections
+> app ligger da på http://locahost:4280
+
+* 01.10.2024
+> Får feil ved deploy til azure etter siste endringer
+> Kan virke som at det er pga package.lock.json som lå på rota etter jeg startet å lage api functions som jeg senere tok bort
+> Slettet ivhertfall denne fila og da gikk deploy gjennom
+> Måtte connecte database til static web app i hht tutorial for at database-oppslag skulle fungere
+> Lokalt måtte jeg også sette env variable på nytt, da denne tydeligvis bare ligger i memory.
+> Startet med å lage funksjon for å hente et enkelt dokument, men dette viser seg å være vanskelig
+> Mener jeg følger tutorial, men får 404 (not found).
+
+* 02.10.2024
+> Fant ut av feil på graphql query. Det er tydeligvis ikke tilfeldig hva slags variabel man bruker i query.
+const gql = `
+      query getById($id: ID!) {
+        customers_by_pk(id: $id) {
+          id
+          name
+        }
+      }`;
+> Her MÅ customers_by_pk være navnet på container + _by_pk for at det skal fungere
+> Er også veldig viktig å sørge for at schema er i henhold. Og hvis legge til ekstra type (for underobjekter), så må disse defineres også i staticwebapp.database.config.json fila under entities. ref: https://github.com/Azure/static-web-apps/issues/1498
+> La til en container for company, der man i teorien kan ha flere firma, men i første omgang ordner jeg kun ett og legger inn diverse info der pluss
+> nummerserie info (siste id)
+> La til funksjon for å lagre ny kunde, der en da henter siste brukte id og legger til 1 før den lagrer.
+> Commit
+
+* 03.10.2024
+> Lagt til funksjon for delete customer. Men ikke implementert ferdig.
+> Lagt til slik at når man trykker på en kunde får man opp skjema hvor man kan endre kunden.
+> Commit
+
+* 05.10.2024
+> Laget ferdig funksjon for oppdatering og sletting av kunde.
+> Endret slette funksjon til å sette egenskap deleted til true istedenfor å faktisk slette.
+> Commit
+> Opprettet tilsvarende for products. Opprettet også modell for produktkategori, men sletter denne igjen, da kanskje ikke bruk for egentlig.
+> Commit.
+
+* 07.10.2024
+> Lagt til authentication vha innebygd opplegg for azure static web app. følgende artikkel: https://learn.microsoft.com/en-us/azure/static-web-apps/authentication-authorization
+> La til staticwebapp.config.json og la til følgende:
+> {
+    "navigationFallback": {
+      "rewrite": "/index.html"
+    },
+    "routes": [
+      {
+        "route": "/*",
+        "allowedRoles": [ "authenticated" ]
+      }
+    ],
+    "responseOverrides": {
+      "401": {
+        "statusCode": 302,
+        "redirect": "/.auth/login/aad"
+      }
+    }
+  }
+> I tillegg fulgte jeg følgende artikkel for å sette at kun enkelte brukere har tilgang.
+> https://learn.microsoft.com/en-us/entra/identity-platform/howto-restrict-your-app-to-a-set-of-users
+> Litt usikker hvor godt dette funker. Får se an etterhvert. Bruker ikke så mye tid på dette akkurat nå...
+> Mulig det er fordi jeg da må aktivere custom authentication (noe som krever standard plan(koster penger)). https://learn.microsoft.com/en-us/azure/static-web-apps/authentication-custom?tabs=aad%2Cinvitations
+> La til created_by og updated_by. Henter info vha get api fra den innebygde authentication i azure static web app.
+> la til local.settings.json og la inn verdi for databaseconnection string der. Dette istedenfor å sette env i minnet. Gjenstår å teste om det fungerer etter en restart av pc.
+> Startet med å lage til opplegg for ordrer. Det meste er på plass. Men må finne en måte å hente kunde og da "gi" kunde-id til systemet for lagring.
+> Likedan hente opp Kundenavn når redigere +  i ordrelisten.
+> Commit
+
+* 08.10.2024
+> Lagt til en loader-funksjon som brukes når programmet venter på data-lesing eller data-skriving. Ventehjul laget vha css
+> Commit.
+> La til dagens dato i dato-input for ordre skjema.
+> Commit.
+> Endret ordre skjema slik at man får velge blant kunder (kun de som ikke er slettet).
+> Commit.
+
+* 09.10.2024
+> La til funksjon for å få med ordrelinjer på ordre.
+> Skjema for å legge inn ny varelinje ok. Men ikke ordnet lagring til array enda.
+> Ordnet også opplisting av eksisterende varelinjer.
+> Commit
+
+* 10.10.2024
+> Startet med å kunne redigere varelinjer. Ordnet slik at legge til varelinjer lagres til arrayet. Ordre lagres nå inklusive varelinjer.
+> Commit
+
+* 11.10.2024
+> Ordnet slik at ved valg av produkt så fylles pris og enhet ut
+> Ordnet slik at når man trykker på et tidligere innlagt produkt, så slettes det fra listen og havner i skjema, slik at man kan "redigere" det, evt bare slette.
+> Lagt til feltet sum på ordre-modellen og lagrer dette ved lagring av ordre.
+> Da er det raskere å presentere ordre-sum på ordrelisten.
+> Commit
+> Lagt til ordresum i ordreedit
+> Commit
+> Endret alle html-sider slik at de bruker en felles template for navbar.
+> Dette gjort vha kode i nav.js. Måtte legge til funksjon for å sette hvilken side som var aktiv
+
+* 14.10.2024
+> Samlet alle db-funksjoner i en dbfunctions.js fil i script mappa. Endret alle filer som brukte de gamle plasseringene (products, customer og order)
+> Startet på programmering av bilag.
+> I den forbindelse la jeg til et felt i company container som heter accounts. her skal kontoplanen ligge.
+> Mye ser ut til å nærme seg. Må fikse css for å få bedre utseende.
+> Commit
+
+*15.10.2024
+> Gjort ferdig bilagsmodul (minus faktura-laging basert på kostnad (vassverk)
+> Commit.
+> Opprettet modeller og container for invoices. Kopiert kode fra ordre. Endret navn til å reflektere faktura istedenfor ordre.
+> Commit
+
+* 25.10.2024
+> Fikset invoicelist og newinvoice
+> Commit
+> Fikset editinvoice, men bør nok testes mer.
+> Commit
+> deleteinvocie ok. Lagt inn sjekk for om faktura er bilagsført og faktura kan kun slettes hvis ikke.
+
+* 04.11.2024
+> La til funksjon for bokføring av faktura, men denne setter kun status bokført, samt endrer tekst.
+> Må legge til funksjon for å opprette bilag, samt for å annulere/slette bilaget
+> Commit
+
+* 08.11.2024
+> Lagt til funksjon for å opprette bilag når faktura bokføres, samt slette bilaget.
+> Problemer med at costLines ikke blir lagret.
+> Dette var tydeligvis fordi createCost funksjonen i dbfunctions.js setter costlines (og sum) til blank. Dette reflekterer tilbake til objektet fra CostInvoice funksjonen i editinvoice.js. Noe jeg finner merkelig. Men løste det uansett med å ikke sette disse verdiene til blank i dbfunctions.js, men heller sette disse verdiene i newcost.js der dette trengs.
+> Commit.
+> La til funksjon slik at ikke mulig å redigere skjema hvis faktura er bokført
+> Commit
+
+* 10.11.2024
+> Lagt til egenskap på nummer-felt i div skjema slik at man kan skrive inn med desimaler.
+> Commit
+
+* 11.11.2024
+> Gårsdagens commit action feilet. Dette pga jeg hadde førsøkt en npm update i forsøket på å løse desimal-problemet. Og da blir package-lock.json generert, noe som får byggingen til å tro det skal være en node-server der (eller noe sånt). Fjernet denne fila og build gikk fint.
+> Fant også ut at desimal-problemet gjelder kun lokalt og det fungerer i azure.
+> tok bort noen console.log.
+> Commit.
+> La til knapp og funksjon for å lage faktura fra ordre. Pluss la til informasjon om ordrenr i faktura-redigeringsbildet
+> Commit
+
+* 12.11.2024
+> Opprettet ny side, costtoinvoice som har et skjema. Skjema er dynamisk og lister opp mulighet til å legge inn antall på alle kunder i systemet. I tillegg til pris pr enhet og fakturakommentar. Når antall på en kunde endres, kalkuleres div data og presenteres. Denne funksjonen legger også inn verdi i pris per enhet feltet. Man kan endre dette feltet. Det vises også info om hvor mange faktura og hvor mye som faktureres tilsammen.
+> Commit
+> Lagt til funksjonen for å opprette selve fakturaene. Det meste fungerer, men det er noe data som mangler i lagringen. Får feilmelding når jeg prøver å åpne faktura etterpå.
+> Commit
+
+* 13.11.2024
+> Fikset feil med lagring av faktura. Problemet var todelt: Måtte legge til produktvalg og lagre produkt-id. Samt dato var lagret i fullt format (inklusiv tid), så endret dette til kun å lagre dato.
+> Commit
+
+* 22.11.2024
+> Startet med ny github repo og ny azure static web app, men beholdt all kode
+> Opprette swa http functions (istedenfor å bruke graphql)
+> Bygde om dbfunctions til å benytte http function kalt erpdb
+> Endret slik at web app går til nylig opprettet ordre/faktura/bilag
+> Commit
+
+Gjenstår å lage funksjon for sending. Både faktura og ordrebekreftelse.
+
+Bør legge til try/catch i dbfunctions for å kunne formidle feil istedenfor at programmet blir stående med loader
+
+Må legge inn redigering av firma. Nr-serie, adresse, epost, kontoplan m.m.
+
+Og kanskje knytte company til customer (og andre registre senere). Sette en egen egenskap på customer som heter company og sette inn company_id der.
+Må da sørge for unike id på alle registre på et vis....
+
+På customeredit, så kan det være greit å ha mulighet for å se ordrer, faktura og noen nøkkeltall etterhvert
+Pluss kunne ta ut regnskapstall

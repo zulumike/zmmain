@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Settem Maskin</title>
-    <link rel="stylesheet" href="/styles/general.css" />
-    <link rel="stylesheet" href="/styles/nav.css" />
+    <link rel="stylesheet" href="../styles/general.css" />
+    <link rel="stylesheet" href="../styles/nav.css" />
     </head>
     <body>
         <header>
@@ -15,7 +15,7 @@
                 </div>
         </header>
         </nav>
-        <script src="/scripts/nav.js"></script>
+        <script src="../scripts/nav.js"></script>
         <main>
             <div class="main-div">
                 <div class="productinfodiv">
@@ -31,7 +31,7 @@
                         <label for="price">Pris: </label>
                         <input type="number" id="price" name="price" step="0.01">
                         <label for="storage">Lagerbeholdning: </label>
-                        <input type="number" id="storage" name="storage">
+                        <input type="number" id="storage" name="storage" value="0">
                         <label for="account">Std konto: </label>
                         <input type="number" id="account" name="account">
                         <label for="active">Aktiv: </label>
@@ -39,7 +39,7 @@
                         <label for="webshop">Synlig på webshop: </label>
                         <input type="checkbox" id="webshop" name="webshop">
                         <input type="submit" value="Lagre">
-                        <input type="button" value="Avbryt" onclick="window.location.replace('/products/productlist.html')">
+                        <input type="button" value="Avbryt" onclick="window.location.replace('/erp/products/productlist.html')">
                     </form>
                 </div>
             </div>

@@ -15,7 +15,7 @@ documentForm.addEventListener('submit', async (event) => {
     documentData.sum = calculateOrder();
     await updateOrder(documentId, documentData);
     loaderOff();
-    window.location.replace('/orders/orderlist.html');
+    window.location.replace('/erp/orders/orderlist.html');
 })
 
 function calculateOrder() {
@@ -273,8 +273,8 @@ async function createInvoiceFromOrder() {
     const invoiceData = {
         name: orderData.name,
         customer: orderData.customer,
-        date: today,
-        duedate: dueDate,
+        date: today.toJSON().slice(0, 10),
+        duedate: dueDate.toJSON().slice(0, 10),
         costed: false,
         sum: orderData.sum,
         invorder: parseInt(orderData.id),
@@ -282,7 +282,9 @@ async function createInvoiceFromOrder() {
         invoiceLines: orderData.orderLines
     };
     const dbResponse = await createInvoice(invoiceData);
-    alert('Faktura ' + dbResponse.id + ' opprettet!');
+    console.log(dbResponse);
+    alert('Faktura ' + dbResponse.itemId + ' opprettet!');
+    window.location.replace('/erp/invoices/editinvoice.html?id=' + dbResponse.itemId);
 }
 
 async function deleteDocumentById() {
@@ -290,7 +292,7 @@ async function deleteDocumentById() {
         loaderOn();
         await deleteOrder(documentId);
         loaderOff();
-        window.location.replace('/orders/orderlist.html');
+        window.location.replace('/erp/orders/orderlist.html');
     }
 }
 

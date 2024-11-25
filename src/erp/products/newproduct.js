@@ -25,5 +25,5 @@ documentForm.addEventListener('submit', async (event) => {
     console.log(documentData.webshop);
     await createProduct(documentData);
     loaderOff();
-    window.location.replace('/products/productlist.html');
+    window.location.replace('/erp/products/productlist.html');
 })

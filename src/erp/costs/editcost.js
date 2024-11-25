@@ -14,7 +14,7 @@ documentForm.addEventListener('submit', async (event) => {
     documentData.sum = calculateCost();
     await updateCost(documentId, documentData);
     loaderOff();
-    window.location.replace('/costs/costlist.html');
+    window.location.replace('/erp/costs/costlist.html');
 })
 
 function calculateCost() {
@@ -208,7 +208,7 @@ async function deleteDocumentById() {
         loaderOn();
         await deleteCost(documentId);
         loaderOff();
-        window.location.replace('/costs/costlist.html');
+        window.location.replace('/erp/costs/costlist.html');
     }
 }
 

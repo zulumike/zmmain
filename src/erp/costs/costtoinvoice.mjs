@@ -116,7 +116,7 @@ async function alterForm() {
         loaderOn();
         await createInvoices();
         loaderOff();
-        window.location.replace('/invoices/invoicelist.html');
+        window.location.replace('/erp/invoices/invoicelist.html');
     });
     const cancelBtn = document.createElement('input');
     cancelBtn.type = 'button';

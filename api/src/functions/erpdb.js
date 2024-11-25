@@ -4,8 +4,8 @@ const CosmosClient = require('@azure/cosmos').CosmosClient;
 const dbEndpoint = process.env.DBEndpoint;
 const dbKey = process.env.DBKey;
 
-const databaseId = process.env.DBName;
-const containerId = process.env.DBContainerName
+const databaseId = 'settemmaskin';
+// const containerId = process.env.DBContainerName
 
 const dbOptions = {
     endpoint: dbEndpoint,
@@ -14,12 +14,13 @@ const dbOptions = {
 
 const dbClient = new CosmosClient(dbOptions);
 
-app.http('cosmosdb', {
+app.http('erpdb', {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     authLevel: 'anonymous',
 
     handler: async (request, context) => {
-        context.log(`Http function processed request for url "${request.url}" with method "${request.method}"`);
+        const containerId = request.query.get('containerid');
+        context.log(`Http function processed request for url "${request.url}" with method "${request.method}" on container "${containerId}"`);
         context.log('Body from frontend: ' + request.params);
 
         if (request.method == 'GET') {
@@ -61,7 +62,8 @@ app.http('cosmosdb', {
         }
 
         if (request.method == 'POST') {
-            const itemBody = request.params;
+            const itemBody = await request.json();
+            context.log('DocumentID to be written: ' + itemBody.id)
             try {
                 const { statusCode, item } = await dbClient
                     .database(databaseId)
@@ -80,7 +82,7 @@ app.http('cosmosdb', {
         
         if (request.method == 'PUT') {
             try {
-                const putBody = request.params;
+                const putBody = await request.json();
                 const { statusCode, item } = await dbClient
                     .database(databaseId)
                     .container(containerId)
@@ -103,7 +105,7 @@ app.http('cosmosdb', {
 
         if (request.method == 'DELETE') {
             try {
-                const itemBody = request.params;
+                const itemBody = await request.json();
                 context.log(itemBody.id);
                 const { statusCode, item } = await dbClient
                     .database(databaseId)

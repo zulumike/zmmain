@@ -27,9 +27,9 @@ documentForm.addEventListener('submit', async (event) => {
     const documentData = Object.fromEntries(documentFormData);
     documentData.active = true;
     documentData.customer = parseInt(documentData.customer);
-    await createOrder(documentData);
+    const dbResponse = await createOrder(documentData);
     loaderOff();
-    window.location.replace('/orders/orderlist.html');
+    window.location.replace('/erp/orders/editorder.html?id=' + dbResponse.itemId);
 });
 
 

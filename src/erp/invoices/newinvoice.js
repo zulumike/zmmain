@@ -31,9 +31,9 @@ documentForm.addEventListener('submit', async (event) => {
     documentData.invoiceLines = [];
     documentData.sum = 0;
     documentData.customer = parseInt(documentData.customer);
-    await createInvoice(documentData);
+    const dbResponse = await createInvoice(documentData);
     loaderOff();
-    window.location.replace('/invoices/invoicelist.html');
+    window.location.replace('/erp/invoices/editinvoice.html?id=' + dbResponse.itemId);
 });
 
 

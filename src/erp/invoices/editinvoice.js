@@ -16,7 +16,7 @@ documentForm.addEventListener('submit', async (event) => {
     documentData.sum = calculateInvoice();
     await updateInvoice(documentId, documentData);
     loaderOff();
-    window.location.replace('/invoices/invoicelist.html');
+    window.location.replace('/erp/invoices/invoicelist.html');
 })
 
 function calculateInvoice() {
@@ -311,7 +311,7 @@ async function deleteDocumentById() {
             loaderOn();
             await deleteInvoice(documentId);
             loaderOff();
-            window.location.replace('/invoices/invoicelist.html');
+            window.location.replace('/erp/invoices/invoicelist.html');
         }
     }
     else {
