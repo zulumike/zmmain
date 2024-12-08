@@ -60,7 +60,7 @@ nav {
 
 /* For mobile screens */
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1035px) {
     .nav-links {
         position: absolute;
         left: 0;

@@ -8,6 +8,7 @@ navTemplate.innerHTML = `
         <li id="navinvoices"><a href="/erp/invoices/invoicelist.html">Faktura</a></li>
         <li id="navcosts"><a href="/erp/costs/costlist.html">Bilag</a></li>
         <li id="navadmin"><a href="/erp/admin/admin.html">Admin</a></li>
+        <li id="navlogout"><a href="/.auth/logout">Logg ut</a></li>
     </ul>
     <div class="burger">
         <div class="line1"></div>

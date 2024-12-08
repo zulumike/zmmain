@@ -202,6 +202,12 @@ const gql = `
 > Endret slik at web app går til nylig opprettet ordre/faktura/bilag
 > Commit
 
+* 08.12.2024
+> Ved ny github repo, så har jeg sikkert mistet filen staticwebapp.config.json som sørger for autentisering.
+> La til filen på nytt.
+> 
+
+
 Gjenstår å lage funksjon for sending. Både faktura og ordrebekreftelse.
 
 Bør legge til try/catch i dbfunctions for å kunne formidle feil istedenfor at programmet blir stående med loader
