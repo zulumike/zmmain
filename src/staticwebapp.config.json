@@ -4,8 +4,12 @@
   },
   "routes": [
     {
+        "route": "/erp/admin/*",
+        "allowedRoles": [ "admin" ]
+    },
+    {
       "route": "/*",
-      "allowedRoles": [ "authenticated" ]
+      "allowedRoles": [ "admin", "user" ]
     }
   ],
   "responseOverrides": {
