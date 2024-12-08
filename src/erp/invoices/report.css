@@ -1,0 +1,64 @@
+.grid-container {
+    display: grid;
+    grid-template-areas:
+        ". . . . ."
+        ". header header header ."
+        ". . . . ."
+        ". customer . info ."
+        ". . . . ."
+        ". table table table ."
+        ". . . . ."
+        ". payment payment payment ."
+        ". . . . ."
+        ". footer footer footer ."
+        ". . . . .";
+    grid-template-columns: 15mm 1fr 1fr 1fr 15mm;
+    grid-template-rows: 10mm auto 5mm auto 5mm auto 5mm auto 10mm;
+}
+
+.grid-header {
+    grid-area: header;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    /* grid-template-rows: 30mm; */
+}
+
+.grid-customer {
+    grid-area: customer;
+    display: grid;
+    /* height: 50mm; */
+    grid-template-columns: 1;
+    /* grid-template-rows: repeat(4, 10mm); */
+}
+
+.grid-info {
+    grid-area: info;
+    display: grid;
+    /* height: 50mm; */
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(4, 10mm);
+    justify-items: end;
+}
+
+.grid-table {
+    grid-area: table;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat(auto-fit, minmax(10mm, 15mm));
+}
+
+.grid-payment {
+    grid-area: payment;
+    display: grid;
+    /* height: 60mm; */
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    grid-template-rows: 15mm 15mm 15mm;
+}
+
+.grid-footer {
+    grid-area: footer;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 20mm;
+    /* height: 30mm; */
+}

@@ -6,6 +6,7 @@ Diverse lesestoff:
 Graphql: http://spec.graphql.org/October2021/#sec-Language.Operations
 Innebygd authentication: https://learn.microsoft.com/en-us/azure/static-web-apps/authentication-authorization
 og https://learn.microsoft.com/en-us/entra/identity-platform/howto-restrict-your-app-to-a-set-of-users
+htmltopdf: https://ekoopmans.github.io/html2pdf.js/#getting-started
 
 
 
@@ -205,8 +206,20 @@ const gql = `
 * 08.12.2024
 > Ved ny github repo, så har jeg sikkert mistet filen staticwebapp.config.json som sørger for autentisering.
 > La til filen på nytt.
-> 
-
+> Autentisering funker lokalt, men der sjekkes det jo ikke mot entra id.
+> Innlogging funker, men å tildele rolle til bruker fikk jeg tydeligvis ikke til.
+> Prøvde først å legge meg til inne på entra, enterprise applications. Under users and groups. med rolle admin.
+> Det hjalp ikke.
+> Deretter gikk jeg inn på selve appen (static web app resource), under settings og role management
+> Der lagde jeg en invitasjon. Da fungerte det.
+> Prøver å slette meg inne på enterprise app.
+> Fungerer fremdeles.
+> Så kan sikkert slette hele app registreringen også..... Men gidder ikke det.
+> Startet på å lage pdf løsning.
+> Prøver først en som heter html2pdf
+> Denne ser ut til å være grei.
+> Jeg bygger opp siden vha grid layout.
+> Commit
 
 Gjenstår å lage funksjon for sending. Både faktura og ordrebekreftelse.
 

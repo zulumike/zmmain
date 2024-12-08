@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Settem Maskin</title>
+        <link rel="stylesheet" href="../styles/general.css" />
+        <link rel="stylesheet" href="../styles/nav.css" />
+        <link rel="stylesheet" href="report.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    </head>
+    <body>
+        <header>
+        </header>
+        <nav id="navbar">
+            <div class="burger">
+                <h1>Hjem</h1>
+            </div>
+        </nav>
+        <main>
+            <div id="content" class="grid-container">
+                <div class="grid-header">
+                    <h1>LOGO?</h1>
+                    <h1 id="invoiceheader"></h1>
+                </div>
+                <div class="grid-customer">
+                    <h4 id="customernr"></h4>
+                    <h2 id="customername"></h2>
+                    <h4 id="customeraddress"></h4>
+                    <h4 id="customeraddress2"></h4>
+                </div>
+                <div class="grid-info">
+                    <h4>Fakturakommentar:</h4>
+                    <h4 id="invoicetext"></h4>
+                    <h4>Fakturadato:</h4>
+                    <h4 id="invoicedate"></h4>
+                    <h4>Forfallsdato:</h4>
+                    <h4 id="invoiceduedate"></h4>
+                    <h4>Ordrenr:</h4>
+                    <h4 id="ordernr"></h4>
+                </div>
+                <div class="grid-table">
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
+                    <p>4</p>
+                    <p>5</p>
+                    <p>6</p>
+                    <p>7</p>
+                    <p>8</p>
+                    <p>9</p>
+                    <p>10</p>
+                    <p>11</p>
+                </div>
+                <div class="grid-payment">
+                    <h1>Betalingsinformasjon</h1>
+                    <h1></h1>
+                    <h1></h1>
+                    <h1></h1>
+                    <h2>Bankkonto:</h2>
+                    <h2 id="paybank"></h2>
+                    <h2>Merkes:</h2>
+                    <h2 id="payinvoicenr"></h2>
+                    <h2>Beløp:</h2>
+                    <h2 id="payamount"></h2>
+                    <h2>Forfallsdato:</h2>
+                    <h2 id="payduedate"></h2>
+                </div>
+                <div class="grid-footer">
+                    <h4>footer</h4>
+                    <h4>footer</h4>
+                </div>
+            </div>
+            <div>
+                <button id="topdfbtn" type="button">Til pdf</button>
+            </div>
+
+        </main>
+        <script src="../scripts/nav.js"></script>
+        <script type="module" src="report.js"></script>
+  </body>
+</html>
