@@ -48,7 +48,7 @@ async function initiatePage() {
     customerData = await getCustomer(invoiceData.customer);
     companyData = await getCompany('1');
     invoiceHeader.innerText = 'Fakturanr ' + invoiceData.id;
-    customerNr.innerText = 'Kundenr ' + customerData.id;
+    // customerNr.innerText = 'Kundenr ' + customerData.id;
     customerName.innerText = customerData.name;
     customerAddress.innerText = customerData.address;
     customerAddress2.innerText = customerData.zip + ' ' + customerData.city;
@@ -59,10 +59,7 @@ async function initiatePage() {
     payBank.innerText = companyData.bankaccount;
     payInvoiceNr.innerText = invoiceData.id;
     payAmount.innerText = calculateInvoice().toLocaleString("nb-NO", {minimumFractionDigits: 2});
-    payDueDate.innerText = invoiceData.duedate;
-    console.log(invoiceData);
-    console.log(customerData);
-    console.log(companyData);
+    payDueDate.innerText = invoiceDate.innerText;
     toPdfButton.addEventListener('click', () => {
         html2pdf().set(options).from(element).save();
     })
