@@ -221,6 +221,9 @@ const gql = `
 > Jeg bygger opp siden vha grid layout.
 > Commit
 
+* 09.12.2024
+> Jobbet videre med pdf-rapport layout.
+
 Gjenstår å lage funksjon for sending. Både faktura og ordrebekreftelse.
 
 Bør legge til try/catch i dbfunctions for å kunne formidle feil istedenfor at programmet blir stående med loader
