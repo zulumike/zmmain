@@ -20,8 +20,8 @@
         <main>
             <div id="content" class="grid-container">
                 <div class="grid-header">
-                    <h1>LOGO?</h1>
-                    <h1 id="invoiceheader"></h1>
+                    <h1 id="infocompany"></h1>
+                    <h1 class="rightalign" id="invoiceheader"></h1>
                 </div>
                 <div class="grid-customer">
                     <h2 id="customername"></h2>
@@ -29,28 +29,33 @@
                     <h4 id="customeraddress2"></h4>
                 </div>
                 <div class="grid-info">
-                    <h4>Fakturadato:</h4>
-                    <h4 id="invoicedate"></h4>
-                    <h4>Forfallsdato:</h4>
-                    <h4 id="invoiceduedate"></h4>
-                    <h4>Ordrenr:</h4>
-                    <h4 id="ordernr"></h4>
+                    <h5>Orgnr:</h5>
+                    <h5 id="orgnr"></h5>
+                    <h5>Fakturadato:</h5>
+                    <h5 id="invoicedate"></h5>
+                    <h5>Forfallsdato:</h5>
+                    <h5 id="invoiceduedate"></h5>
+                    <h5>Ordrenr:</h5>
+                    <h5 id="ordernr"></h5>
                 </div>
                 <div class="grid-invtext">
                     <h3 id="invoicetext"></h3>
                 </div>
                 <div class="grid-table">
-                    <p>1</p>
-                    <p>2</p>
-                    <p>3</p>
-                    <p>4</p>
-                    <p>5</p>
-                    <p>6</p>
-                    <p>7</p>
-                    <p>8</p>
-                    <p>9</p>
-                    <p>10</p>
-                    <p>11</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="leftalign">Dato</th>
+                                <th class="leftalign">Vare</th>
+                                <th class="rightalign">Pris</th>
+                                <th class="rightalign">Antall</th>
+                                <th class="leftalign">Enhet</th>
+                                <th class="rightalign">Beløp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoicelines">
+                        </tbody>
+                    </table>
                 </div>
                 <div class="grid-payment">
                     <h2>Betalingsinformasjon</h2>
@@ -64,8 +69,8 @@
                     <h4 id="payduedate"></h4>
                 </div>
                 <div class="grid-footer">
-                    <h4>footer</h4>
-                    <h4>footer</h4>
+                    <h5 id="footercompany"></h5>
+                    <h5 class="rightalign" id="pagenr"></h5>
                 </div>
             </div>
             <div>

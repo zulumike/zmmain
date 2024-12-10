@@ -224,6 +224,13 @@ const gql = `
 * 09.12.2024
 > Jobbet videre med pdf-rapport layout.
 
+* 10.12.2024
+> Fortsatt på pdf-rapport layout.
+> hovedsaklig er det meste på plass nå.
+> Commit.
+
+Mangler funksjon for page-break. Hvordan skal side 2 m.m se ut?
+
 Gjenstår å lage funksjon for sending. Både faktura og ordrebekreftelse.
 
 Bør legge til try/catch i dbfunctions for å kunne formidle feil istedenfor at programmet blir stående med loader
