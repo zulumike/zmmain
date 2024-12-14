@@ -221,6 +221,7 @@ async function invoiceLineForm() {
         addInvoiceLine(event, invoiceLineForm);
         invoiceLineForm.reset();
         emptyILDate.valueAsDate = today;
+        emptyILAmount.value = 1;
     })
 
     const resetInvoiceLineForm = document.createElement('input');
@@ -361,3 +362,7 @@ const deleteBtn = document.getElementById('delBtn');
 deleteBtn.addEventListener('click', deleteDocumentById);
 const costBtn = document.getElementById('costBtn');
 costBtn.addEventListener('click', costInvoice);
+const reportBtn = document.getElementById('reportbtn');
+reportBtn.addEventListener('click', () => {
+    window.location.href = 'report.html?id=' + documentId;
+})

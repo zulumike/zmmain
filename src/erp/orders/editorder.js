@@ -201,6 +201,7 @@ async function orderLineForm() {
         addOrderLine(event, orderLineForm);
         orderLineForm.reset();
         emptyOLDate.valueAsDate = today;
+        emptyOLAmount.value = 1;
     })
 
     const resetOrderLineForm = document.createElement('input');

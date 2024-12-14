@@ -31,13 +31,16 @@ const pageNrInfo = document.getElementById('pagenr');
 
 const toPdfButton = document.getElementById('topdfbtn');
 const element = document.getElementById('content');
-const options = {
-    margin: 1,
-    filename: 'my-document.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'mm', format: 'A4', orientation: 'portrait' }
-};
+
+const pdfOptions = {
+    orientation: 'p',
+    unit: 'mm',
+    format: 'a4'
+}
+
+window.jsPDF = window.jspdf.jsPDF;
+// window.html2canvas = html2canvas;
+const pdf = new jsPDF(pdfOptions);
 
 function calculateInvoice() {
     let invoiceSum = 0;
@@ -103,7 +106,15 @@ async function initiatePage() {
     pageNrInfo.innerText = 'Side ' +  currentPage + ' av ' + totalPages;
     
     toPdfButton.addEventListener('click', () => {
-        html2pdf().set(options).from(element).save();
+        pdf.html(element, {
+            html2canvas: {
+                scale: 0.25
+            },
+            callback: function (pdf) {
+                pdf.save("./faktura.pdf");
+                console.log('pdf saved');
+            }
+        })
     })
     loaderOff();
 }

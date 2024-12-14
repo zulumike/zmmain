@@ -229,7 +229,22 @@ const gql = `
 > hovedsaklig er det meste på plass nå.
 > Commit.
 
+* 13.12.2024
+> Oppdaget feil i editinvoice.js Når ny invoiceline lagres og skjema resettes, så settes ikke antall tilbake til 1.
+> Den blir satt til null og det fører til feil når systemet skal kalkulere faktura-summen.
+> Forsøkt å sette en pagebreak i rapport, uten hell.
+
+* 14.12.2024
+> Foretatt samme endring i editorder som editinvoice i forhold til antall-problemet.
+> Tror jeg vil prøve alternativer til pdf-generatoren. pdf lagres som image (ikke selekterbar tekst)
+> og sliter med pagebreak. 
+> Prøvd også jsPDF, men output blir veldig oppblåst. Fant skaleringsfunksjon, ble bedre da.
+> Om jeg klarer å kontrollere pagebreak her, så kan det være et godt alternativ.
+> Commit
+
 Mangler funksjon for page-break. Hvordan skal side 2 m.m se ut?
+
+Kanskje legge til en side for bestillinger? Eller bare bruke ordre-modul kanskje... Og ha en status?
 
 Gjenstår å lage funksjon for sending. Både faktura og ordrebekreftelse.
 
