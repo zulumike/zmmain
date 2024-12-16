@@ -10,7 +10,7 @@ navTemplate.innerHTML = `
         <li id="navadmin"><a href="/erp/admin/admin.html">Admin</a></li>
         <li id="navlogout"><a href="/.auth/logout">Logg ut</a></li>
     </ul>
-    <div class="burger">
+    <div id="burger-menu" class="burger">
         <div class="line1"></div>
         <div class="line2"></div>
         <div class="line3"></div>
@@ -28,7 +28,8 @@ else if (currentUrl.search("costs") > 0) document.getElementById('navcosts').cla
 else if (currentUrl.search("admin") > 0) document.getElementById('navcosts').classList = ['nav-link-active']
 else document.getElementById('navhome').classList = ['nav-link-active'];
 
-const burger = document.querySelector('.burger');
+// const burger = document.querySelector('.burger');
+const burger = document.getElementById('burger-menu');
 const navLinks = document.querySelector('.nav-links');
 const body = document.querySelector('body');
 const backdrop = document.createElement('div');
