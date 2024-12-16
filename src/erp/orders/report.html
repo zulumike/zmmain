@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Settem Maskin</title>
+        <link rel="stylesheet" href="../styles/general.css" />
+        <link rel="stylesheet" href="../styles/nav.css" />
+        <link rel="stylesheet" href="report.css" />
+        <script
+        src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"
+        type="text/javascript"
+      ></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.7/purify.min.js"></script>
+    </head>
+    <body>
+        <header>
+        </header>
+        <nav id="navbar">
+            <div class="burger">
+                <h1>Rapport</h1>
+            </div>
+        </nav>
+        <div>
+            <button id="topdfbtn" type="button">Til pdf</button>
+        </div>
+        <main id="mainelement">
+            <div id="content" class="grid-container">
+                <div id="headerdiv" class="grid-header">
+                    <h1 id="infocompany"></h1>
+                    <h1 class="rightalign" id="orderheader"></h1>
+                </div>
+                <div id="customerdiv" class="grid-customer">
+                    <h2 id="customername"></h2>
+                    <h4 id="customeraddress"></h4>
+                    <h4 id="customeraddress2"></h4>
+                </div>
+                <div id="infodiv" class="grid-info">
+                    <h5>Orgnr:</h5>
+                    <h5 id="orgnr"></h5>
+                    <h5>Ordredato:</h5>
+                    <h5 id="orderdate"></h5>
+                </div>
+                <div id="invtextdiv" class="grid-invtext">
+                    <h3 id="invoicetext"></h3>
+                </div>
+                <div class="grid-table">
+                    <table>
+                        <thead id="tablehead">
+                            <tr>
+                                <th class="leftalign">Dato</th>
+                                <th class="leftalign">Vare</th>
+                                <th class="rightalign">Pris</th>
+                                <th class="rightalign">Antall</th>
+                                <th class="leftalign">Enhet</th>
+                                <th class="rightalign">Beløp</th>
+                                <th class="leftalign">Kommentar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderlines">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="summarydiv" class="grid-summary">
+                    <h3 class="rightalign">Sum eks mva:</h3>
+                    <h3 class="rightalign">Mva</h3>
+                    <h3 class="rightalign">Totalt</h3>
+                    <h3 id="sumextax" class="rightalign"></h3>
+                    <h3 id="sumtax" class="rightalign"></h3>
+                    <h3 id="sumtotal" class="rightalign"></h3>
+                </div>
+                <div id="footerdiv" class="grid-footer">
+                    <h5 id="footercompany"></h5>
+                    <h5 class="rightalign" id="pagenr"></h5>
+                </div>
+            </div>
+        </main>
+        <script src="../scripts/nav.js"></script>
+        <script type="module" src="report.js"></script>
+  </body>
+</html>

@@ -302,3 +302,6 @@ const documentId = urlParams.get('id');
 populatedocumentForm(documentId);
 document.getElementById('delBtn').addEventListener('click', deleteDocumentById);
 document.getElementById('invoiceBtn').addEventListener('click', createInvoiceFromOrder);
+document.getElementById('reportBtn').addEventListener('click', () => {
+    window.location.href = 'report.html?id=' + documentId;
+});
