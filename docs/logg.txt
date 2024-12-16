@@ -6,7 +6,7 @@ Diverse lesestoff:
 Graphql: http://spec.graphql.org/October2021/#sec-Language.Operations
 Innebygd authentication: https://learn.microsoft.com/en-us/azure/static-web-apps/authentication-authorization
 og https://learn.microsoft.com/en-us/entra/identity-platform/howto-restrict-your-app-to-a-set-of-users
-htmltopdf: https://ekoopmans.github.io/html2pdf.js/#getting-started
+htmltopdf: https://raw.githack.com/MrRio/jsPDF/master/docs/index.html
 
 
 
@@ -242,7 +242,17 @@ const gql = `
 > Om jeg klarer å kontrollere pagebreak her, så kan det være et godt alternativ.
 > Commit
 
-Mangler funksjon for page-break. Hvordan skal side 2 m.m se ut?
+* 15.12.2024
+> Hvis jeg skal bruke html-siden som basis for pdf, så må jeg løse pagebreak noenlunde slik:
+> Funksjon må kalkulere antall sider
+> Hvis mer enn en side, lage x antall sett med "hoved-html-element", der første og siste side er unik.
+> Første side har med kundeinfo og firmainfo, siste side har med betalingsinfo. alle sider har med heading, footer og varelinjer
+> Alternativt kan jeg bygge opp pdf manuelt med tekst istedenfor fra html.
+
+* 16.12.2024
+> Legger til funksjon for å legge til siste-side.
+> Oppretter et nytt div-element for side. Kopierer de aller fleste elementer fra først element-siden.
+> Oppretter nytt tabell-innhold som tar med seg resterende fra invoicelines.
 
 Kanskje legge til en side for bestillinger? Eller bare bruke ordre-modul kanskje... Og ha en status?
 

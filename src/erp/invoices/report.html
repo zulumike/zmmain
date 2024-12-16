@@ -19,21 +19,24 @@
         </header>
         <nav id="navbar">
             <div class="burger">
-                <h1>Hjem</h1>
+                <h1>Rapport</h1>
             </div>
         </nav>
-        <main>
+        <div>
+            <button id="topdfbtn" type="button">Til pdf</button>
+        </div>
+        <main id="mainelement">
             <div id="content" class="grid-container">
-                <div class="grid-header">
+                <div id="headerdiv" class="grid-header">
                     <h1 id="infocompany"></h1>
                     <h1 class="rightalign" id="invoiceheader"></h1>
                 </div>
-                <div class="grid-customer">
+                <div id="customerdiv" class="grid-customer">
                     <h2 id="customername"></h2>
                     <h4 id="customeraddress"></h4>
                     <h4 id="customeraddress2"></h4>
                 </div>
-                <div class="grid-info">
+                <div id="infodiv" class="grid-info">
                     <h5>Orgnr:</h5>
                     <h5 id="orgnr"></h5>
                     <h5>Fakturadato:</h5>
@@ -43,12 +46,12 @@
                     <h5>Ordrenr:</h5>
                     <h5 id="ordernr"></h5>
                 </div>
-                <div class="grid-invtext">
+                <div id="invtextdiv" class="grid-invtext">
                     <h3 id="invoicetext"></h3>
                 </div>
                 <div class="grid-table">
                     <table>
-                        <thead>
+                        <thead id="tablehead">
                             <tr>
                                 <th class="leftalign">Dato</th>
                                 <th class="leftalign">Vare</th>
@@ -62,7 +65,15 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="grid-payment breakBeforeClass">
+                <div id="summarydiv" class="grid-summary">
+                    <h3 class="rightalign">Sum eks mva:</h3>
+                    <h3 class="rightalign">Mva</h3>
+                    <h3 class="rightalign">Totalt</h3>
+                    <h3 id="sumextax" class="rightalign"></h3>
+                    <h3 id="sumtax" class="rightalign"></h3>
+                    <h3 id="sumtotal" class="rightalign"></h3>
+                </div>
+                <div id="paymentdiv" class="grid-payment breakBeforeClass">
                     <h2>Betalingsinformasjon</h2>
                     <h4>Bankkonto:</h4>
                     <h4 id="paybank"></h4>
@@ -73,15 +84,11 @@
                     <h4>Forfallsdato:</h4>
                     <h4 id="payduedate"></h4>
                 </div>
-                <div class="grid-footer">
+                <div id="footerdiv" class="grid-footer">
                     <h5 id="footercompany"></h5>
                     <h5 class="rightalign" id="pagenr"></h5>
                 </div>
             </div>
-            <div>
-                <button id="topdfbtn" type="button">Til pdf</button>
-            </div>
-
         </main>
         <script src="../scripts/nav.js"></script>
         <script type="module" src="report.js"></script>
