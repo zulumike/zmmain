@@ -184,7 +184,7 @@ async function initiatePage() {
     payBank.innerText = companyData.bankaccount;
     payInvoiceNr.innerText = invoiceData.id;
     payAmount.innerText = calculateInvoice().toLocaleString("nb-NO", {minimumFractionDigits: 2});
-    payDueDate.innerText = invoiceDate.innerText;
+    payDueDate.innerText = invoiceDueDate.innerText;
 
     footerCompanyInfo.innerText = companyData.name + ' | ' + 
         companyData.address + ' | ' + 

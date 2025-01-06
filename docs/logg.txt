@@ -253,6 +253,11 @@ const gql = `
 > Legger til funksjon for å legge til siste-side.
 > Oppretter et nytt div-element for side. Kopierer de aller fleste elementer fra først element-siden.
 > Oppretter nytt tabell-innhold som tar med seg resterende fra invoicelines.
+> Fullført faktura rapport.
+> Commit
+> Kopiert til Ordre og tilpasset. Lagt til kolonne for kommentar.
+> Commit
+> Starte på admin-siden
 
 Kanskje legge til en side for bestillinger? Eller bare bruke ordre-modul kanskje... Og ha en status?
 
