@@ -18,6 +18,7 @@ async function populatedocumentForm(customerId) {
     document.getElementById('formheading').textContent = 'Kundenr: ' + documentData.id;
     document.getElementById('name').value = documentData.name;
     document.getElementById('address').value = documentData.address;
+    document.getElementById('address2').value = documentData.address2;
     document.getElementById('zip').value = documentData.zip;
     document.getElementById('city').value = documentData.city;
     document.getElementById('phone').value = documentData.phone;

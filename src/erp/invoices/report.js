@@ -27,6 +27,7 @@ const invoiceHeader = document.getElementById('invoiceheader');
 const customerName = document.getElementById('customername');
 const customerAddress = document.getElementById('customeraddress');
 const customerAddress2 = document.getElementById('customeraddress2');
+const customerPostAddress = document.getElementById('customerpostaddress');
 const infoCompanyName = document.getElementById('infocompany');
 const companyOrgNr = document.getElementById('orgnr');
 const invoiceDate = document.getElementById('invoicedate');
@@ -167,7 +168,8 @@ async function initiatePage() {
     
     customerName.innerText = customerData.name;
     customerAddress.innerText = customerData.address;
-    customerAddress2.innerText = customerData.zip + ' ' + customerData.city;
+    customerAddress2.innerText = customerData.address2;
+    customerPostAddress.innerText = customerData.zip + ' ' + customerData.city;
     
     infoCompanyName.innerText = companyData.name;
     companyOrgNr.innerText = companyData.orgnr;
