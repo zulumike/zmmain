@@ -8,6 +8,10 @@
         "allowedRoles": [ "admin" ]
     },
     {
+      "route": "/countdown/*",
+      "allowedRoles": [ "anonymous", "authenticated", "admin", "user" ]
+    },
+    {
       "route": "/*",
       "allowedRoles": [ "admin", "user" ]
     }
