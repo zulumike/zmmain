@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Nedtelling</title>
+</head>
+<body>
+    <div class="headerDiv">
+        <div>
+            <h1>Nedtelling</h1>
+        </div>
+    </div>
+    <div class="mainDiv">
+        <div>
+            <button type="button" id="formButton">Ny nedtelling +</button>
+            <form id="eventForm">
+                <div class="inputDiv">
+                    <label for="date">Dato</label>
+                    <input type="date" id="eventDate" name="eventDate">
+                </div>
+                <div class="inputDiv">
+                    <label for="eventName">Hva skjer?</label>
+                    <input type="text" id="eventName" name="eventName">
+                </div>
+                <input type="submit" value="Lagre">
+            </form>
+        </div>
+        <div id="countDownDiv">
+        </div>
+    </div>
+    <script type="module" src="index.js"></script>
+</body>
+</html>
