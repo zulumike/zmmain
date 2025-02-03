@@ -12,7 +12,7 @@ eventForm.addEventListener("submit", formSubmit);
 
 async function fetchJSONData() {
     try {
-        const response = await fetch("./events.json");
+        const response = await fetch("./countdown/events.json");
         if (!response.ok) {
             throw new Error
                 (`HTTP error! Status: ${response.status}`);
