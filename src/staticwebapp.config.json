@@ -12,6 +12,10 @@
       "allowedRoles": [ "anonymous", "authenticated", "admin", "user" ]
     },
     {
+      "route": "/public/*",
+      "allowedRoles": [ "anonymous", "authenticated", "admin", "user" ]
+    },
+    {
       "route": "/*",
       "allowedRoles": [ "admin", "user" ]
     }
