@@ -271,4 +271,4 @@ Og kanskje knytte company til customer (og andre registre senere). Sette en egen
 Må da sørge for unike id på alle registre på et vis....
 
 På customeredit, så kan det være greit å ha mulighet for å se ordrer, faktura og noen nøkkeltall etterhvert
-Pluss kunne ta ut regnskapstall
+Pluss kunne ta ut regnskapstall for firma

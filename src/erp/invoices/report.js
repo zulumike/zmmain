@@ -71,6 +71,9 @@ function calculateInvoice() {
 }
 
 async function generatePDF() {
+    pdf.setProperties({
+        title: 'Faktura ' + invoiceData.id,
+    });
     await pdf.html(element, {
         html2canvas: {
             scale: 0.26,
@@ -95,7 +98,7 @@ async function generatePDF() {
         })
     }
 
-    window.open(pdf.output('bloburl'));
+    pdf.save('Faktura ' + invoiceData.id + '.pdf');
 }
 
 async function initiateLastPage(iStart, pageNr) {

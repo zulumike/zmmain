@@ -64,6 +64,9 @@ function calculateInvoice() {
 }
 
 async function generatePDF() {
+    pdf.setProperties({
+        title: 'Ordre ' + orderData.id
+    });
     await pdf.html(element, {
         html2canvas: {
             scale: 0.26,
@@ -88,7 +91,8 @@ async function generatePDF() {
         })
     }
 
-    window.open(pdf.output('bloburl'));
+    // window.open(pdf.output('bloburl'));
+    pdf.save('Ordre ' + orderData.id + '.pdf');
 }
 
 async function initiateLastPage(iStart, pageNr) {
