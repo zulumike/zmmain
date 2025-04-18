@@ -266,6 +266,14 @@ const gql = `
 > Ordnet knapp for å sende e-post. Denne bruker mailto og åpner e-post klient, men uten vedlegg
 > Har derfor lagt til en alert som minner om å legge til vedlegg
 > Commit og sync
+> Problem med at account ikke blir lagret i ordrelinjer.
+> Ser ut til at problemet ligger i editorder.js før eller i funksjon addOrderLine.
+> Flyttet funksjon for å lage object av form før addOrderLine og la til account før data sendes til addOrderLine.
+> Ser nå ut til å fungere.
+> Commit
+
+> Oppdaget problem med bilag. Summerer riktig sum i bilagslisten, men inne på bilaget er det feil.
+> Ser også ut til å ha kommet inn feilaktige data på bilagslinjene....
 
 Kanskje legge til en side for bestillinger? Eller bare bruke ordre-modul kanskje... Og ha en status?
 

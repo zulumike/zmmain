@@ -1,6 +1,8 @@
 import { updateOrder, getOrder, deleteOrder, readAllCustomers, readAllProducts, createInvoice } from "../scripts/dbfunctions.js";
 import { loaderOn, loaderOff } from "../scripts/functions.js";
 
+const defaultAccount = 3100;
+
 let orderData = {};
 let productList = [];
 
@@ -88,10 +90,11 @@ function presentOrderLines() {
     const orderSumText = document.getElementById('ordersumtext');
     orderSumText.innerText = 'Ordresum: ' + calculateOrder().toLocaleString("nb-NO", {minimumFractionDigits: 2});
 }
-function addOrderLine(event, orderLineForm) {
+function addOrderLine(event, orderLineData) {
     event.preventDefault();
-    const orderLineFormData = new FormData(orderLineForm);
-    const orderLineData = Object.fromEntries(orderLineFormData);
+    // const orderLineFormData = new FormData(orderLineForm);
+    // const orderLineData = Object.fromEntries(orderLineFormData);
+    console.log(orderLineData);
     orderLineData.price = parseFloat(orderLineData.price);
     orderLineData.amount = parseFloat(orderLineData.amount);
     orderData.orderLines.push(orderLineData);
@@ -184,7 +187,7 @@ async function orderLineForm() {
     commentDiv.appendChild(emptyOLComment);
 
     // prefill inputs based on selected product
-    let productAccount = 3000;
+    let productAccount = defaultAccount;
     emptyOLProductId.addEventListener('change', (event) => {
         const selectedProduct = productList.find((element) => element.id == event.target.value);
         emptyOLPrice.value = selectedProduct.price;
@@ -197,8 +200,12 @@ async function orderLineForm() {
     submitOrderLine.value = 'Legg til';
     
     orderLineForm.addEventListener('submit', (event) => {
-        orderLineForm.account = productAccount.toString();
-        addOrderLine(event, orderLineForm);
+        const orderLineFormData = new FormData(orderLineForm);
+        const orderLineData = Object.fromEntries(orderLineFormData);
+        orderLineData.account = productAccount.toString();
+        // alert(orderLineForm.account);
+        console.log(orderLineData);
+        addOrderLine(event, orderLineData);
         orderLineForm.reset();
         emptyOLDate.valueAsDate = today;
         emptyOLAmount.value = 1;
