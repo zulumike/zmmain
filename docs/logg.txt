@@ -259,6 +259,14 @@ const gql = `
 > Commit
 > Starte på admin-siden
 
+* 18.04.2025
+> Endret pdf rapport-side. Lagt til tittel. Endret til å direkte laste ned pdf med filnavn.
+> Commit
+> Ser litt på mulighet for å få pdf til e-post....
+> Ordnet knapp for å sende e-post. Denne bruker mailto og åpner e-post klient, men uten vedlegg
+> Har derfor lagt til en alert som minner om å legge til vedlegg
+> Commit og sync
+
 Kanskje legge til en side for bestillinger? Eller bare bruke ordre-modul kanskje... Og ha en status?
 
 Gjenstår å lage funksjon for sending. Både faktura og ordrebekreftelse.

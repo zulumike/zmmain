@@ -42,6 +42,7 @@ const footerCompanyInfo = document.getElementById('footercompany');
 const pageNrInfo = document.getElementById('pagenr');
 
 const toPdfButton = document.getElementById('topdfbtn');
+const toMailButton = document.getElementById('tomailbtn');
 
 const pdfOptions = {
     orientation: 'p',
@@ -221,6 +222,10 @@ async function initiatePage() {
     
     toPdfButton.addEventListener('click', () => {
         generatePDF();
+    })
+    toMailButton.addEventListener('click', () => {
+        alert('Husk å legge ved PDF-filen i e-posten!');
+        window.open('mailto:' + customerData.email + '?subject=Ordre ' + orderData.id + '&body=Hei ' + customerData.name + ',%0D%0A%0D%0AHer er din ordre.%0D%0A%0D%0A' + companyData.name + '%0D%0A' + companyData.address + '%0D%0A' + companyData.zip + ' ' + companyData.city);
     })
     loaderOff();
 }
