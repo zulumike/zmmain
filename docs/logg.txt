@@ -274,8 +274,13 @@ const gql = `
 
 > Oppdaget problem med bilag. Viser riktig sum i bilagslisten, men inne på bilaget er det feil.
 > Ser også ut til å ha kommet inn feilaktige data på bilagslinjene....
+
+* 19.04.2025
 > Problemet er at når bilag opprettes fra faktura, så hentes det en stk av alle faktura-linjer.
 > Tenker det er bedre å summere en linje pr unike konto.
+> Rettet på opprettelse av bilag fra faktura slik at det lagres en linje pr konto.
+> Commit
+
 
 Kanskje legge til en side for bestillinger? Eller bare bruke ordre-modul kanskje... Og ha en status?
 

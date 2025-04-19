@@ -330,12 +330,23 @@ async function costInvoice() {
     }
     else {
         const costLineArray = [];
-        for (let i = 0; i < invoiceData.invoiceLines.length; i++) {
+        const uniqueAccounts = invoiceData.invoiceLines.filter((obj, index, self) =>
+            index === self.findIndex((t) => t.account === obj.account)
+        );
+        console.log(uniqueAccounts);
+
+        for (let i = 0; i < uniqueAccounts.length; i++) {
+            let accountSum = 0;
+            for (let y = 0; y < invoiceData.invoiceLines.length; y++) {
+                if (invoiceData.invoiceLines[y].account == uniqueAccounts[i].account) {
+                    accountSum = accountSum + (invoiceData.invoiceLines[y].price * invoiceData.invoiceLines[y].amount);
+                }
+            }
             costLineArray.push({
                 date: invoiceData.date,
-                account: invoiceData.invoiceLines[i].account,
-                price: invoiceData.invoiceLines[i].price,
-                description: invoiceData.invoiceLines[i].comment
+                account: uniqueAccounts[i].account,
+                price: accountSum,
+                description: invoiceData.name
             });
         }
         const costingData = {
@@ -345,7 +356,7 @@ async function costInvoice() {
             sum: invoiceData.sum
         };
         const costResponse = await createCost(costingData);
-        invoiceData.invcost = parseInt(costResponse.id);
+        invoiceData.invcost = parseInt(costResponse.itemId);
         invoiceData.costed = true;
         deleteBtn.hidden = true;
         costBtn.value = 'Annuler';
