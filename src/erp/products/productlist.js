@@ -4,6 +4,19 @@ import { loaderOn, loaderOff } from "../scripts/functions.js";
 async function getDocumentList() {
     loaderOn();
     const documentList = await readAllProducts();
+    documentList.sort((a, b) => {
+        const valueA = a.id.toUpperCase();
+        const valueB = b.id.toUpperCase();
+        if (valueA < valueB) {
+            return -1;
+        }
+        if (valueA > valueB) {
+            return 1;
+        }
+
+        // names must be equal
+        return 0;
+    });
     const table = document.getElementById("table-body");
     for (let i = 0; i < documentList.length; i++) {
         if (!documentList[i].deleted) {

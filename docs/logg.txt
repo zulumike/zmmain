@@ -280,7 +280,10 @@ const gql = `
 > Tenker det er bedre å summere en linje pr unike konto.
 > Rettet på opprettelse av bilag fra faktura slik at det lagres en linje pr konto.
 > Commit
+> Ordnet sortering på ordre, faktura, bilag, kunde og produkt
 
+
+Sortering av faktura etter fakturanr. Samme med ordre, bilag, kunde og produkt.
 
 Kanskje legge til en side for bestillinger? Eller bare bruke ordre-modul kanskje... Og ha en status?
 
