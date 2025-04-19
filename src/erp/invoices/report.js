@@ -239,7 +239,7 @@ async function initiatePage() {
 
     toMailButton.addEventListener('click', () => {
         alert('Husk å legge ved fakturaen som PDF!');
-        window.open('mailto:' + companyData.email + '?subject=Faktura ' + invoiceData.id + '&body=Hei, vedlagt faktura ' + invoiceData.id + '.%0D%0A%0D%0A' + companyData.name + '%0D%0A' + companyData.address + '%0D%0A' + companyData.zip + ' ' + companyData.city);
+        window.open('mailto:' + customerData.email + '?subject=Faktura ' + invoiceData.id + '&body=Hei, vedlagt faktura ' + invoiceData.id + '.%0D%0A%0D%0A' + companyData.name + '%0D%0A' + companyData.address + '%0D%0A' + companyData.zip + ' ' + companyData.city);
     });
 
     loaderOff();
