@@ -282,13 +282,6 @@ const gql = `
 > Commit
 > Ordnet sortering på ordre, faktura, bilag, kunde og produkt
 
-
-Sortering av faktura etter fakturanr. Samme med ordre, bilag, kunde og produkt.
-
-Kanskje legge til en side for bestillinger? Eller bare bruke ordre-modul kanskje... Og ha en status?
-
-Gjenstår å lage funksjon for sending. Både faktura og ordrebekreftelse.
-
 Bør legge til try/catch i dbfunctions for å kunne formidle feil istedenfor at programmet blir stående med loader
 
 Må legge inn redigering av firma. Nr-serie, adresse, epost, kontoplan m.m.
