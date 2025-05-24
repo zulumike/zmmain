@@ -5,8 +5,8 @@ async function getDocumentList() {
     loaderOn();
     const documentList = await readAllOrders();
     documentList.sort((a, b) => {
-        const valueA = a.id.toUpperCase();
-        const valueB = b.id.toUpperCase();
+        const valueA = parseInt(a.id);
+        const valueB = parseInt(b.id);
         if (valueA > valueB) {
             return -1;
         }

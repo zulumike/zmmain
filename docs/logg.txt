@@ -282,6 +282,13 @@ const gql = `
 > Commit
 > Ordnet sortering på ordre, faktura, bilag, kunde og produkt
 
+* 24.05.2025
+> Sortering var ikke helt god. 12 kom før 2 osv. Endret derfor sorteringen slik at verdi ble omgjort til integer før sortering. Gjelder ordre, faktura og billag.
+> Commit
+
+Neste:  Legge til informasjon om faktura er bokført.
+        Forbedre flyt. f.eks at når lagre, så blir ikke vindu lukket, evt. legge til lagre og lukk. Også en tilbakeknapp fra rapport-side
+
 Bør legge til try/catch i dbfunctions for å kunne formidle feil istedenfor at programmet blir stående med loader
 
 Må legge inn redigering av firma. Nr-serie, adresse, epost, kontoplan m.m.
