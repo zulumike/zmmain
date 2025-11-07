@@ -27,7 +27,8 @@ async function getDocumentList() {
             const customerName = newRow.insertCell(2);
             const invoiceName = newRow.insertCell(3);
             const invoiceSum = newRow.insertCell(4);
-            const invoiceDueDate = newRow.insertCell(4);
+            const invoiceDueDate = newRow.insertCell(5);
+            const invoiceCostNr = newRow.insertCell(6);
             const invoiceTempDate = new Date(documentList[i].date)
             invoiceDate.innerText = invoiceTempDate.toLocaleDateString();
             invoiceNr.innerText = documentList[i].id;
@@ -40,6 +41,7 @@ async function getDocumentList() {
             invoiceSum.innerText = documentList[i].sum.toLocaleString("nb-NO", {minimumFractionDigits: 2});
             const invoiceTempDueDate = new Date(documentList[i].duedate);
             invoiceDueDate.innerText = invoiceTempDueDate.toLocaleDateString();
+            invoiceCostNr.innerText = documentList[i].invcost || 'Ikke bilagsført';
             newRow.addEventListener('click', () => {
                 window.location.href = 'editinvoice.html?id=' + documentList[i].id;
             })

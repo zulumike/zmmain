@@ -286,6 +286,12 @@ const gql = `
 > Sortering var ikke helt god. 12 kom før 2 osv. Endret derfor sorteringen slik at verdi ble omgjort til integer før sortering. Gjelder ordre, faktura og billag.
 > Commit
 
+* 07.11.2025
+> Satt opp prosjekt på ny pc.
+> Endret ERP link til å gå rett til ordrelisten
+> Lagt til kolonne for bilagsnr i faktura-listen.
+> Commit
+
 Neste:  Legge til informasjon om faktura er bokført.
         Forbedre flyt. f.eks at når lagre, så blir ikke vindu lukket, evt. legge til lagre og lukk. Også en tilbakeknapp fra rapport-side
 

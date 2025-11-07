@@ -4,9 +4,7 @@ const CosmosClient = require('@azure/cosmos').CosmosClient;
 const dbEndpoint = process.env.DBEndpoint;
 const dbKey = process.env.DBKey;
 
-// const databaseId = 'settemmaskin';
 const databaseId = process.env.DBId;
-// const containerId = process.env.DBContainerName
 
 const dbOptions = {
     endpoint: dbEndpoint,
