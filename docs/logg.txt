@@ -291,6 +291,8 @@ const gql = `
 > Endret ERP link til å gå rett til ordrelisten
 > Lagt til kolonne for bilagsnr i faktura-listen.
 > Commit
+> La til lagre og lukk på editinvoice. 
+> Commit
 
 Neste:  Legge til informasjon om faktura er bokført.
         Forbedre flyt. f.eks at når lagre, så blir ikke vindu lukket, evt. legge til lagre og lukk. Også en tilbakeknapp fra rapport-side

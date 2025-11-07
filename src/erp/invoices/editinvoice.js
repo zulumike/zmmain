@@ -5,6 +5,29 @@ let invoiceData = {};
 let productList = [];
 
 const documentForm = document.getElementById("documentform");
+const submitBtn = document.getElementById('submitbtn');
+submitBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+    await saveInvoice(false);
+});
+const submitCloseBtn = document.getElementById('submitclosebtn');
+submitCloseBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+    await saveInvoice(true);
+});
+
+async function saveInvoice(close = false) {
+    loaderOn();
+    const documentFormData = new FormData(documentForm);
+    const documentData = Object.fromEntries(documentFormData);
+    documentData.customer = parseInt(documentData.customer);
+    documentData.invoiceLines = invoiceData.invoiceLines;
+    documentData.sum = calculateInvoice();
+    await updateInvoice(documentId, documentData);
+    loaderOff();
+    if (close) window.location.replace('/erp/invoices/invoicelist.html');
+    else window.location.reload();
+}
 
 documentForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -298,9 +321,10 @@ async function populatedocumentForm(documentId) {
         formDate.disabled = true;
         const formDueDate = document.getElementById('duedate');
         formDueDate.disabled = true;
-        const formSubmitBtn = document.getElementById('submitbtn');
-        formSubmitBtn.disabled = true;
-        formSubmitBtn.style.display = 'none';
+        submitBtn.disabled = true;
+        submitBtn.style.display = 'none';
+        submitCloseBtn.disabled = true;
+        submitCloseBtn.style.display = 'none';
         costBtn.value = 'Annuler';
     }
     loaderOff();
