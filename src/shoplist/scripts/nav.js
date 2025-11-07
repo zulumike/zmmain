@@ -1,13 +1,9 @@
 const navTemplate = document.createElement('template');
 navTemplate.innerHTML = `
     <ul class="nav-links">
-        <li id="navhome"><a href="/">Hjem</a></li>
-        <li id="navcustomers"><a href="/erp/customers/customerlist.html">Kunder</a></li>
-        <li id="navproducts"><a href="/erp/products/productlist.html">Produkter</a></li>
-        <li id="navorders"><a href="/erp/orders/orderlist.html">Ordrer</a></li>
-        <li id="navinvoices"><a href="/erp/invoices/invoicelist.html">Faktura</a></li>
-        <li id="navcosts"><a href="/erp/costs/costlist.html">Bilag</a></li>
-        <li id="navadmin"><a href="/erp/admin/admin.html">Admin</a></li>
+        <li id="navhome"><a href="/shoplist">Handleliste</a></li>
+        <li id="navcategories"><a href="/shoplist/categories/categorylist.html">Kategorier</a></li>
+        <li id="navstores"><a href="/shoplist/stores/shoplist.html">Butikker</a></li>
         <li id="navlogout"><a href="/.auth/logout">Logg ut</a></li>
     </ul>
     <div id="burger-menu" class="burger">
@@ -21,12 +17,8 @@ navBar.appendChild(navTemplate.content);
 
 
 const currentUrl = window.location.href;
-if (currentUrl.search("customers") > 0) document.getElementById('navcustomers').classList = ['nav-link-active']
-else if (currentUrl.search("products") > 0) document.getElementById('navproducts').classList = ['nav-link-active']
-else if (currentUrl.search("orders") > 0) document.getElementById('navorders').classList = ['nav-link-active']
-else if (currentUrl.search("invoices") > 0) document.getElementById('navinvoices').classList = ['nav-link-active']
-else if (currentUrl.search("costs") > 0) document.getElementById('navcosts').classList = ['nav-link-active']
-else if (currentUrl.search("admin") > 0) document.getElementById('navcosts').classList = ['nav-link-active']
+if (currentUrl.search("categories") > 0) document.getElementById('navcategories').classList = ['nav-link-active']
+else if (currentUrl.search("stores") > 0) document.getElementById('navstores').classList = ['nav-link-active']
 else document.getElementById('navhome').classList = ['nav-link-active'];
 
 // const burger = document.querySelector('.burger');

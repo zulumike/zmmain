@@ -1,5 +1,5 @@
-import { readAllCustomers, readAllProducts, createInvoice } from "../scripts/dbfunctions.js";
-import { loaderOn, loaderOff } from "../scripts/functions.js";
+import { readAllCustomers, readAllProducts, createInvoice } from "../../scripts/dbfunctions.js";
+import { loaderOn, loaderOff } from "../../scripts/functions.js";
 
 let customers = [];
 let productList = [];

@@ -1,5 +1,5 @@
 import { createProduct } from "../scripts/dbfunctions.js";
-import { loaderOn, loaderOff } from "../scripts/functions.js";
+import { loaderOn, loaderOff } from "../../scripts/functions.js";
 
 const documentForm = document.getElementById("documentform");
 documentForm.addEventListener('submit', async (event) => {

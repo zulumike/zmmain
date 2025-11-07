@@ -1,5 +1,5 @@
 import { updateOrder, getOrder, deleteOrder, readAllCustomers, readAllProducts, createInvoice } from "../scripts/dbfunctions.js";
-import { loaderOn, loaderOff } from "../scripts/functions.js";
+import { loaderOn, loaderOff } from "../../scripts/functions.js";
 
 const defaultAccount = 3100;
 

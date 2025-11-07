@@ -1,5 +1,5 @@
-import { getUserInfo } from "./scripts/auth.js";
-import { sendEmail } from "./scripts/email.js";
+import { getUserInfo } from "../scripts/auth.js";
+import { sendEmail } from "../scripts/email.js";
 
 async function getUser() {
     const userInfo = await getUserInfo();

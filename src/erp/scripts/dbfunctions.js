@@ -1,4 +1,4 @@
-import { getUserInfo } from "../scripts/auth.js";
+import { getUserInfo } from "../../scripts/auth.js";
 
 const companyEndpoint = '/api/erpdb?containerid=company';
 const productsEndpoint = '/api/erpdb?containerid=products';

@@ -1,5 +1,5 @@
 import { updateInvoice, getInvoice, deleteInvoice, readAllCustomers, readAllProducts, createCost, deleteCost } from "../scripts/dbfunctions.js";
-import { loaderOn, loaderOff } from "../scripts/functions.js";
+import { loaderOn, loaderOff } from "../../scripts/functions.js";
 
 let invoiceData = {};
 let productList = [];

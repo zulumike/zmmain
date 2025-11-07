@@ -1,5 +1,5 @@
 import { getCompany, getCustomer, getInvoice, getProduct, readAllProducts } from "../scripts/dbfunctions.js";
-import { loaderOff, loaderOn } from "../scripts/functions.js";
+import { loaderOff, loaderOn } from "../../scripts/functions.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const documentId = urlParams.get('id');

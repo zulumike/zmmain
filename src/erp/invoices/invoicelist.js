@@ -1,5 +1,5 @@
 import { readAllInvoices, readAllCustomers } from "../scripts/dbfunctions.js";
-import { loaderOn, loaderOff } from "../scripts/functions.js";
+import { loaderOn, loaderOff } from "../../scripts/functions.js";
 
 async function getDocumentList() {
     loaderOn();

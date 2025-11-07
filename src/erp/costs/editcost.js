@@ -1,5 +1,5 @@
-import { updateCost, getCost, deleteCost, getCompany } from "../scripts/dbfunctions.js";
-import { loaderOn, loaderOff } from "../scripts/functions.js";
+import { updateCost, getCost, deleteCost, getCompany } from "../../scripts/dbfunctions.js";
+import { loaderOn, loaderOff } from "../../scripts/functions.js";
 
 let costData = {};
 let accountList = [];
