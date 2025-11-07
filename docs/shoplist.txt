@@ -1,0 +1,6 @@
+* 07.11.2025
+> Opprettet ny side for shoplist
+> La til Nav
+> Begynt med alle funksjoner for lagring. Localstorage foreløpig
+> Ordnet form for å legge til vare, men ingen funksjonalitet foreløpig
+> Commit
