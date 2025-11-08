@@ -4,3 +4,21 @@
 > Begynt med alle funksjoner for lagring. Localstorage foreløpig
 > Ordnet form for å legge til vare, men ingen funksjonalitet foreløpig
 > Commit
+
+* 08.11.2025
+> Endret til no for html lang på alle html
+> Commit
+> La til form og lagring av kategori
+> Ordnet opplisting av eksisterende kategorier med slette-symbol
+> Commit
+
+Sletting funker ikke, må kanskje i front-end sette id og bruke dette
+Ordne styling.
+
+Ide for butikk og valg av rekkefølge.
+
+To lister, til venstre alle kategorier, til høyre "spor" som man setter kategori i.
+Bruker trykker da på tilgjengelig kategori og deretter på hvilken plass man vil ha kategorien på.
+Om man trykker på en i høyre-listen, detter den tilbake til venstre kolonne.
+Når trykker på kategori i venstre kolonne, endre farge eller noe slik at man ser at den er valgt.
+Må være mulig å avbryte et valg.

@@ -18,16 +18,21 @@
         <main>
             <div>
                 <form id="categoryForm" action="">
-                    <input type="text" name="category-name" id="categoryName" placeholder="Kategori" required>
+                    <input type="text" name="name" id="categoryName" placeholder="Kategori" required>
                     <button type="submit" id="itemSubmitBtn">Legg til</button>
                 </form>
             </div>
             <div>
                 <table>
+                    <thead>
+                        <th>Kategori</th>
+                        <th></th>
+                    </thead>
                     <tbody id="categoriesBody"></tbody>
                 </table>
             </div>
         </main>
+        <div id="showMessage" role="status" aria-live="polite"></div>
         <script src="./scripts/nav.js"></script>
         <script type="module" src="categories.js"></script>
   </body>

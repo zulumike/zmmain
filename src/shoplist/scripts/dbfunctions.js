@@ -1,5 +1,5 @@
 
-async function addSingleItemToLS(container, item) {
+export async function addSingleItem(container, item) {
     const items = JSON.parse(localStorage.getItem(container)) || [];
     items.push(item);
     try {
@@ -12,7 +12,7 @@ async function addSingleItemToLS(container, item) {
     }
 }
 
-async function addItemsToLS(container, items) {
+export async function addItems(container, items) {
     try {
         localStorage.setItem(container, JSON.stringify(items));
         return { status: 200, body: items.length + ' items added' }
@@ -23,7 +23,7 @@ async function addItemsToLS(container, items) {
     }
 }
 
-async function getSingelItemFromLS(container, itemId) {
+export async function getSingleItem(container, itemId) {
     try {
         const items = JSON.parse(localStorage.getItem(container)) || [];
         let itemFound = false;
@@ -43,12 +43,13 @@ async function getSingelItemFromLS(container, itemId) {
     }
 }
 
-async function getAllItemsFromLS(container) {
+export async function getAllItems(container) {
     try {
         const items = JSON.parse(localStorage.getItem(container)) || [];
         if (items.length < 1) {
             return { status: 204, body: 'No items in storage'}
         }
+        return { status: 200, body: items }
     }
     catch (error) {
         console.log('Error getting items! Erro: ' + error);
@@ -56,7 +57,7 @@ async function getAllItemsFromLS(container) {
     }
 }
 
-async function updateItemToLS(container, item) {
+export async function updateItem(container, item) {
     try {
         const items = JSON.parse(localStorage.getItem(container)) || [];
         let itemFound = false
@@ -78,7 +79,7 @@ async function updateItemToLS(container, item) {
     }
 }
 
-async function deleteItemFromLS(container, itemId) {
+export async function deleteItem(container, itemId) {
     try {
         const items = JSON.parse(localStorage.getItem(container)) || [];
         let itemFound = false;
@@ -100,7 +101,7 @@ async function deleteItemFromLS(container, itemId) {
     }
 }
 
-async function deleteAllItemsFromLS(container) {
+export async function deleteAllItems(container) {
     try {
         localStorage.removeItem(container);
         return { status: 200, body: 'All items successfully deleted'}
@@ -109,14 +110,4 @@ async function deleteAllItemsFromLS(container) {
         console.log('Error deleting items! Error: ' + error)
         return { status: 400, body: 'Error deleting items! Error: ' + error}
     }
-}
-
-export {
-    addSingleItemToLS,
-    addItemsToLS,
-    getSingelItemFromLS,
-    getAllItemsFromLS,
-    updateItemToLS,
-    deleteItemFromLS,
-    deleteAllItemsFromLS
 }

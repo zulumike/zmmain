@@ -77,6 +77,15 @@ p {
     font-size: var(--smallfontsize);
 }
 
+.delsymbol {
+    width: 25px;
+    height: 25px;
+}
+
+.delsymbol:hover {
+    cursor: pointer;
+}
+
 #loadingdiv {
     position: fixed;
     top: 0;
@@ -102,6 +111,30 @@ p {
     backdrop-filter: blur(1000px);
 }
 
+#showMessage {
+    display: none;
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    padding: 10px;
+    max-width: 300px;
+    background: var(--navbarcolor);
+    color: var(--navbartextcolor);
+    border: 1 px solid;
+    border-radius: var(--stdborderradius);
+}
+
+#showMessage.show-message {
+    display: block;
+    animation: fadeSlide .2s ease-out;
+}
+
+#showMessage.show-message-warn {
+    display: block;
+    background: red;
+    animation: fadeSlide .2s ease-out;
+}
+
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
@@ -110,4 +143,15 @@ p {
 @keyframes spin {
 0% { transform: rotate(0deg); }
 100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeSlide {
+  from {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
