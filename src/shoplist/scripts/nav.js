@@ -1,9 +1,9 @@
 const navTemplate = document.createElement('template');
 navTemplate.innerHTML = `
     <ul class="nav-links">
-        <li id="navhome"><a href="/shoplist">Handleliste</a></li>
-        <li id="navcategories"><a href="/shoplist/categories/categorylist.html">Kategorier</a></li>
-        <li id="navstores"><a href="/shoplist/stores/shoplist.html">Butikker</a></li>
+        <li id="navhome"><a href="/shoplist/index.html">Handleliste</a></li>
+        <li id="navcategories"><a href="/shoplist/categories.html">Kategorier</a></li>
+        <li id="navstores"><a href="/shoplist/stores.html">Butikker</a></li>
         <li id="navlogout"><a href="/.auth/logout">Logg ut</a></li>
     </ul>
     <div id="burger-menu" class="burger">

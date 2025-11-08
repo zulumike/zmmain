@@ -12,25 +12,23 @@
         </header>
         <nav id="navbar">
             <div class="burger">
-                <h1>Handleliste</h1>
+                <h1>Kategorier</h1>
             </div>
         </nav>
         <main>
             <div>
-                <form id="itemForm" action="">
-                    <input type="text" name="item-name" id="itemName" placeholder="Vare" required>
-                    <input type="number" name="item-amount" id="itemAmount" placeholder="1" required>
-                    <select name="item-category" id="itemCategory"></select>
+                <form id="categoryForm" action="">
+                    <input type="text" name="category-name" id="categoryName" placeholder="Kategori" required>
                     <button type="submit" id="itemSubmitBtn">Legg til</button>
                 </form>
             </div>
             <div>
                 <table>
-                    <tbody id="shopCartBody"></tbody>
+                    <tbody id="categoriesBody"></tbody>
                 </table>
             </div>
         </main>
         <script src="./scripts/nav.js"></script>
-        <script type="module" src="index.js"></script>
+        <script type="module" src="categories.js"></script>
   </body>
 </html>
