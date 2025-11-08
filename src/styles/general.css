@@ -13,10 +13,10 @@ body {
 
 form {
     border-radius: var(--stdborderradius);
-    background-color: var(--navbarcolor);
+    /* background-color: var(--navbarcolor); */
     /* padding: 20px; */
     font-size: var(--stdfontsize);
-    max-width: 400px;
+    /* max-width: 400px; */
 }
 
 form input[type="submit"], input[type="button"], input[type="reset"] {

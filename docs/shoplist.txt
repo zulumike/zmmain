@@ -13,10 +13,10 @@
 > Commit
 > Fikset sletting av kategori
 > Commit
+> Ordnet litt styling
+> La til hjem i navigasjon
+> Commit
 
-
-Sletting funker ikke, må kanskje i front-end sette id og bruke dette
-Ordne styling.
 
 Ide for butikk og valg av rekkefølge.
 

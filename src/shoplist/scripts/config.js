@@ -1,1 +1,1 @@
-export const shopContainer = 'shoplist';
+export const shopContainer = 'shopcategories';

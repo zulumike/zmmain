@@ -1,0 +1,19 @@
+@import '../../styles/constants.css';
+
+.category-form-div {
+    display: flex;
+    margin: auto;
+    max-width: 400px;
+    background-color: var(--navbarcolor);
+    border-radius: var(--stdborderradius);
+}
+
+.category-table-div {
+    display: flex;
+    margin: auto;
+    max-width: 400px;
+}
+
+.category-table-div table {
+    width: 100%;
+}
