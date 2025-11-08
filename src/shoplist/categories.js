@@ -51,17 +51,26 @@ async function saveCategory() {
         console.log(allItemResponse);
     }
     categoryForm.reset();
+    await showCategories();
 }
 
 async function deleteCategory(categoryId) {
-    const response = await dbFunction.deleteItem(config.container, categoryId);
-    console.log(response);
+    const response = await dbFunction.deleteItem(config.shopContainer, categoryId);
+    if (response.status === 200) {
+        functions.showMessage('Kategori slettet');
+    }
+    else {
+        functions.showMessage('Feil ved sletting av kategori! ' + response.body, true, 7000);
+        console.log(response);
+    }
+    await showCategories();
 }
 
 async function showCategories(){
+    categoriesBody.innerHTML = '';
     const allItemsResponse = await dbFunction.getAllItems(config.shopContainer);
     let allItems = [];
-    if (allItemsResponse.status === 200 || allItemsResponse.status === 204) {
+    if (allItemsResponse.status === 200) {
         allItems = allItemsResponse.body;
         for (let i = 0; i < allItems.length; i++) {
             const tBodyRow = categoriesBody.insertRow();
@@ -71,13 +80,14 @@ async function showCategories(){
             cellDelete.classList.add('delsymbol');
             cellDelete.setAttribute('src', '../assets/img/trash.svg');
             cellDelete.setAttribute('type', 'image/svg+xml');
-            // cellDelete.setAttribute('width', '20px');
-            // cellDelete.setAttribute('height', '20px');
             cellDelete.addEventListener('click', event => {
-                deleteCategory(i);
+                deleteCategory(allItems[i].id);
             });
             tBodyRow.appendChild(cellDelete);
         }
+    }
+    else if (allItemsResponse.status = 204) {
+        functions.showMessage('Det finnes ingen kategorier enda');
     }
     else {
         console.log(allItemsResponse);

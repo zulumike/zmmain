@@ -11,6 +11,9 @@
 > La til form og lagring av kategori
 > Ordnet opplisting av eksisterende kategorier med slette-symbol
 > Commit
+> Fikset sletting av kategori
+> Commit
+
 
 Sletting funker ikke, må kanskje i front-end sette id og bruke dette
 Ordne styling.
