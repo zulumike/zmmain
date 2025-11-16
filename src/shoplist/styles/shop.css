@@ -1,5 +1,13 @@
 @import '../../styles/constants.css';
 
+.form-div {
+    margin: 5px;
+}
+
+.table-div {
+    margin: 5px;
+}
+
 .category-form-div {
     display: flex;
     margin: auto;

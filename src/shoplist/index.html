@@ -6,6 +6,7 @@
     <title>ZM Handlevogn</title>
     <link rel="stylesheet" type="text/css" href="../styles/general.css" />
     <link rel="stylesheet" type="text/css" href="./styles/nav.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/shop.css" />
     </head>
     <body>
         <header>
@@ -16,7 +17,7 @@
             </div>
         </nav>
         <main>
-            <div>
+            <div class="form-div">
                 <form id="itemForm" action="">
                     <input type="text" name="item-name" id="itemName" placeholder="Vare" required>
                     <input type="number" name="item-amount" id="itemAmount" placeholder="1" required>
@@ -24,7 +25,7 @@
                     <button type="submit" id="itemSubmitBtn">Legg til</button>
                 </form>
             </div>
-            <div>
+            <div class="table-div">
                 <table>
                     <tbody id="shopCartBody"></tbody>
                 </table>

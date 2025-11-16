@@ -17,6 +17,9 @@
 > La til hjem i navigasjon
 > Commit
 
+* 16.11.2025
+> Endret litt styling på index.html
+> Commit
 
 Ide for butikk og valg av rekkefølge.
 
