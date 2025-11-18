@@ -20,6 +20,13 @@
 * 16.11.2025
 > Endret litt styling på index.html
 > Commit
+> Startet litt på butikk
+> Ordnet ferdig butikk-register.
+> Ordnet funksjon for å sette rekkefølge på kategorier på butikk.
+> Laget funksjon for å laste ned matvareliste og grupper (kategorier) fra matvaretabellen
+> Commit
+
+Må huske å oppgi matvaretabellen som kilde et sted.
 
 Ide for butikk og valg av rekkefølge.
 

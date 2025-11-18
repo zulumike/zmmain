@@ -13,26 +13,28 @@
         </header>
         <nav id="navbar">
             <div class="burger">
-                <h1>Handleliste</h1>
+                <h1>Rekkefølge</h1>
             </div>
         </nav>
         <main>
-            <div class="form-div">
-                <form id="itemForm" action="">
-                    <input type="text" name="item-name" id="itemName" placeholder="Vare" required>
-                    <input type="number" name="item-amount" id="itemAmount" placeholder="1" required>
-                    <select name="item-category" id="itemCategory"></select>
-                    <button type="submit" id="itemSubmitBtn">Legg til</button>
-                </form>
+            <div class="order-main-div">
+                <div class="category-list-div">
+                    <h4>Tilgjengelige</h4>
+                    <br>
+                    <ul id="categoryList">
+                    </ul>
+                </div>
+                <div class="ordered-list-div">
+                    <h4>Valgte</h4>
+                    <br>
+                    <ol id="orderedList">
+                    </ol>
+                </div>
             </div>
-            <div class="table-div">
-                <table>
-                    <tbody id="shopCartBody"></tbody>
-                </table>
-            </div>
+            <button onclick="javascript:history.back()">Tilbake</button>
             <div id="showMessage" role="status" aria-live="polite"></div>
         </main>
         <script src="./scripts/nav.js"></script>
-        <script type="module" src="index.js"></script>
+        <script type="module" src="order.js"></script>
   </body>
 </html>

@@ -29,11 +29,12 @@ export async function addItems(container, items) {
 export async function getSingleItem(container, itemId) {
     try {
         const items = JSON.parse(localStorage.getItem(container)) || [];
+        
         let itemFound = false;
         for (let i = 0; i < items.length; i++) {
             if (items[i].id === itemId) {
                 itemFound = true;
-                return items[i];
+                return { status: 200, body: items[i] };
             }
         }
         if (!itemFound) {
@@ -72,6 +73,7 @@ export async function updateItem(container, item) {
         if (!itemFound) {
             throw new Error('Item not found');
         }
+        localStorage.setItem(container, JSON.stringify(items))
         return { status: 200, body: 'Item successfully updated'}
     }
     catch (error) {
@@ -108,5 +110,45 @@ export async function deleteAllItems(container) {
     }
     catch (error) {
         return { status: 400, body: 'Error deleting items! ' + error}
+    }
+}
+
+export async function clearDatabase() {
+    try {
+        localStorage.clear();
+        return { status: 200, body: 'Database cleared'}
+    }
+    catch (error) {
+        return { status: 400, body: 'Error clearing database! ' + error}
+    }
+}
+
+export async function getFoods() {
+    try {
+        const foodsJson = await fetch('https://www.matvaretabellen.no/api/nb/foods.json');
+        const foods = await foodsJson.json();
+        return { status: 200, body: foods.foods }
+    }
+    catch (error) {
+        return { status: 400, body: 'Error fetching foods! ' + error}
+    }
+
+}
+
+export async function getFoodCategories() {
+    try {
+        const categoriesJson = await fetch('https://www.matvaretabellen.no/api/nb/food-groups.json');
+        const categories = await categoriesJson.json();
+        let maincategories = [];
+        for (let i = 0; i < categories.foodGroups.length; i++) {
+            const category = categories.foodGroups[i];
+            if (!category.foodGroupId.includes('.')) {
+                maincategories.push(category.name);
+            }
+        }
+        return { status: 200, body: maincategories }
+    }
+    catch (error) {
+        return { status: 400, body: 'Error fetching food categories! ' + error}
     }
 }

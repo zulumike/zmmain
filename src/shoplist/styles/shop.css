@@ -25,3 +25,38 @@
 .category-table-div table {
     width: 100%;
 }
+
+.order-main-div {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
+}
+
+.category-list-div, .ordered-list-div {
+    width: 200px;
+    border: 1px solid black;
+    border-radius: var(--stdborderradius);
+    padding: 20px;
+    /* background-color: var(--navbarcolor); */
+}
+
+.category-list-div ul, .ordered-list-div ol {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-list-div li, .ordered-list-div li {
+    margin: 5px 0;
+    padding: 5px;
+    border: 1px solid var(--buttoncolor);
+    border-radius: var(--stdborderradius);
+    background-color: var(--buttonbgcolor);
+    cursor: pointer;
+    text-align: center;
+}
+
+.clickable {
+    cursor: pointer;
+}

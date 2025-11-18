@@ -17,7 +17,7 @@ categoryForm.addEventListener('submit', function(e) {
 async function saveCategory() {
     const formData = new FormData(categoryForm, itemSubmitBtn);
     const newCategory = Object.fromEntries(formData.entries());
-    const allItemResponse = await dbFunction.getAllItems(config.shopContainer);
+    const allItemResponse = await dbFunction.getAllItems(config.categoryContainer);
     let existingItems = [];
     if (allItemResponse.status === 200 || allItemResponse.status === 204) {
         existingItems = allItemResponse.body;
@@ -33,7 +33,7 @@ async function saveCategory() {
             }
         }
         if (!itemExist) {
-            const response = await dbFunction.addSingleItem(config.shopContainer, newCategory);
+            const response = await dbFunction.addSingleItem(config.categoryContainer, newCategory);
             if (response.status === 200) {
                 functions.showMessage('Kategori ' + newCategory.name + ' lagt til', false);
             }
@@ -55,7 +55,7 @@ async function saveCategory() {
 }
 
 async function deleteCategory(categoryId) {
-    const response = await dbFunction.deleteItem(config.shopContainer, categoryId);
+    const response = await dbFunction.deleteItem(config.categoryContainer, categoryId);
     if (response.status === 200) {
         functions.showMessage('Kategori slettet');
     }
@@ -68,7 +68,7 @@ async function deleteCategory(categoryId) {
 
 async function showCategories(){
     categoriesBody.innerHTML = '';
-    const allItemsResponse = await dbFunction.getAllItems(config.shopContainer);
+    const allItemsResponse = await dbFunction.getAllItems(config.categoryContainer);
     let allItems = [];
     if (allItemsResponse.status === 200) {
         allItems = allItemsResponse.body;

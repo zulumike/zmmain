@@ -6,6 +6,7 @@
     <title>ZM Handlevogn</title>
     <link rel="stylesheet" type="text/css" href="../styles/general.css" />
     <link rel="stylesheet" type="text/css" href="./styles/nav.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/shop.css" />
     </head>
     <body>
         <header>
@@ -16,19 +17,20 @@
             </div>
         </nav>
         <main>
-            <div>
-                <form id="categoryForm" action="">
-                    <input type="text" name="store-name" id="storeName" placeholder="Butikknavn" required>
-                    <input type="text" name="store-address" id="storeAddress" placeholder="Adresse">
-                    <input type="text" name="store-zip" id="storeZip" placeholder="Postnr og sted">
+            <div class="form-div">
+                <form id="storeForm" action="">
+                    <input type="text" name="name" id="storeName" placeholder="Butikknavn" required>
+                    <input type="text" name="address" id="storeAddress" placeholder="Adresse">
+                    <input type="text" name="zip" id="storeZip" placeholder="Postnr og sted">
                     <button type="submit" id="itemSubmitBtn">Legg til</button>
                 </form>
             </div>
-            <div>
+            <div class="table-div">
                 <table>
-                    <tbody id="categoriesBody"></tbody>
+                    <tbody id="storesBody"></tbody>
                 </table>
             </div>
+             <div id="showMessage" role="status" aria-live="polite"></div>
         </main>
         <script src="./scripts/nav.js"></script>
         <script type="module" src="stores.js"></script>
