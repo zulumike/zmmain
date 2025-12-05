@@ -1,0 +1,24 @@
+Opprettet en webapp for å effektivisere travtippingen.
+
+Tanken er å få listet opp alle hester i alle løp. Kunne legge inn tipsene, samt mine egne vurderinger
+Og at systemet foreslår basert på tips, egne vurderinger og kanskje innsatsprosent?
+Må også kalkulere prisen.
+
+* 05.12.2025
+> Opprettet vha ai i studio code
+> Fant ut at rikstoto har noe api jeg kanskje kan bruke, men sliter litt med at jeg får feil innimellom.
+> Mulig noe cookie greier?
+> Funnet flere brukbare api'er. Men sliter noe med CORS-feil. Kjører edge i usikret modus midlertidig for å få det til.
+    "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --user-data-dir=C:\msedge-dev-data\ --disable-web-security
+> Har nå laget slik at siden initielt henter løps-dager og populerer i en listet
+> Når bruker velger i denne listen, hentes mer data. Startlisten med hestenavn og kusk, samt innsatsfordeling.
+> startlisten er i objekt-form, mens innsatsfordelingen er i array-form.
+> Commit
+
+Neste blir å få samlet disse data til en tabell pr løp.
+Pluss legge til input for hver hest i løpene der jeg kan legge inn tips, samt egen rangering.
+
+La systemet foreslå markeringer. Kanskje legge inn noen input (f.eks rekkepris, antall bankere, maks-min pris osv.)
+Systemet må kalkulere total-prisen. NB: bong-avgift.
+
+Vurdere å gjøre om startliste til rent array-form.

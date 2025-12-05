@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravTipp</title>
+    <link rel="stylesheet" type="text/css" href="../styles/general.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/nav.css" />
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <div class="burger">
+                <h1>Travtipping</h1>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div>
+            <form id="raceListForm" action="#" method="post">
+                <input type="text" id="raceKey" list="race-list" autocomplete="off" placeholder="Velg løpsdag" required>
+                <datalist id="race-list"></datalist>
+            </form>
+        </div>
+        <div id="raceDataDiv">
+        </div>
+        <div id="showMessage" role="status" aria-live="polite"></div>
+    </main>
+
+    <script src="./scripts/nav.js"></script>
+    <script type="module" src="travtip.js"></script>
+</body>
+</html>
