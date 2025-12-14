@@ -25,7 +25,8 @@ Må også kalkulere prisen.
 > Regner også ut en gjennomsnitt rangering.
 > Disse data lagres i localstorage med raceKey som ref.
 > Commit
-
+> Lagt til sortering som aktiveres ved å klikke på kolonneheadere.
+> Commit
 
 Vurdere å legge til mer fleksibilitet. Pr nå så hentes innsatsfordeling kun for V75-løp ser det ut til.
 Det ligger i api-url. Mulig det finnes en annen mer generisk api-url?

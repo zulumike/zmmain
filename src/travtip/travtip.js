@@ -5,12 +5,16 @@ import { gameUrl, programUrl, raceListUrl } from "./scripts/config.js";
 let raceData = [];
 let localData = {};
 
+const raceInfoHTab = document.getElementById('raceInfo');
 const raceTable = document.getElementById('raceDataTable')
 
 const raceKeyInput = document.getElementById('raceKey');
 raceKeyInput.addEventListener('change', async (event) => {
     event.preventDefault();
+    raceData = [];
     const selected = raceKeyInput.value;
+    raceKeyInput.value = '';
+    raceInfoHTab.innerHTML = selected.split('#')[0];
     const raceKey = selected.split('#')[1];
     const startList = await getStartList(raceKey);
     const betDistData = await getBetDist(raceKey);
@@ -21,6 +25,14 @@ raceKeyInput.addEventListener('change', async (event) => {
 });
 
 const raceListOptions = document.getElementById('race-list');
+
+// const sortColumnInput = document.getElementById('sortColumn');
+// sortColumnInput.addEventListener('change', () => {
+//     const sortByColumn = sortColumnInput.value;
+//     sortColumnInput.value = '';
+// })
+
+// const sortColumnList = document.getElementById('column-list');
 
 function getLocalData(raceKey) {
     const jsonData = localStorage.getItem(raceKey) || {};
@@ -124,7 +136,6 @@ function combineRaceData(startList, betDistData, programData) {
             raceData[i].starts[j].investmentData = betDistData[i].investmentDistribution[j];
         }
     }
-    console.log(raceData);
 }
 
 function populateRaceListInput(raceListData) {
@@ -148,21 +159,45 @@ function calculateScore(ranks) {
     console.log(horseRanks.length);
     const rank = rankScore / horseRanks.length;
     return rank;
-    // for (let i = 0; i < localData.length; i++) {
-    //     for (let j = 0; j < localData[i].length; j++) {
-    //         const horseRanks = localData[i][j].ranks.split(',');
-    //         let rankScores = 0;
-    //         horseRanks.forEach(rank => {
-    //             rankScores += rank
-    //         });
-    //         localData.horseRank = rankScores / horseRanks.length;
-    //     }
-    // }
+}
+
+function sortData(race, column = 'Startnr', tableBody) {
+    console.log(column);
+    if (column === 'Startnr') {
+        race.starts.sort((a, b) => a.startNumber - b.startNumber);
+    }
+    else if (column === 'Navn') {
+        race.starts.sort((a, b) => a.horseName.localeCompare(b.horseName));
+    }
+    else if (column === 'Kusk') {
+        race.starts.sort((a, b) => a.driver.localeCompare(b.driver));
+    }
+    else if (column === 'Innsats') {
+        race.starts.sort((a, b) => b.investmentData.percentage - a.investmentData.percentage);
+    }
+    else if (column === 'Vinner') {
+        race.starts.sort((a, b) => b.winPercentage - a.winPercentage);
+    }
+    else if (column === 'Auto') {
+        race.starts.sort((a, b) => a.recordAuto.localeCompare(b.recordAuto));
+    }
+    else if (column === 'Volte') {
+        race.starts.sort((a, b) => a.recordVolt.localeCompare(b.recordVolt));
+    }
+    else if (column === 'Stat i år') {
+        race.starts.sort((a, b) => b.horseAnnualStatistics.currentYear.numberOfFirstPlaces - a.horseAnnualStatistics.currentYear.numberOfFirstPlaces);
+    }
+    else if (column === 'Stat i fjor') {
+        race.starts.sort((a, b) => b.horseAnnualStatistics.previousYear.numberOfFirstPlaces - a.horseAnnualStatistics.previousYear.numberOfFirstPlaces);
+    }
+    showRaceDetails(race, tableBody)
 }
 
 function showRaceDetails(race, tableBody) {
+    tableBody.innerHTML = '';
     const raceHeaderRow = tableBody.insertRow();
-    const raceHeaderColumns = ['Startnr',
+    const raceHeaderColumns = [
+        'Startnr',
         'Navn',
         'Kusk',
         'Innsats',
@@ -180,7 +215,12 @@ function showRaceDetails(race, tableBody) {
     ];
     raceHeaderColumns.forEach(columnText => {
         const th = document.createElement('th');
+        th.classList.add('clickable');
         th.textContent = columnText;
+        th.addEventListener('click', () => {
+            // populateRaceData(columnText);
+            sortData(race, columnText, tableBody);
+        });
         raceHeaderRow.appendChild(th);
     })
     for (let i = 0; i < race.starts.length; i++) {
@@ -213,8 +253,10 @@ function showRaceDetails(race, tableBody) {
         });
         const tipInput = document.createElement('input');
         tipInput.setAttribute('type', 'text');
-        if (localData[race.raceNumber][raceHorse.startNumber] !== undefined) {
-            tipInput.value = localData[race.raceNumber][raceHorse.startNumber].ranks;
+        if (localData[race.raceNumber] !== undefined) {
+            if (localData[race.raceNumber][raceHorse.startNumber] !== undefined) {
+                tipInput.value = localData[race.raceNumber][raceHorse.startNumber].ranks;
+            }
         }
         tipInput.addEventListener('change', () => {
             localData[race.raceNumber] = localData[race.raceNumber] || {};
@@ -228,8 +270,10 @@ function showRaceDetails(race, tableBody) {
         tdTipInput.appendChild(tipInput);
         raceHorseRow.appendChild(tdTipInput);
         const tdScore = document.createElement('td');
-        if (localData[race.raceNumber][raceHorse.startNumber] !== undefined) {
-            tdScore.textContent = localData[race.raceNumber][raceHorse.startNumber].rank;;
+        if (localData[race.raceNumber] !== undefined) {
+            if (localData[race.raceNumber][raceHorse.startNumber] !== undefined) {
+                tdScore.textContent = localData[race.raceNumber][raceHorse.startNumber].rank;
+            }
         }
         else tdScore.textContent = '';
         raceHorseRow.appendChild(tdScore);
@@ -244,7 +288,7 @@ function hideRaceDetails(tableBody) {
 }
 
 function populateRaceData() {
-    raceTable.innerHtml = '';
+    raceTable.replaceChildren();
     for (let i = 0; i < raceData.length; i++) {
         const race = raceData[i];
         const tableBody = document.createElement('tbody');
