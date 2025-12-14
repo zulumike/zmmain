@@ -19,9 +19,16 @@ Må også kalkulere prisen.
 > Cors-problemer. Rikstoto svarer ikke ordentlig, så browser liker det ikke. 
 > Løsningen er at jeg flytter fetch av rikstoto data til egen api (proxy-api) istedenfor i frontend.
 > Commit
+> Kombinert data i raceData
+> Populerer disse i en utvidbar tabell. Klikke på løpsnummer, så kommer hestene opp.
+> Lagt til input-felt for hver hest, hvor man kan skrive inn rangeringer (f.eks 1,2,1 hvis den er tipset som første hest av to stk og andre-hest av 1)
+> Regner også ut en gjennomsnitt rangering.
+> Disse data lagres i localstorage med raceKey som ref.
+> Commit
 
-Neste blir å få samlet disse data til en tabell pr løp.
-Pluss legge til input for hver hest i løpene der jeg kan legge inn tips, samt egen rangering.
+
+Vurdere å legge til mer fleksibilitet. Pr nå så hentes innsatsfordeling kun for V75-løp ser det ut til.
+Det ligger i api-url. Mulig det finnes en annen mer generisk api-url?
 
 La systemet foreslå markeringer. Kanskje legge inn noen input (f.eks rekkepris, antall bankere, maks-min pris osv.)
 Systemet må kalkulere total-prisen. NB: bong-avgift.

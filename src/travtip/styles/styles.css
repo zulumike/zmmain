@@ -1,0 +1,45 @@
+.data-table {
+    /* border-collapse: collapse; */
+    /* border: 1px solid; */
+    min-width: 800px;
+    border-collapse: separate; /* Ensures borders don't collapse */
+    border-spacing: 0; /* Removes gaps between cells */
+    border: 1px solid #000; /* Table border */
+    border-radius: 10px; /* Rounds the corners */
+    overflow: hidden; /* Ensures content respects rounded corners */
+    margin-bottom: 2px;
+}
+
+.data-table th, .data-table td {
+    /* border: 1px solid; */
+    padding: 8px;
+    text-align: center;
+}
+
+/* .data-table th:nth-child(1) {
+    width: 10%;
+}
+.data-table th:nth-child(2) {
+    width: 40%;
+}
+.data-table th:nth-child(3) {
+    width: 20%;
+}
+.data-table th:nth-child(4) {
+    width: 20%;
+}
+.data-table td:nth-child(5) {
+    width: 10%;
+} */
+
+.table-main-header{
+    background-color: aqua;
+}
+
+.table-header {
+    background-color: beige;
+}
+
+.clickable {
+    cursor: pointer;
+}
