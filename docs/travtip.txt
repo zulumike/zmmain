@@ -15,6 +15,11 @@ Må også kalkulere prisen.
 > startlisten er i objekt-form, mens innsatsfordelingen er i array-form.
 > Commit
 
+* 14.12.2025
+> Cors-problemer. Rikstoto svarer ikke ordentlig, så browser liker det ikke. 
+> Løsningen er at jeg flytter fetch av rikstoto data til egen api (proxy-api) istedenfor i frontend.
+> Commit
+
 Neste blir å få samlet disse data til en tabell pr løp.
 Pluss legge til input for hver hest i løpene der jeg kan legge inn tips, samt egen rangering.
 

@@ -21,14 +21,14 @@ const raceDataDiv = document.getElementById('raceDataDiv');
 
 async function getRaceList() {
     try {
-        const response = await fetch(raceListUrl, {
+        const response = await fetch('http://localhost:7071/api/rikstoto?apiurl=' + raceListUrl, {
             method: 'get'
         })
         const result = await response.json();
-        if (!result.success) {
+        if (result.status > 300) {
             throw new Error(result.message);
         }
-        return result.result
+        return result;
     }
     catch (error) {
         console.error('Error fetching racelist! Error: ' + error);
@@ -42,41 +42,41 @@ async function getRaceList() {
 async function getStartList(raceKey) {
     const startsUrl = raceListUrl + '/' + raceKey + '/starts';
     try {
-        const response = await fetch(startsUrl, {
+        const response = await fetch('http://localhost:7071/api/rikstoto?apiurl=' + startsUrl, {
             method: 'get'
-        });
+        })
         const result = await response.json();
-         if (!result.success) {
+        if (result.status > 300) {
             throw new Error(result.message);
         }
-        return result.result
+        return result;
     }
     catch (error) {
-        console.error('Error fetching starts! Error: ' + error);
+        console.error('Error fetching startlist! Error: ' + error);
         return {
             status: 500,
-            body: 'Error fetching starts! Error: ' + error
+            body: 'Error fetching startlist! Error: ' + error
         }
     }
 }
 
 async function getBetDist(raceKey) {
-    const betDistUrl = gameurl + '/' + raceKey + '/betdistribution/investment/V75';
+    const betDistUrl = raceListUrl + '/' + raceKey + '/starts';
     try {
-        const response = await fetch(betDistUrl, {
+        const response = await fetch('http://localhost:7071/api/rikstoto?apiurl=' + betDistUrl, {
             method: 'get'
-        });
+        })
         const result = await response.json();
-         if (!result.success) {
+        if (result.status > 300) {
             throw new Error(result.message);
         }
-        return result.result
+        return result;
     }
     catch (error) {
-        console.error('Error fetching betting distribution! Error: ' + error);
+        console.error('Error fetching betlist! Error: ' + error);
         return {
             status: 500,
-            body: 'Error fetching betting distribution! Error: ' + error
+            body: 'Error fetching betlist! Error: ' + error
         }
     }
 }
