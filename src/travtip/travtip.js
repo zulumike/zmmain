@@ -1,4 +1,4 @@
-import { gameUrl, programUrl, raceListUrl } from "./scripts/config.js";
+import { gameUrl, programUrl, raceListUrl, apiUrl } from "./scripts/config.js";
 
 // let startList = [];
 // let betDistData = [];
@@ -45,7 +45,7 @@ function saveLocalData(raceKey) {
 
 async function getRaceList() {
     try {
-        const response = await fetch('http://localhost:7071/api/rikstoto?apiurl=' + raceListUrl, {
+        const response = await fetch(apiUrl + '?apiurl=' + raceListUrl, {
             method: 'get'
         })
         const result = await response.json();
@@ -66,7 +66,7 @@ async function getRaceList() {
 async function getStartList(raceKey) {
     const startsUrl = raceListUrl + '/' + raceKey + '/starts';
     try {
-        const response = await fetch('http://localhost:7071/api/rikstoto?apiurl=' + startsUrl, {
+        const response = await fetch(apiUrl + '?apiurl=' + startsUrl, {
             method: 'get'
         })
         const result = await response.json();
@@ -87,7 +87,7 @@ async function getStartList(raceKey) {
 async function getBetDist(raceKey) {
     const betDistUrl = gameUrl + '/' + raceKey + '/betdistribution/investment/V75';
     try {
-        const response = await fetch('http://localhost:7071/api/rikstoto?apiurl=' + betDistUrl, {
+        const response = await fetch(apiUrl + '?apiurl=' + betDistUrl, {
             method: 'get'
         })
         const result = await response.json();
@@ -108,7 +108,7 @@ async function getBetDist(raceKey) {
 async function getRaceProgram(raceKey, raceNumber) {
     const raceProgramUrl = programUrl + '/' + raceKey + '/V75/trot/' + raceNumber;
     try {
-        const response = await fetch('http://localhost:7071/api/rikstoto?apiurl=' + raceProgramUrl, {
+        const response = await fetch(apiUrl + '?apiurl=' + raceProgramUrl, {
             method: 'get'
         })
         const result = await response.json();

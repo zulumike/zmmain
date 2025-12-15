@@ -14,7 +14,7 @@ This repo has a dev container. This means if you open it inside a [GitHub Codesp
 * Installation:
 - Clone repo
 - Run swa build
-- Add local environmental values with func add
+- Add local environmental values with func settings add
 
 * Local run:
 - swa start
