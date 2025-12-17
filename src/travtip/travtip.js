@@ -38,7 +38,9 @@ const raceListOptions = document.getElementById('race-list');
 
 function getLocalData(raceKey) {
     const jsonData = localStorage.getItem(raceKey) || {};
-    localData = JSON.parse(jsonData);
+    if (jsonData.length > 0) {
+        localData = JSON.parse(jsonData);
+    }
 }
 
 function saveLocalData(raceKey) {
