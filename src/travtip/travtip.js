@@ -180,7 +180,6 @@ function calculateBettingCost() {
 }
 
 function sortData(race, column = 'Startnr', tableBody) {
-    console.log(column);
     if (column === 'Startnr') {
         race.starts.sort((a, b) => a.startNumber - b.startNumber);
     }
@@ -212,7 +211,9 @@ function sortData(race, column = 'Startnr', tableBody) {
 }
 
 function showRaceDetails(race, tableBody) {
-    tableBody.innerHTML = '';
+    while (tableBody.rows.length > 1) {
+        tableBody.deleteRow(1);
+    }
     const raceHeaderRow = tableBody.insertRow();
     const raceHeaderColumns = [
         'Startnr',
