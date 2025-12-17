@@ -158,8 +158,6 @@ function calculateScore(ranks) {
     horseRanks.forEach(score => {
         rankScore += Number(score);
     });
-    console.log(horseRanks);
-    console.log(rankScore);
     console.log(horseRanks.length);
     const rank = rankScore / horseRanks.length;
     return rank;
@@ -176,8 +174,10 @@ function calculateBettingCost() {
             if (localData[raceNr][horseNr].betted === true) {
                 currentRaceBets++;
             }
+            console.log(currentRaceBets);
         }
         totalBets = totalBets * currentRaceBets;
+        console.log(totalBets);
     }
 
 
