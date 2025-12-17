@@ -24,6 +24,7 @@ raceKeyInput.addEventListener('change', async (event) => {
     getLocalData(raceKey);
     combineRaceData(startList, betDistData, programData);
     populateRaceData();
+    calculateBettingCost();
 });
 
 const raceListOptions = document.getElementById('race-list');
@@ -174,7 +175,6 @@ function calculateBettingCost() {
             }
         }
         totalBets = totalBets * currentRaceBets;
-        console.log(totalBets);
     }
     costInfoElement.innerHTML = 'Antall rekker: ' + totalBets + ' | Kostnad (0,5 pr rekke): ' + totalBets * 0.5;
 }
@@ -355,7 +355,6 @@ function populateRaceData() {
 async function initiatePage() {
     const raceListData = await getRaceList();
     populateRaceListInput(raceListData);
-    calculateBettingCost();
 }
 
 initiatePage();
