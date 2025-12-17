@@ -165,34 +165,17 @@ function calculateScore(ranks) {
 
 function calculateBettingCost() {
     let totalBets = 0;
-    console.log(localData);
     for (const raceNr in localData) {
         let currentRaceBets = 0;
-        console.log(localData[raceNr]);
         for (const horseNr in localData[raceNr]) {
-            console.log(localData[raceNr][horseNr]);
             if (localData[raceNr][horseNr].betted === true) {
                 currentRaceBets++;
                 if (totalBets === 0) totalBets++;
             }
-            console.log(currentRaceBets);
         }
         totalBets = totalBets * currentRaceBets;
         console.log(totalBets);
     }
-
-
-    // for (let i = 0; i < localData.length; i++) {
-    //     let currentRaceBets = 0;
-    //     console.log(localData[i]);
-    //     for (let j = 0; j < localData[i].length; j++) {
-    //         console.log(localData[i][j]);
-    //         if (localData[i][j].betted === true) {
-    //             currentRaceBets++
-    //         }
-    //     }
-    //     totalBets = totalBets * currentRaceBets;
-    // }
     costInfoElement.innerHTML = 'Antall rekker: ' + totalBets + ' | Kostnad (0,5 pr rekke): ' + totalBets * 0.5;
 }
 
@@ -372,6 +355,7 @@ function populateRaceData() {
 async function initiatePage() {
     const raceListData = await getRaceList();
     populateRaceListInput(raceListData);
+    calculateBettingCost();
 }
 
 initiatePage();

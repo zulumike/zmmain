@@ -1,3 +1,11 @@
+main {
+    margin: 5px;
+}
+
+#raceListForm {
+    max-width: 300;
+}
+
 .data-table {
     /* border-collapse: collapse; */
     /* border: 1px solid; */
@@ -11,8 +19,8 @@
 }
 
 .data-table th, .data-table td {
-    /* border: 1px solid; */
-    padding: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
     text-align: center;
 }
 
