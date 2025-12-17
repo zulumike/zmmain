@@ -28,6 +28,14 @@ Må også kalkulere prisen.
 > Lagt til sortering som aktiveres ved å klikke på kolonneheadere.
 > Commit
 
+* 17.12.2025
+> La til felt for å markere hest. Lagres i localstorage
+> Commit
+> La til funksjon for å regne ut antall rekker og pris
+> Commit
+
+
+
 Vurdere å legge til mer fleksibilitet. Pr nå så hentes innsatsfordeling kun for V75-løp ser det ut til.
 Det ligger i api-url. Mulig det finnes en annen mer generisk api-url?
 

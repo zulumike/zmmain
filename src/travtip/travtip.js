@@ -163,6 +163,20 @@ function calculateScore(ranks) {
     return rank;
 }
 
+function calculateBettingCost() {
+    let totalBets = 0;
+    for (let i = 0; i < localData.length; i++) {
+        let currentRaceBets = 0;
+        for (let j = 0; j < localData[i].length; j++) {
+            if (localData[i][j].betted === true) {
+                currentRaceBets++
+            }
+        }
+        totalBets = totalBets * currentRaceBets;
+    }
+    costInfoElement.innerHTML = 'Antall rekker: ' + totalBets + ' | Kostnad (0,5 pr rekke): ' + totalBets * 0.5;
+}
+
 function sortData(race, column = 'Startnr', tableBody) {
     console.log(column);
     if (column === 'Startnr') {
@@ -292,6 +306,7 @@ function showRaceDetails(race, tableBody) {
                 betted: horseBettedInput.checked
             }
             saveLocalData(race.raceKey.split('#')[0]);
+            calculateBettingCost();
         })
         const tdHorseBettedInput = createElement('td');
         tdHorseBettedInput.appendChild(horseBettedInput);
