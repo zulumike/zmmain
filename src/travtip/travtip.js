@@ -173,7 +173,7 @@ function calculateBettingCost() {
         console.log(localData[raceNr]);
         for (const horseNr in localData[raceNr]) {
             console.log(localData[raceNr][horseNr]);
-            if (localData[raceNr][horseNr].betting === true) {
+            if (localData[raceNr][horseNr].betted === true) {
                 currentRaceBets++;
             }
         }
