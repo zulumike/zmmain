@@ -169,7 +169,9 @@ function calculateBettingCost() {
     let totalBets = 0;
     for (let i = 0; i < localData.length; i++) {
         let currentRaceBets = 0;
+        console.log(localData[i]);
         for (let j = 0; j < localData[i].length; j++) {
+            console.log(localData[i][j]);
             if (localData[i][j].betted === true) {
                 currentRaceBets++
             }
