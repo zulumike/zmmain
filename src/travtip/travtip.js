@@ -322,7 +322,7 @@ function showRaceDetails(race, tableBody) {
         }
         horseBettedInput.addEventListener('change', () => {
             localData[race.raceNumber] = localData[race.raceNumber] || {};
-            localData[race.raceNumber][startNumber] = localData[race.raceNumber][startNumber] || {};
+            localData[race.raceNumber][raceHorse.startNumber] = localData[race.raceNumber][raceHorse.startNumber] || {};
             localData[race.raceNumber][raceHorse.startNumber].betted = horseBettedInput.checked
             saveLocalData(race.raceKey.split('#')[0]);
             calculateBettingCost();
