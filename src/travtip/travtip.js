@@ -311,7 +311,7 @@ function showRaceDetails(race, tableBody) {
             saveLocalData(race.raceKey.split('#')[0]);
             calculateBettingCost();
         })
-        const tdHorseBettedInput = createElement('td');
+        const tdHorseBettedInput = document.createElement('td');
         tdHorseBettedInput.appendChild(horseBettedInput);
         raceHorseRow.appendChild(tdHorseBettedInput);
     }
