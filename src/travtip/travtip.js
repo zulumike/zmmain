@@ -5,6 +5,8 @@ import { gameUrl, programUrl, raceListUrl, apiUrl } from "./scripts/config.js";
 let raceData = [];
 let localData = {};
 
+const costInfoElement = document.getElementById('costInfo');
+
 const raceInfoHTab = document.getElementById('raceInfo');
 const raceTable = document.getElementById('raceDataTable')
 
@@ -277,6 +279,23 @@ function showRaceDetails(race, tableBody) {
         }
         else tdScore.textContent = '';
         raceHorseRow.appendChild(tdScore);
+        const horseBettedInput = document.createElement('input');
+        horseBettedInput.setAttribute('type', 'checkbox');
+        if (localData[race.raceNumber] !== undefined) {
+            if (localData[race.raceNumber][raceHorse.startNumber] !== undefined) {
+                horseBettedInput.checked = localData[race.raceNumber][raceHorse.startNumber].betted || false;
+            }
+        }
+        horseBettedInput.addEventListener('change', () => {
+            localData[race.raceNumber] = localData[race.raceNumber] || {};
+            localData[race.raceNumber][raceHorse.startNumber] = {
+                betted: horseBettedInput.checked
+            }
+            saveLocalData(race.raceKey.split('#')[0]);
+        })
+        const tdHorseBettedInput = createElement('td');
+        tdHorseBettedInput.appendChild(horseBettedInput);
+        raceHorseRow.appendChild(tdHorseBettedInput);
     }
 }
 
