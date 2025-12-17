@@ -167,6 +167,7 @@ function calculateScore(ranks) {
 
 function calculateBettingCost() {
     let totalBets = 0;
+    console.log(localData);
     for (let i = 0; i < localData.length; i++) {
         let currentRaceBets = 0;
         console.log(localData[i]);
@@ -276,7 +277,7 @@ function showRaceDetails(race, tableBody) {
         tipInput.setAttribute('type', 'text');
         if (localData[race.raceNumber] !== undefined) {
             if (localData[race.raceNumber][raceHorse.startNumber] !== undefined) {
-                tipInput.value = localData[race.raceNumber][raceHorse.startNumber].ranks;
+                tipInput.value = localData[race.raceNumber][raceHorse.startNumber].ranks || '';
             }
         }
         tipInput.addEventListener('change', () => {
@@ -293,7 +294,7 @@ function showRaceDetails(race, tableBody) {
         const tdScore = document.createElement('td');
         if (localData[race.raceNumber] !== undefined) {
             if (localData[race.raceNumber][raceHorse.startNumber] !== undefined) {
-                tdScore.textContent = localData[race.raceNumber][raceHorse.startNumber].rank;
+                tdScore.textContent = localData[race.raceNumber][raceHorse.startNumber].rank || '';
             }
         }
         else tdScore.textContent = '';
@@ -307,9 +308,7 @@ function showRaceDetails(race, tableBody) {
         }
         horseBettedInput.addEventListener('change', () => {
             localData[race.raceNumber] = localData[race.raceNumber] || {};
-            localData[race.raceNumber][raceHorse.startNumber] = {
-                betted: horseBettedInput.checked
-            }
+            localData[race.raceNumber][raceHorse.startNumber].betted = horseBettedInput.checked
             saveLocalData(race.raceKey.split('#')[0]);
             calculateBettingCost();
         })
