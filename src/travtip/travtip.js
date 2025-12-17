@@ -229,7 +229,8 @@ function showRaceDetails(race, tableBody) {
         'Sko',
         'Sulky',
         'Tips',
-        'Rangering'
+        'Rangering',
+        'Markering'
     ];
     raceHeaderColumns.forEach(columnText => {
         const th = document.createElement('th');
