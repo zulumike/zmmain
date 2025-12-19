@@ -159,7 +159,6 @@ function calculateScore(ranks) {
     horseRanks.forEach(score => {
         rankScore += Number(score);
     });
-    console.log(horseRanks.length);
     const rank = rankScore / horseRanks.length;
     return rank;
 }
@@ -174,7 +173,9 @@ function calculateBettingCost() {
                 if (totalBets === 0) totalBets++;
             }
         }
-        totalBets = totalBets * currentRaceBets;
+        if (currentRaceBets > 0) {
+            totalBets = totalBets * currentRaceBets;
+        }
     }
     costInfoElement.innerHTML = 'Antall rekker: ' + totalBets + ' | Kostnad (0,5 pr rekke): ' + totalBets * 0.5;
 }
