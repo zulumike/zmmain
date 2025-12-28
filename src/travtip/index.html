@@ -19,6 +19,8 @@
     <main>
         <div>
             <form id="raceListForm" action="#" method="post">
+                <input type="text" id="raceType" value="V75">
+                <input type="text" id="raceStartNumber" value="4">
                 <input type="text" id="raceKey" list="race-list" autocomplete="off" placeholder="Velg løpsdag" required>
                 <datalist id="race-list"></datalist>
             </form>
@@ -44,6 +46,7 @@
             </table>
         </div>
         <div id="showMessage" role="status" aria-live="polite"></div>
+        <div id="horseDetails"></div>
     </main>
 
     <script src="./scripts/nav.js"></script>

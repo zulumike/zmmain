@@ -5,6 +5,12 @@ import { gameUrl, programUrl, raceListUrl, apiUrl } from "./scripts/config.js";
 let raceData = [];
 let localData = {};
 
+const raceTypeInput = document.getElementById('raceType');
+let raceType = raceTypeInput.value;
+
+const raceStartNumberInput = document.getElementById('raceStartNumber');
+let raceStartNumber = raceStartNumberInput.value;
+
 const costInfoElement = document.getElementById('costInfo');
 
 const raceInfoHTab = document.getElementById('raceInfo');
@@ -14,13 +20,15 @@ const raceKeyInput = document.getElementById('raceKey');
 raceKeyInput.addEventListener('change', async (event) => {
     event.preventDefault();
     raceData = [];
+    raceType = raceTypeInput.value;
+    raceStartNumber = raceStartNumberInput.value;
     const selected = raceKeyInput.value;
     raceKeyInput.value = '';
     raceInfoHTab.innerHTML = selected.split('#')[0];
     const raceKey = selected.split('#')[1];
     const startList = await getStartList(raceKey);
     const betDistData = await getBetDist(raceKey);
-    const programData = await getRaceProgram(raceKey, 4);
+    const programData = await getRaceProgram(raceKey);
     getLocalData(raceKey);
     combineRaceData(startList, betDistData, programData);
     populateRaceData();
@@ -28,6 +36,8 @@ raceKeyInput.addEventListener('change', async (event) => {
 });
 
 const raceListOptions = document.getElementById('race-list');
+
+const horseDetailsDiv = document.getElementById('horseDetails');
 
 // const sortColumnInput = document.getElementById('sortColumn');
 // sortColumnInput.addEventListener('change', () => {
@@ -38,14 +48,14 @@ const raceListOptions = document.getElementById('race-list');
 // const sortColumnList = document.getElementById('column-list');
 
 function getLocalData(raceKey) {
-    const jsonData = localStorage.getItem(raceKey) || {};
+    const jsonData = localStorage.getItem(raceKey + raceType) || {};
     if (jsonData.length > 0) {
         localData = JSON.parse(jsonData);
     }
 }
 
 function saveLocalData(raceKey) {
-    localStorage.setItem(raceKey, JSON.stringify(localData));
+    localStorage.setItem(raceKey + raceType, JSON.stringify(localData));
 }
 
 async function getRaceList() {
@@ -90,7 +100,8 @@ async function getStartList(raceKey) {
 }
 
 async function getBetDist(raceKey) {
-    const betDistUrl = gameUrl + '/' + raceKey + '/betdistribution/investment/V75';
+    let betDistUrl = '';
+    betDistUrl = gameUrl + '/' + raceKey + '/betdistribution/investment/' + raceType;
     try {
         const response = await fetch(apiUrl + '?apiurl=' + betDistUrl, {
             method: 'get'
@@ -110,8 +121,9 @@ async function getBetDist(raceKey) {
     }
 }
 
-async function getRaceProgram(raceKey, raceNumber) {
-    const raceProgramUrl = programUrl + '/' + raceKey + '/V75/trot/' + raceNumber;
+async function getRaceProgram(raceKey) {
+    let raceProgramUrl = '';
+    raceProgramUrl = programUrl + '/' + raceKey + '/' + raceType + '/trot/' + raceStartNumber;
     try {
         const response = await fetch(apiUrl + '?apiurl=' + raceProgramUrl, {
             method: 'get'
@@ -132,13 +144,24 @@ async function getRaceProgram(raceKey, raceNumber) {
 }
 
 function combineRaceData(startList, betDistData, programData) {
+    console.log(betDistData);
     for (let i = 0; i < programData.length; i++) {
         raceData.push(programData[i]);
         for (let j = 0; j < programData[i].starts.length; j++) {
             raceData[i].starts[j].isScratched = startList[raceData[i].raceNumber][j].isScratched;
         }
-        for (let j = 0; j < betDistData[i].investmentDistribution.length; j++) {
-            raceData[i].starts[j].investmentData = betDistData[i].investmentDistribution[j];
+        for (let j = 0; j < raceData[i].starts.length; j++) {
+            for (let k = 0; k < betDistData[i].investmentDistribution.length; k++) {
+                if (raceData[i].starts[j].startNumber === betDistData[i].investmentDistribution[k].startNumber) {
+                    raceData[i].starts[j].investmentData = betDistData[i].investmentDistribution[k];
+                    break;
+                }
+                else {
+                    raceData[i].starts[j].investmentData = {
+                        percentage: 'na'
+                    }
+                }
+            }
         }
     }
 }
@@ -211,6 +234,13 @@ function sortData(race, column = 'Startnr', tableBody) {
     showRaceDetails(race, tableBody)
 }
 
+function showHorseDetails(horse) {
+    horseDetailsDiv.replaceChildren();
+    const horseDetailsPre = document.createElement('pre');
+    horseDetailsPre.textContent = JSON.stringify(horse, null, 2);
+    horseDetailsDiv.appendChild(horseDetailsPre);
+}
+
 function showRaceDetails(race, tableBody) {
     while (tableBody.rows.length > 1) {
         tableBody.deleteRow(1);
@@ -267,9 +297,18 @@ function showRaceDetails(race, tableBody) {
             horseShoes,
             sulky
         ];
+        if (raceHorse.isScratched) {
+            raceHorseRow.classList.add('scratched');
+        }
         raceHorseColumns.forEach(columnText => {
             const td = document.createElement('td');
             td.textContent = columnText;
+            if (columnText === raceHorse.horseName) {
+                td.classList.add('clickable');
+                td.addEventListener('click', () => {
+                    showHorseDetails(raceHorse);
+                });
+            }
             raceHorseRow.appendChild(td);
         });
         const tipInput = document.createElement('input');
@@ -333,8 +372,8 @@ function populateRaceData() {
         raceTable.appendChild(tableBody);
         const raceRow = document.createElement('tr');
         raceRow.classList.add('table-header', 'clickable');
-        const v75Number = race.raceNumber - 3;
-        const raceNumber = 'V75-' + v75Number + ' (' + race.raceNumber + ')';
+        const DivNumber = race.raceNumber - parseInt(raceStartNumber) + 1;
+        const raceNumber = raceType + '-' + DivNumber + ' (' + race.raceNumber + ')';
         const raceRowColumns = [raceNumber, race.distance, race.startMethod, (race.isMonte) ? 'Ja' :'Nei'];
         raceRowColumns.forEach(columnText => {
             const th = document.createElement('th');

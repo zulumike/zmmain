@@ -34,6 +34,13 @@ Må også kalkulere prisen.
 > La til funksjon for å regne ut antall rekker og pris
 > Commit
 
+* 28.12.2025
+> Lagt til mulighet for å trykke på hestenavn og få opp mer informasjon. Foreløpig i json-format nederst.
+> Ordnet slik at strøket hest vises som strøket
+> Ordnet slik at man selv kan legge inn Type løp (V75, V85, V65, V5A) og sette hvilket løpsnr som er først i avdelingen.
+> Dette fordi min api-løsning trenger denne info for å hente riktig løpsinfo
+> Commit
+
 
 
 Vurdere å legge til mer fleksibilitet. Pr nå så hentes innsatsfordeling kun for V75-løp ser det ut til.
