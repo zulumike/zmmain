@@ -39,14 +39,6 @@ const raceListOptions = document.getElementById('race-list');
 
 const horseDetailsDiv = document.getElementById('horseDetails');
 
-// const sortColumnInput = document.getElementById('sortColumn');
-// sortColumnInput.addEventListener('change', () => {
-//     const sortByColumn = sortColumnInput.value;
-//     sortColumnInput.value = '';
-// })
-
-// const sortColumnList = document.getElementById('column-list');
-
 function getLocalData(raceKey) {
     const jsonData = localStorage.getItem(raceKey + raceType) || {};
     if (jsonData.length > 0) {
