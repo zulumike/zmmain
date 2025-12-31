@@ -37,6 +37,9 @@ raceKeyInput.addEventListener('change', async (event) => {
 
 const raceListOptions = document.getElementById('race-list');
 
+const showBettingsButton = document.getElementById('showBetting');
+showBettingsButton.addEventListener('click', showBettings);
+
 const horseDetailsDiv = document.getElementById('horseDetails');
 
 function getLocalData(raceKey) {
@@ -136,7 +139,6 @@ async function getRaceProgram(raceKey) {
 }
 
 function combineRaceData(startList, betDistData, programData) {
-    console.log(betDistData);
     for (let i = 0; i < programData.length; i++) {
         raceData.push(programData[i]);
         for (let j = 0; j < programData[i].starts.length; j++) {
@@ -383,6 +385,30 @@ function populateRaceData() {
         })
     }
 
+}
+
+function showBettings() {
+    horseDetailsDiv.replaceChildren();
+    for (const raceNr in localData) {
+        const raceBettingDiv = document.createElement('div');
+        const raceBettingHeader = document.createElement('h3');
+        horseDetailsDiv.appendChild(raceBettingDiv);
+        raceBettingDiv.appendChild(raceBettingHeader);
+        raceBettingHeader.textContent = 'Løp '+ raceNr;
+        let raceBettingText = 'Markeringer: ';
+        let markingAmount = 0;
+        for (const horseNr in localData[raceNr]) {
+            const horseBetting = localData[raceNr][horseNr];
+            if (horseBetting.betted) {
+                if (markingAmount > 0) raceBettingText += ',';
+                raceBettingText += horseNr + ' ';
+                markingAmount++;
+            }
+        }
+        const raceBettingP = document.createElement('p');
+        raceBettingP.textContent = raceBettingText + '- Antall markeringer: ' + markingAmount;
+        raceBettingDiv.appendChild(raceBettingP);
+    }
 }
 
 async function initiatePage() {
