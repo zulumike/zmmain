@@ -1,4 +1,4 @@
-import { createCost } from "../../scripts/dbfunctions.js";
+import { createCost } from "../scripts/dbfunctions.js";
 import { loaderOn, loaderOff } from "../../scripts/functions.js";
 
 const documentForm = document.getElementById("documentform");
