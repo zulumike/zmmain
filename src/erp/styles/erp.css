@@ -4,7 +4,7 @@
     margin: 10px;
 }
 
-.orderinfodiv, .customerinfodiv, .productinfodiv, .costinfodiv, .invoiceinfodiv {
+.orderinfodiv, .customerinfodiv, .productinfodiv, .costinfodiv, .invoiceinfodiv, .companyinfodiv {
     display: flex;
     margin: 10px;
     border-radius: var(--stdborderradius);
@@ -80,4 +80,18 @@
     display: block;
     width: auto;
     font-size: var(--smallfontsize);
+}
+
+#accountPlanDiv {
+    margin-left: 50px;
+    /* margin-top: 10px; */
+    /* max-height: 300px; */
+    overflow-y: auto;
+    border: 1px solid var(--stdbordercolor);
+    border-radius: var(--stdborderradius);
+    padding: 10px;
+}
+
+.clickable:hover{ 
+    cursor: pointer;
 }

@@ -294,8 +294,18 @@ const gql = `
 > La til lagre og lukk på editinvoice. 
 > Commit
 
-Neste:  Legge til informasjon om faktura er bokført.
-        Forbedre flyt. f.eks at når lagre, så blir ikke vindu lukket, evt. legge til lagre og lukk. Også en tilbakeknapp fra rapport-side
+* 01.01.2025
+> La til side for regnskapstall
+> Input for årstall
+> Henter kontolisten fra company-db
+> Henter alle bilag fra costs
+> Går gjennom alle bilag, filtrerer ut riktig årstall og summerer
+> Presenterer omsetning, kostnader og resultat.
+> Commit
+> Fikset admin-siden slik at man der kan redigere firma-opplysninger, nr-serier og kontoplan
+> Commit
+
+Må vel vurdere å lage til en funksjon som initielt fyller company-db med dummy-data
 
 Bør legge til try/catch i dbfunctions for å kunne formidle feil istedenfor at programmet blir stående med loader
 
@@ -305,4 +315,3 @@ Og kanskje knytte company til customer (og andre registre senere). Sette en egen
 Må da sørge for unike id på alle registre på et vis....
 
 På customeredit, så kan det være greit å ha mulighet for å se ordrer, faktura og noen nøkkeltall etterhvert
-Pluss kunne ta ut regnskapstall for firma

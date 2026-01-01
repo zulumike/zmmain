@@ -7,6 +7,7 @@ navTemplate.innerHTML = `
         <li id="navorders"><a href="/erp/orders/orderlist.html">Ordrer</a></li>
         <li id="navinvoices"><a href="/erp/invoices/invoicelist.html">Faktura</a></li>
         <li id="navcosts"><a href="/erp/costs/costlist.html">Bilag</a></li>
+        <li id="navstats"><a href="/erp/stats/stats.html">Regnskapstall</a></li>
         <li id="navadmin"><a href="/erp/admin/admin.html">Admin</a></li>
         <li id="navlogout"><a href="/.auth/logout">Logg ut</a></li>
     </ul>
@@ -26,7 +27,8 @@ else if (currentUrl.search("products") > 0) document.getElementById('navproducts
 else if (currentUrl.search("orders") > 0) document.getElementById('navorders').classList = ['nav-link-active']
 else if (currentUrl.search("invoices") > 0) document.getElementById('navinvoices').classList = ['nav-link-active']
 else if (currentUrl.search("costs") > 0) document.getElementById('navcosts').classList = ['nav-link-active']
-else if (currentUrl.search("admin") > 0) document.getElementById('navcosts').classList = ['nav-link-active']
+else if (currentUrl.search("stats") > 0) document.getElementById('navstats').classList = ['nav-link-active']
+else if (currentUrl.search("admin") > 0) document.getElementById('navadmin').classList = ['nav-link-active']
 else document.getElementById('navhome').classList = ['nav-link-active'];
 
 // const burger = document.querySelector('.burger');

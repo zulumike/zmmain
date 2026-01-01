@@ -19,7 +19,7 @@
         <script src="../scripts/nav.js"></script>
         <main>
             <div class="main-div">
-                <div class="companyinfodiv">
+                <div class="customerinfodiv">
                     <form id="documentform">
                         <label for="name">Kundenavn: </label>
                         <input type="text" id="name" name="name" required autofocus>
@@ -40,30 +40,6 @@
                         <input type="submit" value="Lagre">
                         <input type="button" value="Avbryt" onclick="window.location.reload()">
                     </form>
-                    <h2>Nummerserier (siste brukte nr): </h2>
-                    <form id="nrSeriesForm">
-                        <label for="customerNr">Kundenr: </label>
-                        <input type="number" id="customer" name="customer">
-                        <label for="orderNr">Ordrenr: </label>
-                        <input type="number" id="order" name="order">
-                        <label for="invoiceNr">Fakturanr: </label>
-                        <input type="number" id="invoice" name="invoice">
-                        <label for="costs">Bilag: </label>
-                        <input type="number" id="cost" name="cost">
-                        <input type="submit" value="Lagre">
-                    </form>
-                </div>
-                <div class="companyinfodiv">
-                    <form id="newAccountForm">
-                        <label for="accountNr">Kontonr: </label>
-                        <input type="number" id="accountNr" name="accountNr" required>
-                        <label for="accountName">Kontonavn: </label>
-                        <input type="text" id="accountName" name="accountName" required>
-                        <input type="submit" value="Legg til konto">
-                    </form>
-                    <div id="accountPlanDiv">
-                        <h3>Eksisterende kontoplan:</h3>
-                    </div>
                 </div>
             </div>
             <script type="module" src="admin.js"></script>

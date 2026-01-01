@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="no">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settem Maskin</title>
+    <link rel="stylesheet" type="text/css" href="../styles/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../../styles/general.css" />
+    <link rel="stylesheet" type="text/css" href="../styles/erp.css" />
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <div class="burger">
+                    <h1>Resultat</h1>
+                </div>
+            </nav>
+        </header>
+        <script src="../scripts/nav.js"></script>
+        <main>
+            <div class="main-div">
+                <div>
+                    <input type="number" id="statYear" placeholder="YYYY"/>
+                    <button id="loadStatsBtn">Last statistikk</button>
+                </div>
+                <br>
+                <div id="salesDiv">
+                </div>
+                <br>
+                <div id="costsDiv">
+                </div>
+                <br>
+                <div id="profitDiv">
+                </div>
+            </div> 
+            <script type="module" src="stats.js"></script>
+        </main>
+  </body>
+</html>

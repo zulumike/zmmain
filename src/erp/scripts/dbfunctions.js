@@ -22,6 +22,11 @@ export async function getCompany(id) {
   }
 
   export async function updateCompany(id, data) {
+    const timeNow = new Date();
+    data.updated = timeNow;
+    const currentUser = await getUserInfo();
+    data.updated_by = currentUser.userDetails;
+    data.id = id;
     const endpoint = companyEndpoint + '&id=' + id;
     const res = await fetch(endpoint, {
       method: "PUT",
@@ -161,7 +166,6 @@ export async function updateCustomer(id, data) {
 export async function createCustomer(data) {
 
     const company = await getCompany('1');
-    console.log(company);
     company.nrSeries.customer++
     data.id = company.nrSeries.customer.toString();
     const timeNow = new Date();
