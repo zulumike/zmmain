@@ -26,6 +26,14 @@
 > Laget funksjon for å laste ned matvareliste og grupper (kategorier) fra matvaretabellen
 > Commit
 
+* 03.01.2026
+> Ordnet datalist på input for vare og kategorien
+> Kategori fylles ut automatisk basert på vare hvis mulig.
+> Ordnet input for butikkvalg.
+> Systemet legger til butikk 0: Generell.
+> Ordnet lagring av sist brukte verdier. Foreløpig kun butikk-valg. Trengs vel ikke mer heller.
+> Commit
+
 Må huske å oppgi matvaretabellen som kilde et sted.
 
 Ide for butikk og valg av rekkefølge.

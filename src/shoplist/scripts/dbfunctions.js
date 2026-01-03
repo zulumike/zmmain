@@ -5,7 +5,10 @@ function generateId() {
 
 export async function addSingleItem(container, item) {
     const items = JSON.parse(localStorage.getItem(container)) || [];
-    item.id = generateId();
+    console.log(item.id);
+    if (item.id.length < 1 || item.id === undefined) {
+        item.id = generateId();
+    }
     items.push(item);
     try {
         localStorage.setItem(container, JSON.stringify(items))
@@ -38,7 +41,7 @@ export async function getSingleItem(container, itemId) {
             }
         }
         if (!itemFound) {
-            throw new Error('Item not found');
+            return { status: 404, body: 'Item not found' };
         }
     }
     catch (error) {
@@ -71,7 +74,7 @@ export async function updateItem(container, item) {
             }
         }
         if (!itemFound) {
-            throw new Error('Item not found');
+            return { status: 404, body: 'Item not found' };
         }
         localStorage.setItem(container, JSON.stringify(items))
         return { status: 200, body: 'Item successfully updated'}
@@ -139,11 +142,11 @@ export async function getFoodCategories() {
     try {
         const categoriesJson = await fetch('https://www.matvaretabellen.no/api/nb/food-groups.json');
         const categories = await categoriesJson.json();
-        let maincategories = [];
+        let maincategories = {};
         for (let i = 0; i < categories.foodGroups.length; i++) {
             const category = categories.foodGroups[i];
             if (!category.foodGroupId.includes('.')) {
-                maincategories.push(category.name);
+                maincategories[category.foodGroupId] = { name: category.name };
             }
         }
         return { status: 200, body: maincategories }
