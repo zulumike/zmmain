@@ -30,7 +30,6 @@ selectedStoreInput.addEventListener('change', async () => {
 const itemForm = document.getElementById('itemForm');
 const itemNameInput = document.getElementById('itemName');
 itemNameInput.addEventListener('change', () => {
-    console.log('Item name changed to: ' + itemNameInput.value);
     const foodIndex = itemNameInput.value.split('#')[1];
     if (foodIndex === undefined) {
         return;
@@ -70,7 +69,6 @@ itemForm.addEventListener('submit', async (e) => {
     stores[selectedStoreIndex].shopList = stores[selectedStoreIndex].shopList || [];
     stores[selectedStoreIndex].shopList.push(newItem);
     const updateResponse = await dbFunction.updateItem(config.storeContainer, stores[selectedStoreIndex]);
-    console.log(updateResponse);
     if (updateResponse.status !== 200) {
         functions.showMessage('Feil ved lagring av vare. Feil: ' + updateResponse.body, true, 7000);
         console.log('Feil ved lagring av vare. Feil: ' + updateResponse.body);
@@ -121,11 +119,15 @@ async function populateShopList() {
     }
     const sortedShopList = [];
     const uncategorizedItems = [];
-
-    for (let category in foodCategories) {
+    console.log(currentStore.categories);
+    // for (let category in foodCategories) {
+    for (let i = 0; i < currentStore.categories.length; i++) {
+        // const category = currentStore.categories[i].id;
+        const category = currentStore.categories[i];
         for (let j = 0; j < currentStore.shopList.length; j++) {
             const item = currentStore.shopList[j];
-            if (item.category === foodCategories[category].name) {
+            // if (item.category === foodCategories[category].name) {
+            if (item.category === category.name) {
                 sortedShopList.push(item);
             }
         }

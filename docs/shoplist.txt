@@ -45,6 +45,10 @@
 > Kryss i sorteringslisten (på butikk), som sier om man vil ha med kategorier fra matvaretabellen eller ikke.
 > Måtte rette opp litt for å få funksjonen der til å fungere igjen.
 > Commit.
+> Litt tull med kategorier. De gir ikke riktig rekkefølge i handlelisten
+> Handlelisten gikk etter feil array/objekt, fikk fikset det.
+> Også feil i kategori-rekkefølge. kategorier forsvant ikke fra listen når de ble valgt. Rettet dette.
+> Commit
 
 Må huske å oppgi matvaretabellen som kilde et sted.
 

@@ -4,6 +4,8 @@ import * as config from "./scripts/config.js";
 
 const categoryList = document.getElementById('categoryList');
 const orderedList = document.getElementById('orderedList');
+let store = {};
+let allCategories = [];
 
 let defaultValues = {};
 const defaultValuesResponse = await dbFunction.getSingleItem(config.defaultValuesContainer, 0);
@@ -26,8 +28,19 @@ foodFromMatvareTblCheckbox.addEventListener('change', async () => {
 
 async function loadCategories() {
     categoryList.innerHTML = '';
-
-    let availableCategories = allCategories.filter(cat => !store.categories.includes(cat));
+    let availableCategories = [];
+    for (let i = 0; i < allCategories.length; i++) {
+        let foundInStore = false;
+        for (let j = 0; j < store.categories.length; j++) {
+            if (allCategories[i].id === store.categories[j].id) {
+                foundInStore = true;
+                break;
+            }
+        }
+        if (!foundInStore) {
+            availableCategories.push(allCategories[i]);
+        }
+    }
     for (let i = 0; i < availableCategories.length; i++) {
         const category = availableCategories[i];
         const li = document.createElement('li');
@@ -110,21 +123,22 @@ async function getExternalCategories() {
     }
 }
 
-// const currentUrl = window.location.href;
-const urlParams = new URLSearchParams(window.location.search);
-const storeId = urlParams.get('storeId');
-const storeResponse = await dbFunction.getSingleItem(config.storeContainer, storeId);
-    if (storeResponse.status !== 200) {
-        functions.showMessage('Feil ved lesing av Butikk. Feil: ' + storeResponse.body, true, 7000);
-        console.log('Feil ved lesing av Butikk. Feil: ' + storeResponse.body);    
-    };
-const store = storeResponse.body;
-let allCategories = [];
-await getLocalCategories();
-if (defaultValues.useCatFromMat) {
-    foodFromMatvareTblCheckbox.checked = true;
-    await getExternalCategories();
+async function initPage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const storeId = urlParams.get('storeId');
+    const storeResponse = await dbFunction.getSingleItem(config.storeContainer, storeId);
+        if (storeResponse.status !== 200) {
+            functions.showMessage('Feil ved lesing av Butikk. Feil: ' + storeResponse.body, true, 7000);
+            console.log('Feil ved lesing av Butikk. Feil: ' + storeResponse.body);    
+        };
+    store = storeResponse.body;
+    await getLocalCategories();
+    if (defaultValues.useCatFromMat) {
+        foodFromMatvareTblCheckbox.checked = true;
+        await getExternalCategories();
+    }
+    await loadCategories();
+    await loadOrderedList();
 }
 
-loadCategories();
-loadOrderedList();
+initPage();
