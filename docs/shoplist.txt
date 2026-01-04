@@ -51,6 +51,23 @@
 > Commit
 > Lagt på funksjon og symbol for legge i handlekurv og slette.
 > Commit
+> Opprettet database shoplist og containerne accounts og stores.
+> I accounts så opprettes kontoer som inneholder kontonavn og brukere
+> I Stores ligger alle butikker. Hver butikk må ha knytning mot konto. Så en og samme butikk kan ligge mange ganger, men knyttet mot forskjellige kontoer.
+> Opprettet api for shoplistdb, Stort sett kopiert fra erp api.
+> Opprettet funksjoner i dbfunctions. Stort sett kopiert fra erp.
+> Starter med å tilpasse createItem funksjonen.
+> createItem og updateItem fungerer nå.
+> Lagt inn funksjon i index.js for å kalle opp updateItem hvis livemode og activeAccount.
+> Hvis updateItem returnerer med ikke funnet, så kjøres createItem.
+> Laget et intervall som startes hvis livemode er på.
+> Commit
+
+Gjenstår å fullføre funksjonen loadStoreFromDB
+
+Intervall må ikke kjøres hvis ikke active Account.. Vurdere sjekke dette 
+
+ Kan godt legge til en egenskap på hver butikk om de skal kunne være "global", slik at andre brukere kan kopiere (alt unntatt selve handlelisten naturligvis)
 
 Må huske å oppgi matvaretabellen som kilde et sted.
 

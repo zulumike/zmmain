@@ -1,6 +1,22 @@
 import * as dbFunction from '../shoplist/scripts/dbfunctions.js';
 import * as functions from '../scripts/functions.js';
 import * as config from './scripts/config.js';
+import { getUserInfo } from '../scripts/auth.js';
+
+
+const accounts = await dbFunction.readAllItemsDB('accounts');
+const activeUser = await getUserInfo();
+let activeAccount = undefined;
+
+for (let i = 0; i < accounts.length; i++) {
+    const account = accounts[i];
+    for (let j = 0; j < account.users.length; j++) {
+        const user = account.users[j];
+        if (user.email === activeUser.userDetails) {
+            activeAccount = account;
+        }
+    }
+}
 
 let foods = [];
 let foodCategories = [];
@@ -10,6 +26,18 @@ const shopdefaultvalues = {
     defaultStoreId: 0
 };
 
+const liveModeInput = document.getElementById('liveMode');
+let liveMode = liveModeInput.checked;
+liveModeInput.addEventListener('change', () => {
+    liveMode = liveModeInput.checked;
+    if (liveMode) {
+        updateStoreInDB(stores[selectedStoreIndex]);
+        const intervalID = setInterval(loadStoreFromDB, 5000);
+    }
+    else {
+        clearInterval(intervalID);
+    }
+});
 
 const selectedStoreInput = document.getElementById('selectedStore');
 const storeList = document.getElementById('storeList');
@@ -198,6 +226,56 @@ async function populateShopList() {
         else {
             shopListBody.appendChild(row);
         }
+    }
+    if (liveMode && activeAccount) {
+        await updateStoreInDB(stores[selectedStoreIndex]);
+    }
+}
+
+async function createStoreInDB(store) {
+    try {
+        store.accountId = activeAccount.id;
+        store.accountName = activeAccount.name;
+        const response = await dbFunction.createItemDB('stores', store)
+        if (response.status > 201) {
+           throw new Error(response.body)
+        }
+        const result = response.body;
+        functions.showMessage('Butikk opprettet i database: ' + result);
+    }
+    catch (error) {
+        functions.showMessage('Feil ved oppretting av butikk i database. Feil: ' + error, true, 7000);
+        console.log('Feil ved oppretting av butikk i database. Feil: ' + error);
+    }
+}
+
+async function updateStoreInDB(store) {
+    try {
+        store.accountId = activeAccount.id;
+        store.accountName = activeAccount.name;
+        const response = await dbFunction.updateItemDB('stores', store)
+        if (response.status === 204) {
+            const createResponse = await createStoreInDB(store);
+            return createResponse;
+        }
+        if (response.status > 204) {
+           throw new Error(response.body)
+        }
+        functions.showMessage('Butikk oppdatert i database');
+    }
+    catch (error) {
+        functions.showMessage('Feil ved oppdatering av data til database. Feil: ' + error, true, 7000);
+        console.log('Feil ved oppdatering av data til database. Feil: ' + error);
+    }
+}
+
+async function loadStoreFromDB(storeId) {
+    try {
+        // Her må hentes store med id fra selectedstore
+    }
+    catch (error) {
+        functions.showMessage('Feil ved oppdatering av data fra database. Feil: ' + error, true, 7000);
+        console.log('Feil ved oppdatering av data fra database. Feil: ' + error);
     }
 }
 

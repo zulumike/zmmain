@@ -1,3 +1,4 @@
+const basicEndpoint = '/api/shoplistdb';
 
 function generateId() {
     return Date.now().toString(36) + '-' + Math.random().toString(36).substring(2, 10);
@@ -152,5 +153,100 @@ export async function getFoodCategories() {
     }
     catch (error) {
         return { status: 400, body: 'Error fetching food categories! ' + error}
+    }
+}
+
+
+// COSMOS DB FUNCTIONS
+
+export async function readAllItemsDB(container) {
+    const endpoint = basicEndpoint + '?containerid=' + container;
+
+    try {
+        const response = await fetch(endpoint, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+        const result = await response.json();
+        return result;
+    }
+    catch (error) {
+        return { status: 400, body: 'Error reading all items' }
+    }
+
+}
+
+export async function getItemDB(container, id) {
+  const endpoint = basicEndpoint + '?containerid=' + container +'&id=' + id;
+
+    try {
+        const response = await fetch(endpoint, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        });
+        const result = await response.json();
+        return result;
+    }
+    catch (error) {
+        return { status: 400, body: 'Error getting item' + error }
+    }
+
+}
+
+export async function updateItemDB(container, data) {
+    // const oldData = await getItemDB(container, data.id);
+
+    const endpoint =   basicEndpoint + '?containerid=' + container + '&id=' + data.id;
+    try {
+        const res = await fetch(endpoint, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        return result;
+    }
+    catch (error) {
+        return { status: 400, body: 'Error updating item: ' + error }
+    }
+}
+
+export async function createItemDB(container, data) {
+    const endpoint =  basicEndpoint + '?containerid=' + container;
+    
+    try {
+        if (!data.id) data.id = generateId();
+        const result = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        const response = await result.json();
+        if (response.status !== 200) {
+            throw new Error(response.status + '-' + response.body)
+        }
+        return { status: 200, body: response.body };
+    }
+    catch (error) {
+        return { status: 400, body: 'Error creating item: ' + error }
+    }
+}
+
+//   Hard delete:
+export async function deleteItemDB(container, id) {
+
+const endpoint =  basicEndpoint + '?containerid=' + container
+const itemToBeDeleted = await getItem(id);
+    try {
+        const result = await fetch(endpoint, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(itemToBeDeleted)
+        });
+        const response = await result.json();
+        return response;
+    }
+    catch (error) {
+        return { status: 400, body: 'Error deleting item: ' + error }
     }
 }
