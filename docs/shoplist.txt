@@ -49,6 +49,8 @@
 > Handlelisten gikk etter feil array/objekt, fikk fikset det.
 > Også feil i kategori-rekkefølge. kategorier forsvant ikke fra listen når de ble valgt. Rettet dette.
 > Commit
+> Lagt på funksjon og symbol for legge i handlekurv og slette.
+> Commit
 
 Må huske å oppgi matvaretabellen som kilde et sted.
 

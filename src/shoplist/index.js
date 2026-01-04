@@ -119,7 +119,6 @@ async function populateShopList() {
     }
     const sortedShopList = [];
     const uncategorizedItems = [];
-    console.log(currentStore.categories);
     // for (let category in foodCategories) {
     for (let i = 0; i < currentStore.categories.length; i++) {
         // const category = currentStore.categories[i].id;
@@ -141,13 +140,58 @@ async function populateShopList() {
     Array.prototype.push.apply(sortedShopList, uncategorizedItems);
     for (let i = 0; i < sortedShopList.length; i++) {
         const item = sortedShopList[i];
-        const row = document.createElement('tr');
-        const nameCell = document.createElement('td');
-        nameCell.textContent = item.name;
-        row.appendChild(nameCell);
-        const amountCell = document.createElement('td');
+        const row = shopListBody.insertRow(-1);
+        const cartCell = row.insertCell();
+        const toggleCartBtn = document.createElement('img');
+        toggleCartBtn.type ='image/svg+xml';
+        toggleCartBtn.width = 20;
+        toggleCartBtn.height = 20;
+        toggleCartBtn.style.cursor = 'pointer';
+        if (item.inCart) {
+            toggleCartBtn.src = '../assets/img/cart-x.svg';
+            toggleCartBtn.alt = 'Fjern fra handlevogn';
+        }
+        else {
+            toggleCartBtn.src = '../assets/img/cart-check.svg';
+            toggleCartBtn.alt = 'Legg til i handlevogn';
+        }
+        cartCell.appendChild(toggleCartBtn);
+        toggleCartBtn.addEventListener('click', async () => {
+            item.inCart = !item.inCart;
+            sortedShopList[i] = item;
+            stores[selectedStoreIndex].shopList = sortedShopList;
+            const updateResponse = await dbFunction.updateItem(config.storeContainer, stores[selectedStoreIndex]);
+            if (updateResponse.status !== 200) {
+                functions.showMessage('Feil ved oppdatering av vare. Feil: ' + updateResponse.body, true, 7000);
+                console.log('Feil ved oppdatering av vare. Feil: ' + updateResponse.body);
+                return;
+            }
+            await populateShopList();
+        });
+        const amountCell = row.insertCell();
         amountCell.textContent = item.amount;
-        row.appendChild(amountCell);
+        const nameCell = row.insertCell();
+        nameCell.textContent = item.name;
+        const deleteItemCell = row.insertCell();
+        const deleteItemBtn = document.createElement('img');
+        deleteItemBtn.type ='image/svg+xml';
+        deleteItemBtn.width = 20;
+        deleteItemBtn.height = 20;
+        deleteItemBtn.style.cursor = 'pointer';
+        deleteItemBtn.src = '../assets/img/trash.svg';
+        deleteItemBtn.alt = 'Slett vare';
+        deleteItemCell.appendChild(deleteItemBtn);
+        deleteItemBtn.addEventListener('click', async () => {
+            sortedShopList.splice(i, 1);
+            stores[selectedStoreIndex].shopList = sortedShopList;
+            const updateResponse = await dbFunction.updateItem(config.storeContainer, stores[selectedStoreIndex]);
+            if (updateResponse.status !== 200) {
+                functions.showMessage('Feil ved sletting av vare. Feil: ' + updateResponse.body, true, 7000);
+                console.log('Feil ved sletting av vare. Feil: ' + updateResponse.body);
+                return;
+            }
+            await populateShopList();
+        });
         if (item.inCart) {
             shopCartBody.appendChild(row);
         }
