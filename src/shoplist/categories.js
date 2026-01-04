@@ -1,4 +1,3 @@
-
 import * as functions from '../scripts/functions.js';
 import * as config from './scripts/config.js';
 import * as dbFunction from "./scripts/dbfunctions.js";
@@ -8,6 +7,7 @@ import * as dbFunction from "./scripts/dbfunctions.js";
 const itemSubmitBtn = document.getElementById('itemSubmitBtn');
 const categoryForm = document.getElementById('categoryForm');
 const categoriesBody = document.getElementById('categoriesBody');
+const foodCategoriesBody = document.getElementById('foodCategoriesBody');
 
 categoryForm.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -17,6 +17,7 @@ categoryForm.addEventListener('submit', function(e) {
 async function saveCategory() {
     const formData = new FormData(categoryForm, itemSubmitBtn);
     const newCategory = Object.fromEntries(formData.entries());
+    console.log(newCategory);
     const allItemResponse = await dbFunction.getAllItems(config.categoryContainer);
     let existingItems = [];
     if (allItemResponse.status === 200 || allItemResponse.status === 204) {
@@ -68,6 +69,7 @@ async function deleteCategory(categoryId) {
 
 async function showCategories(){
     categoriesBody.innerHTML = '';
+    foodCategoriesBody.innerHTML = '';
     const allItemsResponse = await dbFunction.getAllItems(config.categoryContainer);
     let allItems = [];
     if (allItemsResponse.status === 200) {
@@ -92,6 +94,18 @@ async function showCategories(){
     else {
         console.log(allItemsResponse);
         functions.showMessage('Feil ved lesing av kategorier. Feil: ' + allItemsResponse.body);
+    }
+    const categoriesFromMatvaretabellenResponse = await dbFunction.getFoodCategories();
+    if (categoriesFromMatvaretabellenResponse.status !== 200) {
+        functions.showMessage('Feil ved lesing av matvarekategorier. Feil: ' + categoriesFromMatvaretabellenResponse.body, true, 7000);
+        console.log('Feil ved lesing av matvarekategorier. Feil: ' + categoriesFromMatvaretabellenResponse.body);
+        return;
+    }
+    const categoriesFromMatvaretabellen = categoriesFromMatvaretabellenResponse.body;
+    for (let cat in categoriesFromMatvaretabellen) {
+        const tBodyRow = foodCategoriesBody.insertRow();
+        const cellName = tBodyRow.insertCell();
+        cellName.textContent = categoriesFromMatvaretabellen[cat].name;
     }
 }
 

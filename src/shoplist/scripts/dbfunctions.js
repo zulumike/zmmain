@@ -5,8 +5,7 @@ function generateId() {
 
 export async function addSingleItem(container, item) {
     const items = JSON.parse(localStorage.getItem(container)) || [];
-    console.log(item.id);
-    if (item.id.length < 1 || item.id === undefined) {
+    if (item.id === undefined) {
         item.id = generateId();
     }
     items.push(item);

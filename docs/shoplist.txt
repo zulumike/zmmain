@@ -33,6 +33,18 @@
 > Systemet legger til butikk 0: Generell.
 > Ordnet lagring av sist brukte verdier. Foreløpig kun butikk-valg. Trengs vel ikke mer heller.
 > Commit
+> Ordnet lagring av handleliste, under butikk
+> Startet på opplisting av handlelisten. Tenker samme som sist. Handleliste der man trykker for å legge i kurv. og kan fjerne fra kurv
+> Holder på med sortering av handlelisten etter kategori.
+> Funksjonen er forsåvidt på plass, men må ta hensyn til at man kanskje har både egne kategorier og kategorier fra matvaretabellen.
+> Tenker å ha et valg for om dette er med eller ikke.
+> Må da også legge til evt. matavaretabell-kategorier i butikk-rekkefølge-opplegget. Og kanskje vise kategoriene i kategori-listen
+
+* 04.01.2026
+> Jobbet videre med kategori-saken.
+> Kryss i sorteringslisten (på butikk), som sier om man vil ha med kategorier fra matvaretabellen eller ikke.
+> Måtte rette opp litt for å få funksjonen der til å fungere igjen.
+> Commit.
 
 Må huske å oppgi matvaretabellen som kilde et sted.
 
