@@ -305,11 +305,15 @@ const gql = `
 > Fikset admin-siden slik at man der kan redigere firma-opplysninger, nr-serier og kontoplan
 > Commit
 
+* 05.01.2026
+> Fikset feil i stats. Systemet summerte opp også slettede bilag.
+> Commit
+> ordnet slik at bilagsdato også foreslås som dato på bilagslinjer
+> Commit
+
 Må vel vurdere å lage til en funksjon som initielt fyller company-db med dummy-data
 
 Bør legge til try/catch i dbfunctions for å kunne formidle feil istedenfor at programmet blir stående med loader
-
-Må legge inn redigering av firma. Nr-serie, adresse, epost, kontoplan m.m.
 
 Og kanskje knytte company til customer (og andre registre senere). Sette en egen egenskap på customer som heter company og sette inn company_id der.
 Må da sørge for unike id på alle registre på et vis....

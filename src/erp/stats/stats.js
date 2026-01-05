@@ -34,6 +34,7 @@ async function loadStats() {
     let profitSum = 0;
     for (let i = 0; i < documentList.length; i++) {
         const doc = documentList[i];
+        if (doc.deleted) continue;
         for (let j = 0; j < doc.costLines.length; j++) {
             const costLine = doc.costLines[j];
             const costYear = new Date(costLine.date).getFullYear();

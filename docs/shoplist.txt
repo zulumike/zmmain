@@ -64,8 +64,11 @@
 > Commit
 
 Gjenstår å fullføre funksjonen loadStoreFromDB
+Det må også gjøres en initiell sjekk om det er data i database. Hente inn alle butikker både fra db og lokalt....
+Og hvem skal "vinne" hvis butikk ligger lagret både i db og lokalt.
 
 Intervall må ikke kjøres hvis ikke active Account.. Vurdere sjekke dette 
+Kanskje gi melding om at livemode er en "pro"-funksjon, eller heller skjule sjekkboks hvis ikke pålogget...
 
  Kan godt legge til en egenskap på hver butikk om de skal kunne være "global", slik at andre brukere kan kopiere (alt unntatt selve handlelisten naturligvis)
 

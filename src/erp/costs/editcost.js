@@ -70,6 +70,7 @@ function presentcostLines() {
     const costSumText = document.getElementById('costsumtext');
     costSumText.innerText = 'Bilagsum: ' + calculateCost().toLocaleString("nb-NO", {minimumFractionDigits: 2});
     const costToInvoiceBtnDiv = document.getElementById('costtoinvoicebtn');
+    costToInvoiceBtnDiv.replaceChildren();
     const costToInvoiceBtn = document.createElement('input');
     costToInvoiceBtn.type = 'button';
     costToInvoiceBtn.value = 'Fordel til faktura';
@@ -100,8 +101,10 @@ async function costLineForm() {
     emptyCLDate.type = 'date';
     emptyCLDate.id = 'cldate';
     emptyCLDate.name = 'date';
-    const today = new Date();
-    emptyCLDate.valueAsDate = today;
+    // const today = new Date();
+    // emptyCLDate.valueAsDate = today;
+    const costDate = new Date(costData.date);
+    emptyCLDate.valueAsDate = costDate;
     dateDiv.appendChild(dateLabel);
     dateDiv.appendChild(emptyCLDate);
 
@@ -155,7 +158,7 @@ async function costLineForm() {
     costLineForm.addEventListener('submit', (event) => {
         addCostLine(event, costLineForm);
         costLineForm.reset();
-        emptyCLDate.valueAsDate = today;
+        emptyCLDate.valueAsDate = costDate;
     })
 
     const resetcostLineForm = document.createElement('input');
