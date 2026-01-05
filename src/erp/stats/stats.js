@@ -2,13 +2,17 @@ import { readAllCosts, getCompany } from "../scripts/dbfunctions.js";
 import { loaderOn, loaderOff } from "../../scripts/functions.js";
 
 const statYearInput = document.getElementById("statYear");
+const statYearList = document.getElementById('statYears');
+statYearInput.addEventListener('dblclick', () => {
+    statYearInput.value = '';
+});
+statYearInput.addEventListener('change', async () => {
+    await loadStats();
+});
+
 const salesDiv = document.getElementById("salesDiv");
 const costsDiv = document.getElementById("costsDiv");
 const profitDiv = document.getElementById("profitDiv");
-const loadStatsButton = document.getElementById("loadStatsBtn");
-loadStatsButton.addEventListener('click', async () => {
-    await loadStats();
-});
 
 async function makeAccountsObject() {
     const accountsData ={};
@@ -90,5 +94,17 @@ function presentStats(accountsData) {
 }
 
 const dateToday = new Date();
-statYearInput.value = dateToday.getFullYear();
+const currentYear = dateToday.getFullYear();
+for (let i = 0; i < 5; i++) {
+    const option = document.createElement('option');
+    option.value = currentYear - i;
+    statYearList.appendChild(option);
+}
+const currentMonth = dateToday.getMonth();
+if (currentMonth > 1) {
+    statYearInput.value = currentYear;
+}
+else {
+    statYearInput.value = currentYear - 1;
+}
 loadStats();

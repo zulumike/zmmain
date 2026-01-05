@@ -310,6 +310,8 @@ const gql = `
 > Commit
 > ordnet slik at bilagsdato også foreslås som dato på bilagslinjer
 > Commit
+> La til slik at regnskapsår-valget i stats innehar en datalist utfylt med alle år 5 år tilbake og til og med idag.
+> Ordnet også slik at predefinert år er fjoråret hvis januar måned og i år hvis andre måneder.
 
 Må vel vurdere å lage til en funksjon som initielt fyller company-db med dummy-data
 
