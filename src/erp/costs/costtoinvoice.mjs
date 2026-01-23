@@ -52,7 +52,7 @@ async function createInvoices() {
         documentData.duedate = dueDate.toJSON().slice(0, 10);
         documentData.customer = parseInt(invoiceData[i].customer);
         documentData.name = returnedData.description;
-        documentData.invcost = costId;
+        // documentData.invcost = costId;
         const invoiceLines = [
             {
                 date: today.toJSON().slice(0, 10),
