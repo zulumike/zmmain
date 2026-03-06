@@ -19,7 +19,7 @@ navBar.appendChild(navTemplate.content);
 
 const currentUrl = window.location.href;
 if (currentUrl.search("categories") > 0) document.getElementById('navcategories').classList = ['nav-link-active']
-else if (currentUrl.search("stores") > 0) document.getElementById('navstores').classList = ['nav-link-active']
+else if (currentUrl.search("stores") > 0 || currentUrl.search("order") > 0) document.getElementById('navstores').classList = ['nav-link-active']
 else if (currentUrl.search("shoplist") > 0) document.getElementById('navshoplist').classList = ['nav-link-active'];
 else document.getElementById('navhome').classList = ['nav-link-active'];
 

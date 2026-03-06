@@ -7,24 +7,24 @@ const orderedList = document.getElementById('orderedList');
 let store = {};
 let allCategories = [];
 
-let defaultValues = {};
-const defaultValuesResponse = await dbFunction.getSingleItem(config.defaultValuesContainer, 0);
-if (defaultValuesResponse.status === 200) {
-    defaultValues = defaultValuesResponse.body;
-}
-else {
-    defaultValues = { useCatFromMat: false };
-}
+// let defaultValues = {};
+// const defaultValuesResponse = await dbFunction.getSingleItem(config.defaultValuesContainer, 0);
+// if (defaultValuesResponse.status === 200) {
+//     defaultValues = defaultValuesResponse.body;
+// }
+// else {
+//     defaultValues = { useCatFromMat: false };
+// }
 
-const foodFromMatvareTblCheckbox = document.getElementById('foodFromMatvareTbl');
-foodFromMatvareTblCheckbox.addEventListener('change', async () => {
-    defaultValues.useCatFromMat = foodFromMatvareTblCheckbox.checked;
-    await dbFunction.updateItem(config.defaultValuesContainer, defaultValues);
-    await getLocalCategories();
-    if (defaultValues.useCatFromMat) await getExternalCategories();
-    await loadCategories();
-    await loadOrderedList();
-});
+// const foodFromMatvareTblCheckbox = document.getElementById('foodFromMatvareTbl');
+// foodFromMatvareTblCheckbox.addEventListener('change', async () => {
+//     defaultValues.useCatFromMat = foodFromMatvareTblCheckbox.checked;
+//     await dbFunction.updateItem(config.defaultValuesContainer, defaultValues);
+//     await getLocalCategories();
+//     if (defaultValues.useCatFromMat) await getExternalCategories();
+//     await loadCategories();
+//     await loadOrderedList();
+// });
 
 async function loadCategories() {
     categoryList.innerHTML = '';
@@ -105,23 +105,23 @@ async function getLocalCategories() {
     }
 }
 
-async function getExternalCategories() {
-    const catFromMatResponse = await dbFunction.getFoodCategories();
-    if (catFromMatResponse.status !== 200) {
-        functions.showMessage('Feil ved lesing av matvarekategorier. Feil: ' + catFromMatResponse.body, true, 7000);
-        console.log('Feil ved lesing av matvarekategorier. Feil: ' + catFromMatResponse.body);
-    }
-    const catFromMat = catFromMatResponse.body || {};
-    let newCatId = 0;
-    for (let cat in catFromMat) {
-        const newCat = {
-            id: newCatId.toString(),
-            name: catFromMat[cat].name
-        }
-        allCategories.push(newCat);
-        newCatId++;
-    }
-}
+// async function getExternalCategories() {
+//     const catFromMatResponse = await dbFunction.getFoodCategories();
+//     if (catFromMatResponse.status !== 200) {
+//         functions.showMessage('Feil ved lesing av matvarekategorier. Feil: ' + catFromMatResponse.body, true, 7000);
+//         console.log('Feil ved lesing av matvarekategorier. Feil: ' + catFromMatResponse.body);
+//     }
+//     const catFromMat = catFromMatResponse.body || {};
+//     let newCatId = 0;
+//     for (let cat in catFromMat) {
+//         const newCat = {
+//             id: newCatId.toString(),
+//             name: catFromMat[cat].name
+//         }
+//         allCategories.push(newCat);
+//         newCatId++;
+//     }
+// }
 
 async function initPage() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -133,10 +133,10 @@ async function initPage() {
         };
     store = storeResponse.body;
     await getLocalCategories();
-    if (defaultValues.useCatFromMat) {
-        foodFromMatvareTblCheckbox.checked = true;
-        await getExternalCategories();
-    }
+    // if (defaultValues.useCatFromMat) {
+    //     foodFromMatvareTblCheckbox.checked = true;
+    //     await getExternalCategories();
+    // }
     await loadCategories();
     await loadOrderedList();
 }

@@ -63,6 +63,15 @@
 > Laget et intervall som startes hvis livemode er på.
 > Commit
 
+* 06.03.2026
+> Bestemt meg for å droppe innhold fra matvaretabellen og la bruker opprette alle kategorier selv
+> Tenker også at etterhvert som bruker legger til matvarer, så legges disse inn i tabell
+> Denne tabellen er lokal, men kan også legges til i DB for dem med f.eks "pro-lisens"
+> Kommentert ut mye som har med matvaretabell å gjøre.
+> Rettet opp navigering, feil markert i nav-meny øverst.
+> Commit.
+
+
 Gjenstår å fullføre funksjonen loadStoreFromDB
 Det må også gjøres en initiell sjekk om det er data i database. Hente inn alle butikker både fra db og lokalt....
 Og hvem skal "vinne" hvis butikk ligger lagret både i db og lokalt.
@@ -71,8 +80,6 @@ Intervall må ikke kjøres hvis ikke active Account.. Vurdere sjekke dette
 Kanskje gi melding om at livemode er en "pro"-funksjon, eller heller skjule sjekkboks hvis ikke pålogget...
 
  Kan godt legge til en egenskap på hver butikk om de skal kunne være "global", slik at andre brukere kan kopiere (alt unntatt selve handlelisten naturligvis)
-
-Må huske å oppgi matvaretabellen som kilde et sted.
 
 Ide for butikk og valg av rekkefølge.
 
