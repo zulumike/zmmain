@@ -30,12 +30,22 @@ const liveModeInput = document.getElementById('liveMode');
 let liveMode = liveModeInput.checked;
 liveModeInput.addEventListener('change', () => {
     liveMode = liveModeInput.checked;
+    let intervalID = null;
     if (liveMode) {
-        updateStoreInDB(stores[selectedStoreIndex]);
-        const intervalID = setInterval(loadStoreFromDB, 5000);
+        if (stores.length > 0) {
+            console.log('Live mode activated, updating store in database and starting automatic updates from database');
+            updateStoreInDB(stores[selectedStoreIndex]);
+        }
+        else {
+            console.log('No local stores. Attempting to load stores from database');
+            loadStoresFromDB();
+            // Load all stores which belongs to active account to local storage
+        }
+        // intervalID = setInterval(loadStoresFromDB, 5000);
     }
     else {
         clearInterval(intervalID);
+        console.log('Live mode deactivated, stopped automatic updates from database');
     }
 });
 
@@ -250,9 +260,16 @@ async function createStoreInDB(store) {
 }
 
 async function updateStoreInDB(store) {
+    console.log(activeUser);
+    console.log(activeAccount.id);
     try {
+        if (!activeAccount) {
+            throw new Error('Ingen aktiv konto funnet. Kan ikke oppdatere butikk i database');
+        }
+        console.log(store);
         store.accountId = activeAccount.id;
         store.accountName = activeAccount.name;
+        console.log(store);
         const response = await dbFunction.updateItemDB('stores', store)
         if (response.status === 204) {
             const createResponse = await createStoreInDB(store);
@@ -269,13 +286,31 @@ async function updateStoreInDB(store) {
     }
 }
 
-async function loadStoreFromDB(storeId) {
+async function loadStoresFromDB() {
+    let stores = [];
     try {
-        // Her må hentes store med id fra selectedstore
+        const storeResponse = await dbFunction.getItemDB('stores', activeAccount.id);
+        if (storeResponse.status !== 200) {
+            throw new Error(storeResponse.body);
+        }
+        stores = storeResponse.body;
+
+        // Neste blir å oppdatere lokal lagring med butikkene som tilhører aktiv konto.
     }
     catch (error) {
         functions.showMessage('Feil ved oppdatering av data fra database. Feil: ' + error, true, 7000);
         console.log('Feil ved oppdatering av data fra database. Feil: ' + error);
+    }
+
+    try {
+        const writeStoreResponse = await dbFunction.addItems('stores', stores);
+        if (writeStoreResponse.status !== 200) {
+            throw new Error(writeStoreResponse.body);
+        }
+    }
+    catch (error) {
+        functions.showMessage('Feil ved oppdatering av stores fra database. Feil: ' + error, true, 7000);
+        console.log('Feil ved oppdatering av stores fra database. Feil: ' + error);
     }
 }
 

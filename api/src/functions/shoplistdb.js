@@ -41,9 +41,16 @@ app.http('shoplistdb', {
                 }
             }
             else {
-                const querySpec = {
+                let querySpec = {
                     query: 'SELECT * FROM root'
                 };
+                if (request.query.has('accountid')) {
+                    const accountId = request.query.get('accountid');
+                    querySpec = {
+                        query: 'SELECT * FROM root r WHERE r.accountId = \'' + accountId + '\''
+                    };
+                }
+                context.log('QuerySpec: ' + JSON.stringify(querySpec));
                 try {
                     const { resources: results } = await dbClient
                         .database(databaseId)

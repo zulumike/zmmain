@@ -21,6 +21,7 @@ export async function addSingleItem(container, item) {
 
 export async function addItems(container, items) {
     try {
+        console.log(items);
         localStorage.setItem(container, JSON.stringify(items));
         return { status: 200, body: items.length + ' items added' }
     }
@@ -176,8 +177,8 @@ export async function readAllItemsDB(container) {
 
 }
 
-export async function getItemDB(container, id) {
-  const endpoint = basicEndpoint + '?containerid=' + container +'&id=' + id;
+export async function getItemDB(container, accountId) {
+  const endpoint = basicEndpoint + '?containerid=' + container +'&accountid=' + accountId;
 
     try {
         const response = await fetch(endpoint, {
@@ -185,7 +186,11 @@ export async function getItemDB(container, id) {
           headers: { "Content-Type": "application/json" }
         });
         const result = await response.json();
-        return result;
+        if (result.length < 1) {
+            return { status: 404, body: 'Ingen butikker funnet' };
+        } else {
+            return { status: 200, body: result };
+        }
     }
     catch (error) {
         return { status: 400, body: 'Error getting item' + error }

@@ -71,8 +71,12 @@
 > Rettet opp navigering, feil markert i nav-meny øverst.
 > Commit.
 
+* 01.04.2026 (TG)
+> Fortsatt på funksjonen load Stores from DB.
+> Skrevet om litt slik at funksjonen henter alle stores tilknyttet aktiv konto (basert på pålogget bruker).
+> Funksjonen henter nå butikker fra database og lagrer i localstorage.
+> Commit
 
-Gjenstår å fullføre funksjonen loadStoreFromDB
 Det må også gjøres en initiell sjekk om det er data i database. Hente inn alle butikker både fra db og lokalt....
 Og hvem skal "vinne" hvis butikk ligger lagret både i db og lokalt.
 
