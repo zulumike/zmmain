@@ -1,4 +1,4 @@
 export const categoryContainer = 'shopcategories';
-export const storeContainer = 'shopstores';
+export const storeContainer = 'stores';
 export const shoplistContainer = 'shoplist';
 export const defaultValuesContainer = 'shopdefaultvalues';

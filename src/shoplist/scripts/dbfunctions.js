@@ -51,8 +51,10 @@ export async function getSingleItem(container, itemId) {
 }
 
 export async function getAllItems(container) {
+    console.log('Getting all items from container: ' + container);
     try {
         const items = JSON.parse(localStorage.getItem(container)) || [];
+        console.log(items);
         if (items.length < 1) {
             return { status: 204, body: 'No items in storage'}
         }
@@ -175,6 +177,26 @@ export async function readAllItemsDB(container) {
         return { status: 400, body: 'Error reading all items' }
     }
 
+}
+
+export async function getAccountByUserDB(container, userDetail) {
+    const endpoint = basicEndpoint + '?containerid=' + container +'&userdetail=' + userDetail;
+
+    try {
+        const response = await fetch(endpoint, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        });
+        const result = await response.json();
+        if (result.length < 1) {
+            return { status: 404, body: 'Ingen konto funnet' };
+        } else {
+            return { status: 200, body: result };
+        }
+    }
+    catch (error) {
+        return { status: 400, body: 'Error getting account' + error }
+    }
 }
 
 export async function getItemDB(container, accountId) {

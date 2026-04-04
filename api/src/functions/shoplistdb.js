@@ -40,6 +40,26 @@ app.http('shoplistdb', {
                     return { status: error.code, body: error }
                 }
             }
+            // else if (request.query.has('userdetail')) {
+            //     const userDetail = request.query.get('userdetail');
+            //     let querySpec = {
+            //         query: 'SELECT * FROM root r WHERE r.userDetails = \'' + userDetail + '\''
+            //     };
+            //     context.log('QuerySpec: ' + JSON.stringify(querySpec));
+            //     try {
+            //         const { resources: results } = await dbClient
+            //             .database(databaseId)
+            //             .container(containerId)
+            //             .items.query(querySpec)
+            //             .fetchAll();
+            //         const resultsJSON = JSON.stringify(results);
+            //         return { body: resultsJSON };
+            //     }
+            //     catch (error) {
+            //         context.log(error.code + ' - DB Read items by userId error: ' + error)
+            //         return { status: error.code, body: error }
+            //     }
+            // }
             else {
                 let querySpec = {
                     query: 'SELECT * FROM root'
@@ -57,8 +77,28 @@ app.http('shoplistdb', {
                         .container(containerId)
                         .items.query(querySpec)
                         .fetchAll();
-                    const resultsJSON = JSON.stringify(results);
-                    return { body: resultsJSON };
+                    let resultsJSON = JSON.stringify(results);
+                    if (results.length > 0 && request.query.has('userdetail')) {
+                        const userDetail = request.query.get('userdetail');
+                        let foundUser = false;
+                        for (let i = 0; i < results.length; i++) {
+                            for (let j = 0; j< results[i].users.length; j++) {
+                                if (results[i].users[j].email === userDetail) {
+                                    resultsJSON = JSON.stringify(results[i]);
+                                    foundUser = true;
+                                    break;
+                                }
+                            }
+                            if (foundUser) {
+                                break;
+                            }
+                        }
+                    }
+                    else if (results.length < 1) {
+                        context.log('No items found in container ' + containerId + ' StatusCode: 204');
+                        return { status: 204, body: 'No items found' };
+                    }
+                    return { status: 200, body: resultsJSON };
                 }
                 catch (error) {
                     context.log(error.code + ' - DB Read all items error: ' + error)

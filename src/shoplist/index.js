@@ -4,19 +4,31 @@ import * as config from './scripts/config.js';
 import { getUserInfo } from '../scripts/auth.js';
 
 
-const accounts = await dbFunction.readAllItemsDB('accounts');
+// const accounts = await dbFunction.readAllItemsDB('accounts');
+
+const liveModeInput = document.getElementById('liveMode');
+let liveMode = liveModeInput.checked;
+
 const activeUser = await getUserInfo();
+
 let activeAccount = undefined;
 
-for (let i = 0; i < accounts.length; i++) {
-    const account = accounts[i];
-    for (let j = 0; j < account.users.length; j++) {
-        const user = account.users[j];
-        if (user.email === activeUser.userDetails) {
-            activeAccount = account;
-        }
-    }
+if (liveMode) {
+    updateAccountFromDB();
 }
+
+// for (let i = 0; i < accounts.length; i++) {
+//     const account = accounts[i];
+//     for (let j = 0; j < account.users.length; j++) {
+//         const user = account.users[j];
+//         if (user.email === activeUser.userDetails) {
+//             activeAccount = account;
+//         }
+//     }
+// }
+
+console.log(activeUser);
+console.log(activeAccount);
 
 let foods = [];
 let foodCategories = [];
@@ -26,11 +38,10 @@ const shopdefaultvalues = {
     defaultStoreId: 0
 };
 
-const liveModeInput = document.getElementById('liveMode');
-let liveMode = liveModeInput.checked;
-liveModeInput.addEventListener('change', () => {
+liveModeInput.addEventListener('change', async () => {
     liveMode = liveModeInput.checked;
     let intervalID = null;
+    await updateAccountFromDB();
     if (liveMode) {
         if (stores.length > 0) {
             console.log('Live mode activated, updating store in database and starting automatic updates from database');
@@ -115,6 +126,25 @@ itemForm.addEventListener('submit', async (e) => {
     await populateShopList();
     itemForm.reset();
 });
+
+async function updateAccountFromDB() {
+    try {
+        if (!activeUser) {
+            throw new Error('Ingen aktiv bruker funnet. Kan ikke oppdatere konto fra database');
+        }
+        const accountResponse = await dbFunction.getAccountByUserDB('accounts', activeUser.userDetails);
+        console.log(accountResponse.body);
+        if (accountResponse.status !== 200) {
+            throw new Error(accountResponse.body);
+        }
+        const accountFromDB = accountResponse.body;
+        activeAccount = accountFromDB;
+    }
+    catch (error) {
+        functions.showMessage('Feil ved oppdatering av konto fra database. Feil: ' + error, true, 7000);
+        console.log('Feil ved oppdatering av konto fra database. Feil: ' + error);
+    }
+}
 
 function populateStoreSuggestions() {
     storeList.replaceChildren();
@@ -288,6 +318,7 @@ async function updateStoreInDB(store) {
 
 async function loadStoresFromDB() {
     let stores = [];
+    console.log(activeAccount);
     try {
         const storeResponse = await dbFunction.getItemDB('stores', activeAccount.id);
         if (storeResponse.status !== 200) {

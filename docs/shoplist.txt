@@ -77,6 +77,15 @@
 > Funksjonen henter nå butikker fra database og lagrer i localstorage.
 > Commit
 
+* 04.04.2026 (TG)
+> Fikset litt på funksjoner slik at det hentes kun konto fra aktiv bruker og ikke alle kontoer.
+> Commit.
+
+> Har egentlig lyst til å legge om litt slik at det som standard er online mot db
+> Og at hvis man vil jobbe offline (eller for en evt gratis-versjon hvis det blir aktuelt) så gjør man det.
+> Hvis aktiv konto, så vil systemet da først kopiere fra db til lokalt.
+> Hvis aktiv konto når man går "online" igjen, så kopieres det tilbake til db.
+
 Det må også gjøres en initiell sjekk om det er data i database. Hente inn alle butikker både fra db og lokalt....
 Og hvem skal "vinne" hvis butikk ligger lagret både i db og lokalt.
 
