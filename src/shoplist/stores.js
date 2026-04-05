@@ -1,6 +1,7 @@
 import * as functions from '../scripts/functions.js';
 import * as config from './scripts/config.js';
 import * as dbFunction from "./scripts/dbfunctions.js";
+import { getUserInfo } from '../scripts/auth.js';
 
 const storeForm = document.getElementById('storeForm');
 const itemSubmitBtn = document.getElementById('itemSubmitBtn');
@@ -10,6 +11,18 @@ storeForm.addEventListener('submit', function(e) {
     e.preventDefault();
     saveStore();
 })
+
+const activeUser = await getUserInfo();
+
+const localSettings = await dbFunction.getLocalSettings();
+if (localSettings.liveMode !== undefined) {
+    liveModeInput.checked = localSettings.liveMode;
+}
+else { 
+    liveModeInput.checked = false;
+    localSettings.liveMode = false;
+    await dbFunction.writeLocalSettings(localSettings);
+}
 
 async function saveStore() {
     const formData = new FormData(storeForm, itemSubmitBtn);

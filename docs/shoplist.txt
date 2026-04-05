@@ -102,6 +102,12 @@
 > Ryddet opp i azureite filer og la de inn i gitignore
 > Commit
 
+> Startet litt på å oppdatere store.js for å være mer DB preget.
+> Flyttet et par funksjoner fra index.js til dbFunction for gjenbruk
+    getLocalSettings og writeLocalSettings.
+> Commit
+
+Ikke rukket å teste etter siste endringer......
 
 Det må også gjøres en initiell sjekk om det er data i database. Hente inn alle butikker både fra db og lokalt....
 Og hvem skal "vinne" hvis butikk ligger lagret både i db og lokalt.

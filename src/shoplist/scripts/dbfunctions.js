@@ -274,3 +274,18 @@ const itemToBeDeleted = await getItem(id);
         return { status: 400, body: 'Error deleting item: ' + error }
     }
 }
+
+export async function getLocalSettings() {
+    const settingsResponse = await getAllItems(config.settingsContainer);
+    if (settingsResponse.status === 200) {
+        const settings = settingsResponse.body || {};
+        return settings;
+    }
+    else {
+        return {};
+    }
+}
+
+export async function writeLocalSettings(settings) {
+    await addItems(config.settingsContainer, settings);
+}

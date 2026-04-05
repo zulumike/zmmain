@@ -9,14 +9,14 @@ let stores = [];
 
 const activeUser = await getUserInfo();
 
-const localSettings = await getLocalSettings();
+const localSettings = await dbFunction.getLocalSettings();
 if (localSettings.liveMode !== undefined) {
     liveModeInput.checked = localSettings.liveMode;
 }
 else { 
     liveModeInput.checked = false;
     localSettings.liveMode = false;
-    await writeLocalSettings(localSettings);
+    await dbFunction.writeLocalSettings(localSettings);
 }
 
 let activeAccount = undefined;
@@ -35,7 +35,7 @@ const shopdefaultvalues = {
 
 liveModeInput.addEventListener('change', async () => {
     localSettings.liveMode = liveModeInput.checked;
-    writeLocalSettings(localSettings);
+    dbFunction.writeLocalSettings(localSettings);
 
     // let intervalID = null;
     // await updateAccountFromDB();
@@ -137,21 +137,6 @@ itemForm.addEventListener('submit', async (e) => {
     await populateShopList();
     itemForm.reset();
 });
-
-async function getLocalSettings() {
-    const settingsResponse = await dbFunction.getAllItems(config.settingsContainer);
-    if (settingsResponse.status === 200) {
-        const settings = settingsResponse.body || {};
-        return settings;
-    }
-    else {
-        return {};
-    }
-}
-
-async function writeLocalSettings(settings) {
-    await dbFunction.addItems(config.settingsContainer, settings);
-}
 
 async function updateAccountFromDB() {
     try {
