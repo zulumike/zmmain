@@ -86,6 +86,20 @@
 > Hvis aktiv konto, så vil systemet da først kopiere fra db til lokalt.
 > Hvis aktiv konto når man går "online" igjen, så kopieres det tilbake til db.
 
+> Startet med å gjøre om til at det i utgangspunktet skal være online sak.
+> livemode hentes fra local storage
+> Hvis pålogget bruker OG livemode, så hentes data fra DB.
+> Dette gjelder i første omgang kun fremsiden (index.html/index.js)
+> Rettet opp i problem med nedtrekksmeny for butikk.
+> Blir tydeligvis problem når denne skal settes med et forvalg. Så denne er kommentert ut.
+> Fremdeles litt rart, teksten forsvinner. Mulig css?
+> Jobbet litt med at tekstn i nedtrekksmenyen forsvinner / skjult, men uten å finne det ut.
+> Løste det ved å sette bakgrunnsfargen på inputen til grå når i fokus og tilbake til hvit etterpå.
+> Har også aktivert azurewebjobstorage for å slippe masse feilmeldinger i terminal fra api.
+> Dette førte til at det ble opprettet noen nye filer under api-mappa:
+    __azureite..... 5 filer.
+> Commit
+
 Det må også gjøres en initiell sjekk om det er data i database. Hente inn alle butikker både fra db og lokalt....
 Og hvem skal "vinne" hvis butikk ligger lagret både i db og lokalt.
 

@@ -21,7 +21,6 @@ export async function addSingleItem(container, item) {
 
 export async function addItems(container, items) {
     try {
-        console.log(items);
         localStorage.setItem(container, JSON.stringify(items));
         return { status: 200, body: items.length + ' items added' }
     }
@@ -51,10 +50,8 @@ export async function getSingleItem(container, itemId) {
 }
 
 export async function getAllItems(container) {
-    console.log('Getting all items from container: ' + container);
     try {
         const items = JSON.parse(localStorage.getItem(container)) || [];
-        console.log(items);
         if (items.length < 1) {
             return { status: 204, body: 'No items in storage'}
         }
@@ -129,35 +126,35 @@ export async function clearDatabase() {
     }
 }
 
-export async function getFoods() {
-    try {
-        const foodsJson = await fetch('https://www.matvaretabellen.no/api/nb/foods.json');
-        const foods = await foodsJson.json();
-        return { status: 200, body: foods.foods }
-    }
-    catch (error) {
-        return { status: 400, body: 'Error fetching foods! ' + error}
-    }
+// export async function getFoods() {
+//     try {
+//         const foodsJson = await fetch('https://www.matvaretabellen.no/api/nb/foods.json');
+//         const foods = await foodsJson.json();
+//         return { status: 200, body: foods.foods }
+//     }
+//     catch (error) {
+//         return { status: 400, body: 'Error fetching foods! ' + error}
+//     }
 
-}
+// }
 
-export async function getFoodCategories() {
-    try {
-        const categoriesJson = await fetch('https://www.matvaretabellen.no/api/nb/food-groups.json');
-        const categories = await categoriesJson.json();
-        let maincategories = {};
-        for (let i = 0; i < categories.foodGroups.length; i++) {
-            const category = categories.foodGroups[i];
-            if (!category.foodGroupId.includes('.')) {
-                maincategories[category.foodGroupId] = { name: category.name };
-            }
-        }
-        return { status: 200, body: maincategories }
-    }
-    catch (error) {
-        return { status: 400, body: 'Error fetching food categories! ' + error}
-    }
-}
+// export async function getFoodCategories() {
+//     try {
+//         const categoriesJson = await fetch('https://www.matvaretabellen.no/api/nb/food-groups.json');
+//         const categories = await categoriesJson.json();
+//         let maincategories = {};
+//         for (let i = 0; i < categories.foodGroups.length; i++) {
+//             const category = categories.foodGroups[i];
+//             if (!category.foodGroupId.includes('.')) {
+//                 maincategories[category.foodGroupId] = { name: category.name };
+//             }
+//         }
+//         return { status: 200, body: maincategories }
+//     }
+//     catch (error) {
+//         return { status: 400, body: 'Error fetching food categories! ' + error}
+//     }
+// }
 
 
 // COSMOS DB FUNCTIONS
