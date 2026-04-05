@@ -93,7 +93,9 @@ obj
 appsettings.json
 local.settings.json
 
-# Azurite artifacts
+# Azurite (Azure Storage Emulator)
 __blobstorage__
 __queuestorage__
+__tablestorage__
 __azurite_db*__.json
+*.blob
