@@ -99,6 +99,9 @@
 > Dette førte til at det ble opprettet noen nye filer under api-mappa:
     __azureite..... 5 filer.
 > Commit
+> Ryddet opp i azureite filer og la de inn i gitignore
+> Commit
+
 
 Det må også gjøres en initiell sjekk om det er data i database. Hente inn alle butikker både fra db og lokalt....
 Og hvem skal "vinne" hvis butikk ligger lagret både i db og lokalt.
