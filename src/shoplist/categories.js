@@ -1,13 +1,23 @@
 import * as functions from '../scripts/functions.js';
 import * as config from './scripts/config.js';
 import * as dbFunction from "./scripts/dbfunctions.js";
-// import { addSingleItem } from './scripts/dbfunctions.js';
 
 
 const itemSubmitBtn = document.getElementById('itemSubmitBtn');
 const categoryForm = document.getElementById('categoryForm');
 const categoriesBody = document.getElementById('categoriesBody');
+const liveModeInput = document.getElementById('liveMode');
 // const foodCategoriesBody = document.getElementById('foodCategoriesBody');
+
+const localSettings = await dbFunction.getLocalSettings();
+if (localSettings.liveMode !== undefined) {
+    liveModeInput.checked = localSettings.liveMode;
+}
+else { 
+    liveModeInput.checked = false;
+    localSettings.liveMode = false;
+    await dbFunction.writeLocalSettings(localSettings);
+}
 
 categoryForm.addEventListener('submit', function(e) {
     e.preventDefault();
