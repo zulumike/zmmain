@@ -1,3 +1,4 @@
+import * as config from './config.js';
 const basicEndpoint = '/api/shoplistdb';
 
 function generateId() {

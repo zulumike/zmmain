@@ -29,7 +29,7 @@ let foods = [];
 let foodCategories = [];
 // const stores = {};
 let selectedStoreIndex = 0;
-const shopdefaultvalues = {
+const shopSettings = {
     defaultStoreId: 0
 };
 
@@ -67,9 +67,10 @@ selectedStoreInput.addEventListener('change', async () => {
     }
     selectedStoreIndex = storeIndex;
     selectedStoreInput.style.backgroundColor = 'white';
-    // const updateResponse = await dbFunction.updateItem(config.defaultValuesContainer, { id: 0, defaultStoreId: selectedStoreIndex });
+    await populateShopList();
+    // const updateResponse = await dbFunction.updateItem(config.shopSettingsContainer, { id: 0, defaultStoreId: selectedStoreIndex });
     // if (updateResponse.status === 404) {
-    //     const addResponse = await dbFunction.addSingleItem(config.defaultValuesContainer, { id: 0, defaultStoreId: selectedStoreIndex });
+    //     const addResponse = await dbFunction.addSingleItem(config.shopSettingsContainer, { id: 0, defaultStoreId: selectedStoreIndex });
     //     console.log(addResponse);
     // }
 });
@@ -159,7 +160,6 @@ async function updateAccountFromDB() {
 function populateStoreSuggestions() {
     storeList.replaceChildren();
     for (let key in stores) {
-        console.log(stores[key].name);
         const option = document.createElement('option');
         option.value = stores[key].name + '#' + key;
         storeList.appendChild(option);
@@ -199,6 +199,7 @@ async function populateShopList() {
     const sortedShopList = [];
     const uncategorizedItems = [];
     // for (let category in foodCategories) {
+    // Add categorized items in order by category
     for (let i = 0; i < currentStore.categories.length; i++) {
         // const category = currentStore.categories[i].id;
         const category = currentStore.categories[i];
@@ -210,12 +211,29 @@ async function populateShopList() {
             }
         }
     }
+    // Add all items that do not match a category to the end of list
+
     for (let i = 0; i < currentStore.shopList.length; i++) {
+        let itemCategoryHit = false;
         const item = currentStore.shopList[i];
-        if (item.category === '' || item.category === undefined) {
-            uncategorizedItems.push(item);;
+        for (let j = 0; j < currentStore.categories.length; j++) {
+            const category = currentStore.categories[j];
+            if (item.category === category.name) {
+                itemCategoryHit = true;
+                break;
+            }
+        }
+        if (!itemCategoryHit) {
+            uncategorizedItems.push(item);
         }
     }
+
+    // for (let i = 0; i < currentStore.shopList.length; i++) {
+    //     const item = currentStore.shopList[i];
+    //     if (item.category === '' || item.category === undefined) {
+    //         uncategorizedItems.push(item);;
+    //     }
+    // }
     Array.prototype.push.apply(sortedShopList, uncategorizedItems);
     for (let i = 0; i < sortedShopList.length; i++) {
         const item = sortedShopList[i];
@@ -301,16 +319,12 @@ async function createStoreInDB(store) {
 }
 
 async function updateStoreInDB(store) {
-    console.log(activeUser);
-    console.log(activeAccount.id);
     try {
         if (!activeAccount) {
             throw new Error('Ingen aktiv konto funnet. Kan ikke oppdatere butikk i database');
         }
-        console.log(store);
         store.accountId = activeAccount.id;
         store.accountName = activeAccount.name;
-        console.log(store);
         const response = await dbFunction.updateItemDB('stores', store)
         if (response.status === 204) {
             const createResponse = await createStoreInDB(store);
@@ -357,10 +371,10 @@ async function loadStoresFromDB() {
 }
 
 async function initPage() {
-    const shopDefaultvaluesResponse = await dbFunction.getSingleItem(config.defaultValuesContainer, 0);
-    if (shopDefaultvaluesResponse.status === 200) {
-        Object.assign(shopdefaultvalues, shopDefaultvaluesResponse.body);
-        selectedStoreIndex = shopdefaultvalues.defaultStoreId;
+    const shopSettingsResponse = await dbFunction.getSingleItem(config.shopSettingsContainer, 0);
+    if (shopSettingsResponse.status === 200) {
+        Object.assign(shopSettings, shopSettingsResponse.body);
+        selectedStoreIndex = shopSettings.defaultStoreId;
     }
     // const foodsResponse = await dbFunction.getFoods();
     // if (foodsResponse.status !== 200) {
@@ -413,7 +427,7 @@ async function initPage() {
         }
     }
     populateStoreSuggestions();
-    selectedStoreInput.value = stores[shopdefaultvalues.defaultStoreId].name + '#' + shopdefaultvalues.defaultStoreId;
+    selectedStoreInput.value = stores[shopSettings.defaultStoreId].name + '#' + shopSettings.defaultStoreId;
     await populateShopList();
 }
 

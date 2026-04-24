@@ -6,6 +6,7 @@ import { getUserInfo } from '../scripts/auth.js';
 const storeForm = document.getElementById('storeForm');
 const itemSubmitBtn = document.getElementById('itemSubmitBtn');
 const storesBody = document.getElementById('storesBody');
+const liveModeInput = document.getElementById('liveMode');
 
 storeForm.addEventListener('submit', function(e) {
     e.preventDefault();

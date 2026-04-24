@@ -5,6 +5,7 @@ navTemplate.innerHTML = `
         <li id="navshoplist"><a href="/shoplist/index.html">Handleliste</a></li>
         <li id="navcategories"><a href="/shoplist/categories.html">Kategorier</a></li>
         <li id="navstores"><a href="/shoplist/stores.html">Butikker</a></li>
+        <li id="navlivemode"><label for="liveMode">Live modus</label><input type="checkbox" id="liveMode"></li>
         <li id="navlogout"><a href="/.auth/logout">Logg ut</a></li>
     </ul>
     <div id="burger-menu" class="burger">

@@ -4,6 +4,7 @@ import * as config from "./scripts/config.js";
 
 const categoryList = document.getElementById('categoryList');
 const orderedList = document.getElementById('orderedList');
+const liveModeInput = document.getElementById('liveMode');
 let store = {};
 let allCategories = [];
 
@@ -25,6 +26,16 @@ let allCategories = [];
 //     await loadCategories();
 //     await loadOrderedList();
 // });
+
+const localSettings = await dbFunction.getLocalSettings();
+if (localSettings.liveMode !== undefined) {
+    liveModeInput.checked = localSettings.liveMode;
+}
+else { 
+    liveModeInput.checked = false;
+    localSettings.liveMode = false;
+    await dbFunction.writeLocalSettings(localSettings);
+}
 
 async function loadCategories() {
     categoryList.innerHTML = '';

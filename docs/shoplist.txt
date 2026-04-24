@@ -109,6 +109,16 @@
 
 Ikke rukket å teste etter siste endringer......
 
+* 24.04.2026
+> Flyttet checkbox for livemode til nav.js, slik at denne vises på alle sider i handlevogn-appen
+> Lagt til funksjonalitet for å sjekke om livemode både i stores.js og order.js
+    henter livemode-status fra localstorage og setter denne.
+    Pluss ved endring, så skrives dette til localstorage.
+> Endret mest på index.js, der selve handlelisten er. 
+    Denne hentet ikke opp handlelisten hvis varen ikke hadde samsvar med en kategori
+    Lagt til en ekstra loop nå slik at alle varer som ikke treffer en kategori, legger seg nederst i listen.
+> Commit
+
 Det må også gjøres en initiell sjekk om det er data i database. Hente inn alle butikker både fra db og lokalt....
 Og hvem skal "vinne" hvis butikk ligger lagret både i db og lokalt.
 
