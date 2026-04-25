@@ -119,8 +119,29 @@ Ikke rukket å teste etter siste endringer......
     Lagt til en ekstra loop nå slik at alle varer som ikke treffer en kategori, legger seg nederst i listen.
 > Commit
 
-Det må også gjøres en initiell sjekk om det er data i database. Hente inn alle butikker både fra db og lokalt....
-Og hvem skal "vinne" hvis butikk ligger lagret både i db og lokalt.
+* 25.04.2026
+> Fundert mye på beste løsning for lagring db vs lokalt.
+> Endte med at jeg nå har laget to funksjoner i dbfunctions, den ene syncToCloud synkroniserer gitt container til sky,
+    Den andre syncToLocal synkroniserer fra sky til lokalstorage.
+> Jobbet med categories.
+    Denne skal nå være grei tror jeg.
+    Hvis livemode, så opprettes evt. manglende kategorier i sky, samt sletter de som evt. skal slettes.
+> Commit
+
+Nå står det igjen å sette dette i live i de forskjellige sidene.
+
+Litt mye rot nå egentlig..... 
+
+Må legge til en container for shopItemSuggestions som skal brukes som hurtig-oppslag. Inneholder navn og kategori.
+    Når man begynner å skrive f.eks bru, så kommmer brunost opp som forslag
+    Og kategori blir automatisk valgt.
+    Denne fylles automatisk, når man legger til en vare som også har kategori.
+    Må naturligvis sjekke om varen eksisterer fra før, og skrive over denne, slik at evt. annen kategori blir satt.
+
+Må få lagt til oppslag på kategorier når man skal legge til varer.
+
+Få lagt til intervall for sjekk av om nye data i DB.
+Evt. sjekke om funksjon i cosmos for å sette et flagg eller noe som sjekkes
 
 Intervall må ikke kjøres hvis ikke active Account.. Vurdere sjekke dette 
 Kanskje gi melding om at livemode er en "pro"-funksjon, eller heller skjule sjekkboks hvis ikke pålogget...

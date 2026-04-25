@@ -24,6 +24,12 @@ categoryForm.addEventListener('submit', function(e) {
     saveCategory();
 });
 
+liveModeInput.addEventListener('change', async function() {
+    const localSettings = await dbFunction.getLocalSettings();
+    localSettings.liveMode = liveModeInput.checked;
+    await dbFunction.writeLocalSettings(localSettings);
+});
+
 async function saveCategory() {
     const formData = new FormData(categoryForm, itemSubmitBtn);
     const newCategory = Object.fromEntries(formData.entries());
@@ -61,6 +67,14 @@ async function saveCategory() {
         console.log(allItemResponse);
     }
     categoryForm.reset();
+    console.log(localSettings.liveMode);
+    if (localSettings.liveMode) {
+        const syncToCloudResponse = await dbFunction.syncToCloud(config.categoryContainer, config.categoryContainer);
+        if (syncToCloudResponse.status !== 200) {
+            functions.showMessage('Feil ved synkronisering til sky. Feil: ' + syncToCloudResponse.body, true, 7000);
+            console.log(syncToCloudResponse);
+        }
+    }
     await showCategories();
 }
 
@@ -73,10 +87,27 @@ async function deleteCategory(categoryId) {
         functions.showMessage('Feil ved sletting av kategori! ' + response.body, true, 7000);
         console.log(response);
     }
+    if (localSettings.liveMode) {
+        const syncToCloudResponse = await dbFunction.syncToCloud(config.categoryContainer, config.categoryContainer);
+        if (syncToCloudResponse.status !== 200) {
+            functions.showMessage('Feil ved synkronisering til sky. Feil: ' + syncToCloudResponse.body, true, 7000);
+            console.log(syncToCloudResponse);
+        }
+    }
     await showCategories();
 }
 
 async function showCategories(){
+    if (localSettings.liveMode) {
+        const syncToLocalsResponse = await dbFunction.syncToLocal(config.categoryContainer, config.categoryContainer);
+        if (syncToLocalsResponse.status === 204) {
+            functions.showMessage('Skydata eksisterer ikke', false, 5000);
+        }
+        else if (syncToLocalsResponse.status !== 200) {
+            functions.showMessage('Feil ved synkronisering fra sky. Feil: ' + syncToLocalsResponse.body, true, 7000);
+            console.log(syncToLocalsResponse);
+        }
+    }
     categoriesBody.innerHTML = '';
     // foodCategoriesBody.innerHTML = '';
     const allItemsResponse = await dbFunction.getAllItems(config.categoryContainer);

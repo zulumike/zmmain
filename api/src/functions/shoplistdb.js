@@ -96,13 +96,13 @@ app.http('shoplistdb', {
                     }
                     else if (results.length < 1) {
                         context.log('No items found in container ' + containerId + ' StatusCode: 204');
-                        return { status: 204, body: 'No items found' };
+                        return { status: 204 };
                     }
                     return { status: 200, body: resultsJSON };
                 }
                 catch (error) {
-                    context.log(error.code + ' - DB Read all items error: ' + error)
-                    return { status: error.code, body: error }
+                    context.log(error + ' - DB Read all items error: ');
+                    return { status: 400, body: error }
                 }
             }
         }
