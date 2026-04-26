@@ -296,9 +296,9 @@ async function populateShopList() {
             shopListBody.appendChild(row);
         }
     }
-    if (localSettings.liveMode && activeAccount) {
-        await updateStoreInDB(stores[selectedStoreIndex]);
-    }
+    // if (localSettings.liveMode && activeAccount) {
+    //     await updateStoreInDB(stores[selectedStoreIndex]);
+    // }
 }
 
 async function createStoreInDB(store) {
@@ -345,7 +345,7 @@ async function loadStoresFromDB() {
     let stores = [];
     console.log(activeAccount);
     try {
-        const storeResponse = await dbFunction.getItemDB('stores', activeAccount.id);
+        const storeResponse = await dbFunction.getAccountStoresDB('stores', activeAccount.id);
         if (storeResponse.status !== 200) {
             throw new Error(storeResponse.body);
         }
@@ -402,7 +402,7 @@ async function initPage() {
         }
         const accountFromDB = accountResponse.body;
         activeAccount = accountFromDB;
-        const storeResponse = await dbFunction.getItemDB(config.storeContainer, activeAccount.id);
+        const storeResponse = await dbFunction.getAccountStoresDB(config.storeContainer, activeAccount.id);
         if (storeResponse.status !== 200) {
             functions.showMessage('Feil ved lesing av butikker fra database. Feil: ' + storeResponse.body, true, 7000);
             console.log('Feil ved lesing av butikker fra database. Feil: ' + storeResponse.body);

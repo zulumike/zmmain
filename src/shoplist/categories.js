@@ -67,7 +67,6 @@ async function saveCategory() {
         console.log(allItemResponse);
     }
     categoryForm.reset();
-    console.log(localSettings.liveMode);
     if (localSettings.liveMode) {
         const syncToCloudResponse = await dbFunction.syncToCloud(config.categoryContainer, config.categoryContainer);
         if (syncToCloudResponse.status !== 200) {

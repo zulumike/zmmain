@@ -127,6 +127,10 @@ Ikke rukket å teste etter siste endringer......
     Denne skal nå være grei tror jeg.
     Hvis livemode, så opprettes evt. manglende kategorier i sky, samt sletter de som evt. skal slettes.
 > Commit
+> Ordnet også stores, slik at synk og greier skal være ok der.
+> Commit
+
+
 
 Nå står det igjen å sette dette i live i de forskjellige sidene.
 

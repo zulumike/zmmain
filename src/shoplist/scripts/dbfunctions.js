@@ -220,26 +220,26 @@ export async function getItemDB(container, id) {
 
 }
 
-// export async function getItemDB(container, accountId) {
-//   const endpoint = basicEndpoint + '?containerid=' + container +'&accountid=' + accountId;
+export async function getAccountStoresDB(container, accountId) {
+  const endpoint = basicEndpoint + '?containerid=' + container +'&accountid=' + accountId;
 
-//     try {
-//         const response = await fetch(endpoint, {
-//           method: "GET",
-//           headers: { "Content-Type": "application/json" }
-//         });
-//         const result = await response.json();
-//         if (result.length < 1) {
-//             return { status: 404, body: 'Ingen butikker funnet' };
-//         } else {
-//             return { status: 200, body: result };
-//         }
-//     }
-//     catch (error) {
-//         return { status: 400, body: 'Error getting item' + error }
-//     }
+    try {
+        const response = await fetch(endpoint, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        });
+        const result = await response.json();
+        if (result.length < 1) {
+            return { status: 404, body: 'Ingen butikker funnet' };
+        } else {
+            return { status: 200, body: result };
+        }
+    }
+    catch (error) {
+        return { status: 400, body: 'Error getting item' + error }
+    }
 
-// }
+}
 
 export async function updateItemDB(container, data) {
     // const oldData = await getItemDB(container, data.id);

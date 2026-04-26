@@ -63,6 +63,13 @@ async function saveStore() {
             console.log(allItemResponse);
         }
         storeForm.reset();
+        if (localSettings.liveMode) {
+            const syncToCloudResponse = await dbFunction.syncToCloud(config.storeContainer, config.storeContainer);
+            if (syncToCloudResponse.status !== 200) {
+                functions.showMessage('Feil ved synkronisering til sky. Feil: ' + syncToCloudResponse.body, true, 7000);
+                console.log(syncToCloudResponse);
+            }
+        }
         await showStores();
 }
 
@@ -75,10 +82,27 @@ async function deleteStore(storeId) {
         functions.showMessage('Feil ved sletting av Butikk! ' + response.body, true, 7000);
         console.log(response);
     }
+    if (localSettings.liveMode) {
+        const syncToCloudResponse = await dbFunction.syncToCloud(config.storeContainer, config.storeContainer);
+        if (syncToCloudResponse.status !== 200) {
+            functions.showMessage('Feil ved synkronisering til sky. Feil: ' + syncToCloudResponse.body, true, 7000);
+            console.log(syncToCloudResponse);
+        }
+    }
     await showStores();
 }
 
 async function showStores(){
+    if (localSettings.liveMode) {
+        const syncToLocalsResponse = await dbFunction.syncToLocal(config.storeContainer, config.storeContainer);
+        if (syncToLocalsResponse.status === 204) {
+            functions.showMessage('Skydata eksisterer ikke', false, 5000);
+        }
+        else if (syncToLocalsResponse.status !== 200) {
+            functions.showMessage('Feil ved synkronisering fra sky. Feil: ' + syncToLocalsResponse.body, true, 7000);
+            console.log(syncToLocalsResponse);
+        }
+        }
     storesBody.innerHTML = '';
     const allItemsResponse = await dbFunction.getAllItems(config.storeContainer);
     let allItems = [];
