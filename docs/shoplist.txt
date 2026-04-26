@@ -137,16 +137,15 @@ Ikke rukket å teste etter siste endringer......
 > Rettet på stores, slik at accountid blir lagret i butikk.
 > Startet litt på fiksing av index (hovedsiden)
 > Commit
+> Fikset item-forslag.
+> Commit
 
+NB: Sjekk om følgende funksjoner i index.js er i bruk og evt. slett dem:
+    createStoreInDB
+    updateStoreInDB
+    loadStoresFromDB
+Vurdere om bruke syncToCloud og syncToLocal kan brukes istedenfor.
 
-
-Må legge til en container for shopItemSuggestions som skal brukes som hurtig-oppslag. Inneholder navn og kategori.
-    Når man begynner å skrive f.eks bru, så kommmer brunost opp som forslag
-    Og kategori blir automatisk valgt.
-    Denne fylles automatisk, når man legger til en vare som også har kategori.
-    Må naturligvis sjekke om varen eksisterer fra før, og skrive over denne, slik at evt. annen kategori blir satt.
-
-Må få lagt til oppslag på kategorier når man skal legge til varer.
 
 Få lagt til intervall for sjekk av om nye data i DB.
 Evt. sjekke om funksjon i cosmos for å sette et flagg eller noe som sjekkes

@@ -7,6 +7,7 @@ const liveModeInput = document.getElementById('liveMode');
 
 let stores = [];
 let categories = [];
+let itemSuggestionArray = [];
 
 const activeUser = await getUserInfo();
 
@@ -113,6 +114,17 @@ itemNameInput.addEventListener('dblclick', () => {
     itemNameInput.value = '';
 });
 
+itemNameInput.addEventListener('change', () => {
+    console.log('Item name input changed, checking for suggestions');
+    for (let i = 0; i < itemSuggestionArray.length; i++) {
+        console.log(itemSuggestionArray[i].name + ' vs ' + itemNameInput.value.split('#')[0].toLowerCase());
+        if (itemSuggestionArray[i].name === itemNameInput.value.split('#')[0].toLowerCase()) {
+            itemCategoryInput.value = itemSuggestionArray[i].category;
+            break;
+        }
+    }
+});
+
 itemCategoryInput.addEventListener('dblclick', () => {
     itemCategoryInput.value = '';
 });
@@ -136,9 +148,43 @@ itemForm.addEventListener('submit', async (e) => {
         console.log('Feil ved lagring av vare. Feil: ' + updateResponse.body);
         return;
     }
+    await updateSuggestions(newItem);
     await populateShopList();
     itemForm.reset();
 });
+
+async function updateSuggestions(item) {
+    console.log('updating suggestions');
+    console.log(itemSuggestionArray);
+    console.log(item);
+    for (let i = 0; i < itemSuggestionArray.length; i++) {
+        if (itemSuggestionArray[i].name.toLowerCase() === item.name.toLowerCase() && itemSuggestionArray[i].category.toLowerCase() === item.category.toLowerCase()) {
+            return;
+        }
+    }
+    itemSuggestionArray.push(item);
+    const deleteResponse = await dbFunction.deleteAllItems(config.shopItemSuggestionsContainer);
+    if (deleteResponse.status !== 200) {
+        functions.showMessage('Feil ved oppdatering av vareforslag. Feil: ' + deleteResponse.body, true, 7000);
+        console.log('Feil ved oppdatering av vareforslag. Feil: ' + deleteResponse.body);
+        return;
+    }
+    const updateResponse = await dbFunction.addItems(config.shopItemSuggestionsContainer, itemSuggestionArray);
+    if (updateResponse.status !== 200) {
+        functions.showMessage('Feil ved oppdatering av vareforslag. Feil: ' + updateResponse.body, true, 7000);
+        console.log('Feil ved oppdatering av vareforslag. Feil: ' + updateResponse.body);
+        return;
+    }
+    if (localSettings.liveMode) {
+        const syncToCloudResponse = await dbFunction.syncToCloud(config.shopItemSuggestionsContainer, config.shopItemSuggestionsContainer);
+        if (syncToCloudResponse.status !== 200) {
+            functions.showMessage('Feil ved synkronisering til sky. Feil: ' + syncToCloudResponse.body, true, 7000);
+            console.log('Feil ved synkronisering til sky. Feil: ' + syncToCloudResponse.body);
+            return;
+        }
+    }
+    return;
+}
 
 async function updateAccountFromDB() {
     try {
@@ -171,9 +217,9 @@ function populateStoreSuggestions() {
 // Denne må fikses til å hente fra container shopitemsuggestionlist
 function populateItemSuggestions() {
     itemSuggestionList.replaceChildren();
-    for (let i = 0; i < foods.length; i++) {
+    for (let i = 0; i < itemSuggestionArray.length; i++) {
         const option = document.createElement('option');
-        option.value = foods[i].foodName + '#' + i;
+        option.value = itemSuggestionArray[i].name + '#' + i;
         itemSuggestionList.appendChild(option);
     };
 }
@@ -380,7 +426,6 @@ async function initPage() {
     //     selectedStoreIndex = shopSettings.defaultStoreId;
     // }
 
-    console.log(localSettings);
     if (localSettings.liveMode) {
         const syncToLocalsResponse = await dbFunction.syncToLocal(config.categoryContainer, config.categoryContainer);
         if (syncToLocalsResponse.status === 204) {
@@ -389,6 +434,13 @@ async function initPage() {
         else if (syncToLocalsResponse.status !== 200) {
             functions.showMessage('Feil ved synkronisering fra sky. Feil: ' + syncToLocalsResponse.body, true, 7000);
             console.log(syncToLocalsResponse);
+        }
+        const syncToLocalsResponse2 = await dbFunction.syncToLocal(config.shopItemSuggestionsContainer, config.shopItemSuggestionsContainer);
+        if (syncToLocalsResponse2.status === 204) {
+            functions.showMessage('Skydata eksisterer ikke', false, 5000);
+        }
+        else if (syncToLocalsResponse2.status !== 200) {
+            functions.showMessage('Feil ved synkronisering fra sky. Feil: ' + syncToLocalsResponse2.body, true, 7000);
         }
     }
 
@@ -400,6 +452,20 @@ async function initPage() {
     }
     categories = categoriesResponse.body;
 
+    const itemSuggestionResponse = await dbFunction.getAllItems(config.shopItemSuggestionsContainer);
+    console.log(itemSuggestionResponse);
+    if (itemSuggestionResponse.status !== 200 && itemSuggestionResponse.status !== 204) {
+        functions.showMessage('Feil ved lesing av vareforslag. Feil: ' + itemSuggestionResponse.body, true, 7000);
+        console.log('Feil ved lesing av vareforslag. Feil: ' + itemSuggestionResponse.body);
+        return;
+    }
+    if (itemSuggestionResponse.status === 204) {
+        itemSuggestionArray = [];
+    }
+    else {
+        itemSuggestionArray = itemSuggestionResponse.body;
+    }
+    console.log(itemSuggestionArray);
     // const foodsResponse = await dbFunction.getFoods();
     // if (foodsResponse.status !== 200) {
     //     functions.showMessage('Feil ved lesing av matvarer. Feil: ' + foodsResponse.body, true, 7000);
@@ -454,6 +520,7 @@ async function initPage() {
         }
     }
     populateStoreSuggestions();
+    populateItemSuggestions();
     populateCategorySuggestions();
     selectedStoreInput.value = stores[shopSettings.defaultStoreId].name + '#' + shopSettings.defaultStoreId;
     await populateShopList();

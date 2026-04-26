@@ -398,7 +398,11 @@ export async function syncToCloud(localContainer, cloudContainer) {
 
 export async function syncToLocal(cloudContainer, localContainer) {
     const cloudItemsResponse = await readAllItemsDB(cloudContainer);
-    if (cloudItemsResponse.status === 200) {
+    if (cloudItemsResponse.status === 204) {
+        await deleteAllItems(localContainer);
+        return { status: 200, body: 'Sync to local successful. No items in cloud, local cleared' }
+    }
+    else if (cloudItemsResponse.status === 200) {
         const cloudItems = cloudItemsResponse.body;
         const addItemsResponse = await addItems(localContainer, cloudItems);
         if (addItemsResponse.status === 200) {
