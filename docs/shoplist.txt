@@ -134,11 +134,11 @@ Ikke rukket å teste etter siste endringer......
 > Ordnet litt forskjellige
 > Fikset rekkefølge av kategorier i butikk
 > Commit
+> Rettet på stores, slik at accountid blir lagret i butikk.
+> Startet litt på fiksing av index (hovedsiden)
+> Commit
 
 
-Nå står det igjen å sette dette i live i de forskjellige sidene.
-
-Litt mye rot nå egentlig..... 
 
 Må legge til en container for shopItemSuggestions som skal brukes som hurtig-oppslag. Inneholder navn og kategori.
     Når man begynner å skrive f.eks bru, så kommmer brunost opp som forslag

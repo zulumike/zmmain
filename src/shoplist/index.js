@@ -6,6 +6,7 @@ import { getUserInfo } from '../scripts/auth.js';
 const liveModeInput = document.getElementById('liveMode');
 
 let stores = [];
+let categories = [];
 
 const activeUser = await getUserInfo();
 
@@ -26,7 +27,7 @@ let activeAccount = undefined;
 // }
 
 let foods = [];
-let foodCategories = [];
+// let foodCategories = [];
 // const stores = {};
 let selectedStoreIndex = 0;
 const shopSettings = {
@@ -166,6 +167,8 @@ function populateStoreSuggestions() {
     }
 }
 
+
+// Denne må fikses til å hente fra container shopitemsuggestionlist
 function populateItemSuggestions() {
     itemSuggestionList.replaceChildren();
     for (let i = 0; i < foods.length; i++) {
@@ -177,14 +180,14 @@ function populateItemSuggestions() {
 
 function setItemCategoryBasedOnName(foodIndex) {
     const selectedFoodCategory = foods[foodIndex].foodGroupId.split('.')[0];
-    itemCategoryInput.value = foodCategories[selectedFoodCategory].name;
+    itemCategoryInput.value = categories[selectedFoodCategory].name;
 }
 
 function populateCategorySuggestions() {
     itemCategorySuggestionList.replaceChildren();
-    for (let key in foodCategories) {
+    for (let key in categories) {
         const option = document.createElement('option');
-        option.value = foodCategories[key].name;
+        option.value = categories[key].name;
         itemCategorySuggestionList.appendChild(option);
     }
 }
@@ -198,14 +201,14 @@ async function populateShopList() {
     }
     const sortedShopList = [];
     const uncategorizedItems = [];
-    // for (let category in foodCategories) {
+    // for (let category in categories) {
     // Add categorized items in order by category
     for (let i = 0; i < currentStore.categories.length; i++) {
         // const category = currentStore.categories[i].id;
         const category = currentStore.categories[i];
         for (let j = 0; j < currentStore.shopList.length; j++) {
             const item = currentStore.shopList[j];
-            // if (item.category === foodCategories[category].name) {
+            // if (item.category === categories[category].name) {
             if (item.category === category.name) {
                 sortedShopList.push(item);
             }
@@ -371,11 +374,32 @@ async function loadStoresFromDB() {
 }
 
 async function initPage() {
-    const shopSettingsResponse = await dbFunction.getSingleItem(config.shopSettingsContainer, 0);
-    if (shopSettingsResponse.status === 200) {
-        Object.assign(shopSettings, shopSettingsResponse.body);
-        selectedStoreIndex = shopSettings.defaultStoreId;
+    // const shopSettingsResponse = await dbFunction.getSingleItem(config.shopSettingsContainer, 0);
+    // if (shopSettingsResponse.status === 200) {
+    //     Object.assign(shopSettings, shopSettingsResponse.body);
+    //     selectedStoreIndex = shopSettings.defaultStoreId;
+    // }
+
+    console.log(localSettings);
+    if (localSettings.liveMode) {
+        const syncToLocalsResponse = await dbFunction.syncToLocal(config.categoryContainer, config.categoryContainer);
+        if (syncToLocalsResponse.status === 204) {
+            functions.showMessage('Skydata eksisterer ikke', false, 5000);
+        }
+        else if (syncToLocalsResponse.status !== 200) {
+            functions.showMessage('Feil ved synkronisering fra sky. Feil: ' + syncToLocalsResponse.body, true, 7000);
+            console.log(syncToLocalsResponse);
+        }
     }
+
+    const categoriesResponse = await dbFunction.getAllItems(config.categoryContainer);
+    if (categoriesResponse.status !== 200) {
+        functions.showMessage('Feil ved lesing av kategorier. Feil: ' + categoriesResponse.body, true, 7000);
+        console.log('Feil ved lesing av kategorier. Feil: ' + categoriesResponse.body);
+        return;
+    }
+    categories = categoriesResponse.body;
+
     // const foodsResponse = await dbFunction.getFoods();
     // if (foodsResponse.status !== 200) {
     //     functions.showMessage('Feil ved lesing av matvarer. Feil: ' + foodsResponse.body, true, 7000);
@@ -392,6 +416,9 @@ async function initPage() {
     // }
     // foodCategories = foodCategoriesResponse.body;
     // populateCategorySuggestions();
+
+
+    // Henter butikker fra database eller lokalt og putter inn i stores array. I tillegg legges en generell.
     stores[0] = { name: 'Generell' };
     if (localSettings.liveMode && activeUser.userDetails !== undefined) {
         const accountResponse = await dbFunction.getAccountByUserDB(config.accountContainer, activeUser.userDetails);
@@ -408,9 +435,9 @@ async function initPage() {
             console.log('Feil ved lesing av butikker fra database. Feil: ' + storeResponse.body);
             return;
         }
-        const storeFromDB = storeResponse.body;
-        for (let i = 0; i < storeFromDB.length; i++) {
-            const store = storeFromDB[i];
+        const storesFromDB = storeResponse.body;
+        for (let i = 0; i < storesFromDB.length; i++) {
+            const store = storesFromDB[i];
             stores.push(store);
         }
     }
@@ -427,6 +454,7 @@ async function initPage() {
         }
     }
     populateStoreSuggestions();
+    populateCategorySuggestions();
     selectedStoreInput.value = stores[shopSettings.defaultStoreId].name + '#' + shopSettings.defaultStoreId;
     await populateShopList();
 }

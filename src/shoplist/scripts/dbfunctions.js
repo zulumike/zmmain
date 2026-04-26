@@ -236,7 +236,7 @@ export async function getAccountStoresDB(container, accountId) {
         }
     }
     catch (error) {
-        return { status: 400, body: 'Error getting item' + error }
+        return { status: 400, body: 'Error getting item - ' + error }
     }
 
 }

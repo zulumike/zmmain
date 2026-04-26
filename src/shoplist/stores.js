@@ -14,6 +14,7 @@ storeForm.addEventListener('submit', function(e) {
 })
 
 const activeUser = await getUserInfo();
+let activeAccount = undefined;
 
 const localSettings = await dbFunction.getLocalSettings();
 if (localSettings.liveMode !== undefined) {
@@ -31,11 +32,41 @@ liveModeInput.addEventListener('change', async function() {
     await dbFunction.writeLocalSettings(localSettings);
 });
 
+async function updateAccountFromDB() {
+    try {
+        if (!activeUser) {
+            throw new Error('Ingen aktiv bruker funnet. Kan ikke oppdatere konto fra database');
+        }
+        const accountResponse = await dbFunction.getAccountByUserDB('accounts', activeUser.userDetails);
+        if (accountResponse.status !== 200) {
+            throw new Error(accountResponse.body);
+        }
+        const accountFromDB = accountResponse.body;
+        activeAccount = accountFromDB;
+    }
+    catch (error) {
+        functions.showMessage('Feil ved oppdatering av konto fra database. Feil: ' + error, true, 7000);
+        console.log('Feil ved oppdatering av konto fra database. Feil: ' + error);
+    }
+}
+
 async function saveStore() {
     const formData = new FormData(storeForm, itemSubmitBtn);
         const newStore = Object.fromEntries(formData.entries());
-        console.log(newStore);
         newStore.categories = [];
+        if (activeUser) {
+            const accountResponse = await dbFunction.getAccountByUserDB('accounts', activeUser.userDetails);
+            if (accountResponse.status === 200) {
+                const accountFromDB = accountResponse.body;
+                activeAccount = accountFromDB;
+                newStore.accountId = accountFromDB.id;
+            }
+            else {
+                functions.showMessage('Feil ved henting av konto fra database. Feil: ' + accountResponse.body, true, 7000);
+                console.log('Feil ved henting av konto fra database. Feil: ' + accountResponse.body);
+                return;
+            }
+        }
         const allItemResponse = await dbFunction.getAllItems(config.storeContainer);
         let existingItems = [];
         if (allItemResponse.status === 200 || allItemResponse.status === 204) {
