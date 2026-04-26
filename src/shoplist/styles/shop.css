@@ -33,6 +33,12 @@
     margin: 20px;
 }
 
+.centering-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .category-list-div, .ordered-list-div {
     width: 200px;
     border: 1px solid black;

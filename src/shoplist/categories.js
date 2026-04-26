@@ -19,15 +19,15 @@ else {
     await dbFunction.writeLocalSettings(localSettings);
 }
 
-categoryForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    saveCategory();
-});
-
 liveModeInput.addEventListener('change', async function() {
     const localSettings = await dbFunction.getLocalSettings();
     localSettings.liveMode = liveModeInput.checked;
     await dbFunction.writeLocalSettings(localSettings);
+});
+
+categoryForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    saveCategory();
 });
 
 async function saveCategory() {

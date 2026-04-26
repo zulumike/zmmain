@@ -130,6 +130,10 @@ Ikke rukket å teste etter siste endringer......
 > Ordnet også stores, slik at synk og greier skal være ok der.
 > Commit
 
+* 26.04.2026
+> Ordnet litt forskjellige
+> Fikset rekkefølge av kategorier i butikk
+> Commit
 
 
 Nå står det igjen å sette dette i live i de forskjellige sidene.

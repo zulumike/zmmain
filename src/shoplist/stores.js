@@ -25,6 +25,12 @@ else {
     await dbFunction.writeLocalSettings(localSettings);
 }
 
+liveModeInput.addEventListener('change', async function() {
+    const localSettings = await dbFunction.getLocalSettings();
+    localSettings.liveMode = liveModeInput.checked;
+    await dbFunction.writeLocalSettings(localSettings);
+});
+
 async function saveStore() {
     const formData = new FormData(storeForm, itemSubmitBtn);
         const newStore = Object.fromEntries(formData.entries());

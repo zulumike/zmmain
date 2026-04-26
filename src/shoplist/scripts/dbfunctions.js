@@ -252,7 +252,7 @@ export async function updateItemDB(container, data) {
           body: JSON.stringify(data)
         });
         const result = await res.json();
-        return result;
+        return { status: res.status, body: result }
     }
     catch (error) {
         return { status: 400, body: 'Error updating item: ' + error }
@@ -264,18 +264,18 @@ export async function createItemDB(container, data) {
     
     try {
         if (!data.id) data.id = generateId();
-        const result = await fetch(endpoint, {
+        const response = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
-        const response = await result.json();
-        if (response.status !== 200) {
+        if (response.status !== 200 && response.status !== 201) {
             throw new Error(response.status + '-' + response.body)
         }
-        return { status: 200, body: response.body };
+        return { status: 201 };
     }
     catch (error) {
+        console.error(error);
         return { status: 400, body: 'Error creating item: ' + error }
     }
 }
@@ -323,17 +323,23 @@ export async function writeLocalSettings(settings) {
 export async function syncToCloud(localContainer, cloudContainer) {
     try {
         const localItemsResponse = await getAllItems(localContainer);
-        if (localItemsResponse.status !== 200) {
-            console.log('Error getting local items to sync: ' + localItemsResponse.body);
+        if (localItemsResponse.status !== 200 && localItemsResponse.status !== 204) {
+            console.log('Error getting local items to sync: ' + localItemsResponse.status + ' - ' + localItemsResponse.body);
             throw new Error('Error getting local items to sync: ' + localItemsResponse.body);
         }
-        const localItems = localItemsResponse.body;
+        let localItems = [];
+        if (localItemsResponse.status !== 204) {
+            localItems = localItemsResponse.body;
+        }
         const cloudItemsResponse = await readAllItemsDB(cloudContainer);
         if (cloudItemsResponse.status !== 200 && cloudItemsResponse.status !== 204) {
             console.log('Error getting cloud items to sync: ' + cloudItemsResponse.body);
             throw new Error('Error getting cloud items to sync: ' + cloudItemsResponse.body);
         }
-        const cloudItems = cloudItemsResponse.body;
+        let cloudItems = [];
+        if (cloudItemsResponse.status !== 204) {
+            cloudItems = cloudItemsResponse.body;
+        }
         // Compare local and cloud items and find items that exist locally but not in the cloud, then upload those items to the cloud
         let itemsToUpload = [];
         for (let i = 0; i < localItems.length; i++) {
@@ -353,7 +359,7 @@ export async function syncToCloud(localContainer, cloudContainer) {
         for (let k = 0; k < itemsToUpload.length; k++) {
             const itemToUpload = itemsToUpload[k];
             const creteItemResponse = await createItemDB(cloudContainer, itemToUpload);
-            if (creteItemResponse.status !== 200) {
+            if (creteItemResponse.status !== 201) {
                 console.log('Error uploading item to cloud: ' + creteItemResponse.body);
                 throw new Error('Error uploading item to cloud: ' + creteItemResponse.body);
             }
@@ -385,6 +391,7 @@ export async function syncToCloud(localContainer, cloudContainer) {
         return { status: 200, body: 'Sync to cloud successful. ' + itemsToUpload.length + ' items uploaded' }
     }
     catch (error) {
+        console.error(error);
         return { status: 400, body: 'Error syncing to cloud: ' + error }
     }
 }

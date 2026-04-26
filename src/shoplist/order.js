@@ -5,6 +5,11 @@ import * as config from "./scripts/config.js";
 const categoryList = document.getElementById('categoryList');
 const orderedList = document.getElementById('orderedList');
 const liveModeInput = document.getElementById('liveMode');
+const saveBtn = document.getElementById('saveBtn');
+const storeNameHeader = document.getElementById('storeName');
+
+saveBtn.addEventListener('click', saveChanges);
+
 let store = {};
 let allCategories = [];
 
@@ -36,6 +41,12 @@ else {
     localSettings.liveMode = false;
     await dbFunction.writeLocalSettings(localSettings);
 }
+
+liveModeInput.addEventListener('change', async function() {
+    const localSettings = await dbFunction.getLocalSettings();
+    localSettings.liveMode = liveModeInput.checked;
+    await dbFunction.writeLocalSettings(localSettings);
+});
 
 async function loadCategories() {
     categoryList.innerHTML = '';
@@ -134,15 +145,43 @@ async function getLocalCategories() {
 //     }
 // }
 
+async function saveChanges() {
+    if (localSettings.liveMode) {
+        const updateItemResponse = await dbFunction.updateItemDB(config.storeContainer, store);
+        if (updateItemResponse.status === 200) {
+            functions.showMessage('Endringer lagret', false, 5000);
+            window.location.href = 'stores.html';
+        }
+        else {
+            functions.showMessage('Feil ved lagring av endringer. Feil: ' + updateItemResponse.body, true, 7000);
+            console.log('Feil ved lagring av endringer. Feil: ' + updateItemResponse.body);
+        }
+    }
+    else {
+        window.location.href = 'stores.html';
+    }
+}
+
 async function initPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const storeId = urlParams.get('storeId');
+    if (localSettings.liveMode) {
+            const syncToLocalsResponse = await dbFunction.syncToLocal(config.storeContainer, config.storeContainer);
+            if (syncToLocalsResponse.status === 204) {
+                functions.showMessage('Skydata eksisterer ikke', false, 5000);
+            }
+            else if (syncToLocalsResponse.status !== 200) {
+                functions.showMessage('Feil ved synkronisering fra sky. Feil: ' + syncToLocalsResponse.body, true, 7000);
+                console.log(syncToLocalsResponse);
+            }
+        }
     const storeResponse = await dbFunction.getSingleItem(config.storeContainer, storeId);
         if (storeResponse.status !== 200) {
             functions.showMessage('Feil ved lesing av Butikk. Feil: ' + storeResponse.body, true, 7000);
             console.log('Feil ved lesing av Butikk. Feil: ' + storeResponse.body);    
         };
     store = storeResponse.body;
+    storeNameHeader.textContent = store.name;
     await getLocalCategories();
     // if (defaultValues.useCatFromMat) {
     //     foodFromMatvareTblCheckbox.checked = true;
