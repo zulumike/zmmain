@@ -31,15 +31,17 @@
                     <input type="text" name="item-category" id="itemCategory" placeholder="Kategori" list="itemCategorySuggestions">
                     <datalist id="itemCategorySuggestions"></datalist>
                     <button type="submit" id="itemSubmitBtn">Legg til</button>
+                    <button type="button" id="delShopListBtn">Slett handlelisten</button>
                 </form>
             </div>
             <div class="table-div">
                 <table>
+                    <h2>Handleliste</h2>
                     <tbody id="shopListBody"></tbody>
                 </table>
             </div>
             <div class="table-div">
-                <h2>I handlekurven</h2>
+                <h2 id="inCartHeader">I handlekurven</h2>
                 <table>
                     <tbody id="shopCartBody"></tbody>
                 </table>

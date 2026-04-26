@@ -4,6 +4,25 @@ import * as config from './scripts/config.js';
 import { getUserInfo } from '../scripts/auth.js';
 
 const liveModeInput = document.getElementById('liveMode');
+const inCartHeader = document.getElementById('inCartHeader');
+const delShopListBtn = document.getElementById('delShopListBtn');
+delShopListBtn.addEventListener('click', async () => {
+    if (!confirm('Er du sikker på at du vil slette hele handlelisten?')) {
+        return;
+    }
+    stores[selectedStoreIndex].shopList = [];
+    const updateResponse = await dbFunction.updateItem(config.storeContainer, stores[selectedStoreIndex]);
+    if (updateResponse.status !== 200) {
+        functions.showMessage('Feil ved sletting av handleliste. Feil: ' + updateResponse.body, true, 7000);
+        console.log('Feil ved sletting av handleliste. Feil: ' + updateResponse.body);
+        return;
+    }
+    if (localSettings.liveMode) {
+        await updateStoreInDB(stores[selectedStoreIndex]);
+    }
+    await populateShopList();
+});
+inCartHeader.style.display = 'none';
 
 let stores = [];
 let categories = [];
@@ -38,29 +57,11 @@ const shopSettings = {
 liveModeInput.addEventListener('change', async () => {
     localSettings.liveMode = liveModeInput.checked;
     dbFunction.writeLocalSettings(localSettings);
-
-    // let intervalID = null;
-    // await updateAccountFromDB();
-    // if (localSettings.liveMode) {
-    //     if (stores.length > 0) {
-    //         console.log('Live mode activated, updating store in database and starting automatic updates from database');
-    //         updateStoreInDB(stores[selectedStoreIndex]);
-    //     }
-    //     else {
-    //         console.log('No local stores. Attempting to load stores from database');
-    //         loadStoresFromDB();
-    //         // Load all stores which belongs to active account to local storage
-    //     }
-    //     // intervalID = setInterval(loadStoresFromDB, 5000);
-    // }
-    // else {
-    //     clearInterval(intervalID);
-    //     console.log('Live mode deactivated, stopped automatic updates from database');
-    // }
 });
 
 const selectedStoreInput = document.getElementById('selectedStore');
 const storeList = document.getElementById('storeList');
+
 selectedStoreInput.addEventListener('change', async () => {
     console.log('Selected store changed to: ' + selectedStoreInput.value);
     const storeIndex = selectedStoreInput.value.split('#')[1];
@@ -69,12 +70,9 @@ selectedStoreInput.addEventListener('change', async () => {
     }
     selectedStoreIndex = storeIndex;
     selectedStoreInput.style.backgroundColor = 'white';
+    localSettings.defaultStoreId = selectedStoreIndex;
+    await dbFunction.writeLocalSettings(localSettings);
     await populateShopList();
-    // const updateResponse = await dbFunction.updateItem(config.shopSettingsContainer, { id: 0, defaultStoreId: selectedStoreIndex });
-    // if (updateResponse.status === 404) {
-    //     const addResponse = await dbFunction.addSingleItem(config.shopSettingsContainer, { id: 0, defaultStoreId: selectedStoreIndex });
-    //     console.log(addResponse);
-    // }
 });
 
 selectedStoreInput.addEventListener('dblclick', () => {
@@ -95,30 +93,19 @@ selectedStoreInput.addEventListener('blur', () => {
 
 const itemForm = document.getElementById('itemForm');
 const itemNameInput = document.getElementById('itemName');
-itemNameInput.addEventListener('change', () => {
-    const foodIndex = itemNameInput.value.split('#')[1];
-    if (foodIndex === undefined) {
-        return;
-    }
-    setItemCategoryBasedOnName(foodIndex);
-});
 const itemSuggestionList = document.getElementById('itemSuggestions');
 const itemCategoryInput = document.getElementById('itemCategory');
 const itemCategorySuggestionList = document.getElementById('itemCategorySuggestions');
 const shopListBody = document.getElementById('shopListBody');
 const shopCartBody = document.getElementById('shopCartBody');
-// const itemSubmitBtn = document.getElementById('itemSubmitBtn');
-
 
 itemNameInput.addEventListener('dblclick', () => {
     itemNameInput.value = '';
 });
 
 itemNameInput.addEventListener('change', () => {
-    console.log('Item name input changed, checking for suggestions');
     for (let i = 0; i < itemSuggestionArray.length; i++) {
-        console.log(itemSuggestionArray[i].name + ' vs ' + itemNameInput.value.split('#')[0].toLowerCase());
-        if (itemSuggestionArray[i].name === itemNameInput.value.split('#')[0].toLowerCase()) {
+        if (itemSuggestionArray[i].name.toLowerCase() === itemNameInput.value.split('#')[0].toLowerCase()) {
             itemCategoryInput.value = itemSuggestionArray[i].category;
             break;
         }
@@ -149,14 +136,14 @@ itemForm.addEventListener('submit', async (e) => {
         return;
     }
     await updateSuggestions(newItem);
+    if (localSettings.liveMode) {
+        await updateStoreInDB(stores[selectedStoreIndex]);
+    }
     await populateShopList();
     itemForm.reset();
 });
 
 async function updateSuggestions(item) {
-    console.log('updating suggestions');
-    console.log(itemSuggestionArray);
-    console.log(item);
     for (let i = 0; i < itemSuggestionArray.length; i++) {
         if (itemSuggestionArray[i].name.toLowerCase() === item.name.toLowerCase() && itemSuggestionArray[i].category.toLowerCase() === item.category.toLowerCase()) {
             return;
@@ -211,6 +198,10 @@ function populateStoreSuggestions() {
         option.value = stores[key].name + '#' + key;
         storeList.appendChild(option);
     }
+    if (localSettings.defaultStoreId) {
+        selectedStoreIndex = parseInt(localSettings.defaultStoreId);
+        selectedStoreInput.value = stores[selectedStoreIndex].name + '#' + selectedStoreIndex;
+    }
 }
 
 
@@ -239,6 +230,16 @@ function populateCategorySuggestions() {
 }
 
 async function populateShopList() {
+    if (localSettings.liveMode) {
+            const syncToLocalsResponse = await dbFunction.syncToLocal(config.storeContainer, config.storeContainer);
+            if (syncToLocalsResponse.status === 204) {
+                functions.showMessage('Skydata eksisterer ikke', false, 5000);
+            }
+            else if (syncToLocalsResponse.status !== 200) {
+                functions.showMessage('Feil ved synkronisering fra sky. Feil: ' + syncToLocalsResponse.body, true, 7000);
+                console.log(syncToLocalsResponse);
+            }
+        }
     shopListBody.replaceChildren();
     shopCartBody.replaceChildren();
     const currentStore = stores[selectedStoreIndex];
@@ -247,14 +248,11 @@ async function populateShopList() {
     }
     const sortedShopList = [];
     const uncategorizedItems = [];
-    // for (let category in categories) {
     // Add categorized items in order by category
     for (let i = 0; i < currentStore.categories.length; i++) {
-        // const category = currentStore.categories[i].id;
         const category = currentStore.categories[i];
         for (let j = 0; j < currentStore.shopList.length; j++) {
             const item = currentStore.shopList[j];
-            // if (item.category === categories[category].name) {
             if (item.category === category.name) {
                 sortedShopList.push(item);
             }
@@ -276,15 +274,11 @@ async function populateShopList() {
             uncategorizedItems.push(item);
         }
     }
-
-    // for (let i = 0; i < currentStore.shopList.length; i++) {
-    //     const item = currentStore.shopList[i];
-    //     if (item.category === '' || item.category === undefined) {
-    //         uncategorizedItems.push(item);;
-    //     }
-    // }
     Array.prototype.push.apply(sortedShopList, uncategorizedItems);
     for (let i = 0; i < sortedShopList.length; i++) {
+        if (sortedShopList[i].inCart) {
+            inCartHeader.style.display = 'block';
+        }
         const item = sortedShopList[i];
         const row = shopListBody.insertRow(-1);
         const cartCell = row.insertCell();
@@ -312,6 +306,9 @@ async function populateShopList() {
                 console.log('Feil ved oppdatering av vare. Feil: ' + updateResponse.body);
                 return;
             }
+            if (localSettings.liveMode) {
+                await updateStoreInDB(stores[selectedStoreIndex]);
+            }
             await populateShopList();
         });
         const amountCell = row.insertCell();
@@ -336,6 +333,9 @@ async function populateShopList() {
                 console.log('Feil ved sletting av vare. Feil: ' + updateResponse.body);
                 return;
             }
+            if (localSettings.liveMode) {
+                await updateStoreInDB(stores[selectedStoreIndex]);
+            }
             await populateShopList();
         });
         if (item.inCart) {
@@ -345,9 +345,6 @@ async function populateShopList() {
             shopListBody.appendChild(row);
         }
     }
-    // if (localSettings.liveMode && activeAccount) {
-    //     await updateStoreInDB(stores[selectedStoreIndex]);
-    // }
 }
 
 async function createStoreInDB(store) {
@@ -374,7 +371,7 @@ async function updateStoreInDB(store) {
         }
         store.accountId = activeAccount.id;
         store.accountName = activeAccount.name;
-        const response = await dbFunction.updateItemDB('stores', store)
+        const response = await dbFunction.updateItemDB(config.storeContainer, store)
         if (response.status === 204) {
             const createResponse = await createStoreInDB(store);
             return createResponse;
@@ -390,41 +387,7 @@ async function updateStoreInDB(store) {
     }
 }
 
-async function loadStoresFromDB() {
-    let stores = [];
-    console.log(activeAccount);
-    try {
-        const storeResponse = await dbFunction.getAccountStoresDB('stores', activeAccount.id);
-        if (storeResponse.status !== 200) {
-            throw new Error(storeResponse.body);
-        }
-        stores = storeResponse.body;
-
-        // Neste blir å oppdatere lokal lagring med butikkene som tilhører aktiv konto.
-    }
-    catch (error) {
-        functions.showMessage('Feil ved oppdatering av data fra database. Feil: ' + error, true, 7000);
-        console.log('Feil ved oppdatering av data fra database. Feil: ' + error);
-    }
-
-    try {
-        const writeStoreResponse = await dbFunction.addItems('stores', stores);
-        if (writeStoreResponse.status !== 200) {
-            throw new Error(writeStoreResponse.body);
-        }
-    }
-    catch (error) {
-        functions.showMessage('Feil ved oppdatering av stores fra database. Feil: ' + error, true, 7000);
-        console.log('Feil ved oppdatering av stores fra database. Feil: ' + error);
-    }
-}
-
 async function initPage() {
-    // const shopSettingsResponse = await dbFunction.getSingleItem(config.shopSettingsContainer, 0);
-    // if (shopSettingsResponse.status === 200) {
-    //     Object.assign(shopSettings, shopSettingsResponse.body);
-    //     selectedStoreIndex = shopSettings.defaultStoreId;
-    // }
 
     if (localSettings.liveMode) {
         const syncToLocalsResponse = await dbFunction.syncToLocal(config.categoryContainer, config.categoryContainer);
@@ -453,7 +416,6 @@ async function initPage() {
     categories = categoriesResponse.body;
 
     const itemSuggestionResponse = await dbFunction.getAllItems(config.shopItemSuggestionsContainer);
-    console.log(itemSuggestionResponse);
     if (itemSuggestionResponse.status !== 200 && itemSuggestionResponse.status !== 204) {
         functions.showMessage('Feil ved lesing av vareforslag. Feil: ' + itemSuggestionResponse.body, true, 7000);
         console.log('Feil ved lesing av vareforslag. Feil: ' + itemSuggestionResponse.body);
@@ -465,24 +427,6 @@ async function initPage() {
     else {
         itemSuggestionArray = itemSuggestionResponse.body;
     }
-    console.log(itemSuggestionArray);
-    // const foodsResponse = await dbFunction.getFoods();
-    // if (foodsResponse.status !== 200) {
-    //     functions.showMessage('Feil ved lesing av matvarer. Feil: ' + foodsResponse.body, true, 7000);
-    //     console.log('Feil ved lesing av matvarer. Feil: ' + foodsResponse.body);
-    //     return;
-    // }
-    // foods = foodsResponse.body;
-    // populateItemSuggestions(foods);
-    // const foodCategoriesResponse = await dbFunction.getFoodCategories();
-    // if (foodCategoriesResponse.status !== 200) {
-    //     functions.showMessage('Feil ved lesing av matvarekategorier. Feil: ' + foodCategoriesResponse.body, true, 7000);
-    //     console.log('Feil ved lesing av matvarekategorier. Feil: ' + foodCategoriesResponse.body);
-    //     return;
-    // }
-    // foodCategories = foodCategoriesResponse.body;
-    // populateCategorySuggestions();
-
 
     // Henter butikker fra database eller lokalt og putter inn i stores array. I tillegg legges en generell.
     stores[0] = { name: 'Generell' };
@@ -522,7 +466,6 @@ async function initPage() {
     populateStoreSuggestions();
     populateItemSuggestions();
     populateCategorySuggestions();
-    selectedStoreInput.value = stores[shopSettings.defaultStoreId].name + '#' + shopSettings.defaultStoreId;
     await populateShopList();
 }
 

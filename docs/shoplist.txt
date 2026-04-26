@@ -139,12 +139,8 @@ Ikke rukket å teste etter siste endringer......
 > Commit
 > Fikset item-forslag.
 > Commit
-
-NB: Sjekk om følgende funksjoner i index.js er i bruk og evt. slett dem:
-    createStoreInDB
-    updateStoreInDB
-    loadStoresFromDB
-Vurdere om bruke syncToCloud og syncToLocal kan brukes istedenfor.
+> Fått ordnet funksjon med å legge til varer i handlelisten, pluss legge i handlevogn og slette
+> Oppdateres til db hvis livemode
 
 
 Få lagt til intervall for sjekk av om nye data i DB.

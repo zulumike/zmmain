@@ -139,7 +139,7 @@ async function showStores(){
             functions.showMessage('Feil ved synkronisering fra sky. Feil: ' + syncToLocalsResponse.body, true, 7000);
             console.log(syncToLocalsResponse);
         }
-        }
+    }
     storesBody.innerHTML = '';
     const allItemsResponse = await dbFunction.getAllItems(config.storeContainer);
     let allItems = [];
