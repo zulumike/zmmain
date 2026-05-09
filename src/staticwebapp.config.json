@@ -24,6 +24,10 @@
     "401": {
       "statusCode": 302,
       "redirect": "/.auth/login/aad"
+    },
+    "403": {
+      "statusCode": 302,
+      "redirect": "/.auth/logout"
     }
   }
 }
