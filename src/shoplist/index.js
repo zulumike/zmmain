@@ -50,6 +50,7 @@ let foods = [];
 // let foodCategories = [];
 // const stores = {};
 let selectedStoreIndex = 0;
+let selectedStoreId = '1';
 const shopSettings = {
     defaultStoreId: 0
 };
@@ -59,37 +60,46 @@ liveModeInput.addEventListener('change', async () => {
     dbFunction.writeLocalSettings(localSettings);
 });
 
-const selectedStoreInput = document.getElementById('selectedStore');
-const storeList = document.getElementById('storeList');
-
-selectedStoreInput.addEventListener('change', async () => {
-    console.log('Selected store changed to: ' + selectedStoreInput.value);
-    const storeIndex = selectedStoreInput.value.split('#')[1];
-    if (storeIndex === undefined) {
-        return;
-    }
-    selectedStoreIndex = storeIndex;
-    selectedStoreInput.style.backgroundColor = 'white';
-    localSettings.defaultStoreId = selectedStoreIndex;
-    await dbFunction.writeLocalSettings(localSettings);
+const selectStore = document.getElementById('selectStore');
+selectStore.addEventListener('change', async () => {
+    const storeId = selectStore.value;
+    selectedStoreId = storeId;
+    localSettings.defaultStoreId = selectedStoreId;
+    dbFunction.writeLocalSettings(localSettings);
     await populateShopList();
 });
 
-selectedStoreInput.addEventListener('dblclick', () => {
-    selectedStoreInput.value = '';
-});
+// const selectedStoreInput = document.getElementById('selectedStore');
+// const storeList = document.getElementById('storeList');
 
-selectedStoreInput.addEventListener('focus', () => {
-    selectedStoreInput.value = '';
-    selectedStoreInput.style.backgroundColor = 'grey';
-});
+// selectedStoreInput.addEventListener('change', async () => {
+//     console.log('Selected store changed to: ' + selectedStoreInput.value);
+//     const storeIndex = selectedStoreInput.value.split('#')[1];
+//     if (storeIndex === undefined) {
+//         return;
+//     }
+//     selectedStoreIndex = storeIndex;
+//     selectedStoreInput.style.backgroundColor = 'white';
+//     localSettings.defaultStoreId = selectedStoreIndex;
+//     await dbFunction.writeLocalSettings(localSettings);
+//     await populateShopList();
+// });
 
-selectedStoreInput.addEventListener('blur', () => {
-    if (selectedStoreInput.value === '') {
-        selectedStoreInput.value = stores[selectedStoreIndex].name + '#' + selectedStoreIndex;
-    }
-    selectedStoreInput.style.backgroundColor = 'white';
-});
+// selectedStoreInput.addEventListener('dblclick', () => {
+//     selectedStoreInput.value = '';
+// });
+
+// selectedStoreInput.addEventListener('focus', () => {
+//     selectedStoreInput.value = '';
+//     selectedStoreInput.style.backgroundColor = 'grey';
+// });
+
+// selectedStoreInput.addEventListener('blur', () => {
+//     if (selectedStoreInput.value === '') {
+//         selectedStoreInput.value = stores[selectedStoreIndex].name + '#' + selectedStoreIndex;
+//     }
+//     selectedStoreInput.style.backgroundColor = 'white';
+// });
 
 const itemForm = document.getElementById('itemForm');
 const itemNameInput = document.getElementById('itemName');
@@ -192,16 +202,31 @@ async function updateAccountFromDB() {
 }
 
 function populateStoreSuggestions() {
-    storeList.replaceChildren();
-    for (let key in stores) {
-        const option = document.createElement('option');
-        option.value = stores[key].name + '#' + key;
-        storeList.appendChild(option);
-    }
+    // storeList.replaceChildren();
+    // for (let key in stores) {
+    //     const option = document.createElement('option');
+    //     option.value = stores[key].name + '#' + key;
+    //     storeList.appendChild(option);
+    // }
     if (localSettings.defaultStoreId) {
-        selectedStoreIndex = parseInt(localSettings.defaultStoreId);
-        selectedStoreInput.value = stores[selectedStoreIndex].name + '#' + selectedStoreIndex;
+        selectedStoreId = localSettings.defaultStoreId;
+        selectedStoreIndex = stores.findIndex(item => item.id === selectedStoreId);
     }
+    selectedStoreIndex = stores.findIndex(item => item.id === selectedStoreId);
+    for (let key in stores) {
+        const store = stores[key];
+        if (!store.id) {
+            store.id = '1';
+        }
+        const option = document.createElement('option');
+        option.text = store.name;
+        option.value = store.id;
+        selectStore.appendChild(option);
+        if (localSettings.defaultStoreId && localSettings.defaultStoreId === store.id) {
+            selectStore.value = store.id;
+        }
+    }
+
 }
 
 
@@ -242,7 +267,8 @@ async function populateShopList() {
         }
     shopListBody.replaceChildren();
     shopCartBody.replaceChildren();
-    const currentStore = stores[selectedStoreIndex];
+    // const currentStore = stores[selectedStoreIndex];
+    const currentStore = stores.find(item => item.id === selectedStoreId);
     if (currentStore.shopList === undefined || currentStore.shopList.length < 1) {
         return;
     }
@@ -345,6 +371,7 @@ async function populateShopList() {
             shopListBody.appendChild(row);
         }
     }
+    return
 }
 
 async function createStoreInDB(store) {
@@ -429,7 +456,7 @@ async function initPage() {
     }
 
     // Henter butikker fra database eller lokalt og putter inn i stores array. I tillegg legges en generell.
-    stores[0] = { name: 'Generell' };
+    // stores[0] = { name: 'Generell' };
     if (localSettings.liveMode && activeUser.userDetails !== undefined) {
         const accountResponse = await dbFunction.getAccountByUserDB(config.accountContainer, activeUser.userDetails);
         if (accountResponse.status !== 200) {
@@ -438,13 +465,18 @@ async function initPage() {
             return;
         }
         const accountFromDB = accountResponse.body;
-        activeAccount = accountFromDB;
+        activeAccount = accountFromDB[0];
         const storeResponse = await dbFunction.getAccountStoresDB(config.storeContainer, activeAccount.id);
         if (storeResponse.status !== 200) {
             functions.showMessage('Feil ved lesing av butikker fra database. Feil: ' + storeResponse.body, true, 7000);
             console.log('Feil ved lesing av butikker fra database. Feil: ' + storeResponse.body);
             return;
         }
+        const generalStore = {
+            name: 'Generell',
+            id: '1'
+        }
+        stores.push(generalStore);
         const storesFromDB = storeResponse.body;
         for (let i = 0; i < storesFromDB.length; i++) {
             const store = storesFromDB[i];

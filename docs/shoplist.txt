@@ -142,6 +142,13 @@ Ikke rukket å teste etter siste endringer......
 > Fått ordnet funksjon med å legge til varer i handlelisten, pluss legge i handlevogn og slette
 > Oppdateres til db hvis livemode
 
+* 14.05.2026
+> Begynt med omskriving av nedtrekksmenyer for å tilpasse bedre til iphone m.m
+> Ordnet valg av butikk. 
+
+* 15.05.2026
+> Gjort ferdig valg av butikk og foreløpig kommentert ut gammel løsning. Slettes når trygg
+> Commit
 
 Få lagt til intervall for sjekk av om nye data i DB.
 Evt. sjekke om funksjon i cosmos for å sette et flagg eller noe som sjekkes

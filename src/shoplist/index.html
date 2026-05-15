@@ -20,8 +20,15 @@
             <div>
                 <!-- <label for="liveMode">Live modus</label>
                 <input type="checkbox" id="liveMode"> -->
-                <input id="selectedStore" type="text" list="storeList" autocomplete="off"" required>
+
+                <input id="selectedStore" type="text" list="storeList" autocomplete="off" required>
                 <datalist id="storeList"></datalist>
+
+                <label for="selectStore">Butikk:</label>
+                <select name="selectStore" id="selectStore">
+                    <option value="Generell"></option>
+                </select>
+
             </div>
             <div class="form-div">
                 <form id="itemForm" action="">
