@@ -47,8 +47,6 @@ let activeAccount = undefined;
 // }
 
 let foods = [];
-// let foodCategories = [];
-// const stores = {};
 let selectedStoreIndex = 0;
 let selectedStoreId = '1';
 const shopSettings = {
@@ -69,43 +67,13 @@ selectStore.addEventListener('change', async () => {
     await populateShopList();
 });
 
-// const selectedStoreInput = document.getElementById('selectedStore');
-// const storeList = document.getElementById('storeList');
-
-// selectedStoreInput.addEventListener('change', async () => {
-//     console.log('Selected store changed to: ' + selectedStoreInput.value);
-//     const storeIndex = selectedStoreInput.value.split('#')[1];
-//     if (storeIndex === undefined) {
-//         return;
-//     }
-//     selectedStoreIndex = storeIndex;
-//     selectedStoreInput.style.backgroundColor = 'white';
-//     localSettings.defaultStoreId = selectedStoreIndex;
-//     await dbFunction.writeLocalSettings(localSettings);
-//     await populateShopList();
-// });
-
-// selectedStoreInput.addEventListener('dblclick', () => {
-//     selectedStoreInput.value = '';
-// });
-
-// selectedStoreInput.addEventListener('focus', () => {
-//     selectedStoreInput.value = '';
-//     selectedStoreInput.style.backgroundColor = 'grey';
-// });
-
-// selectedStoreInput.addEventListener('blur', () => {
-//     if (selectedStoreInput.value === '') {
-//         selectedStoreInput.value = stores[selectedStoreIndex].name + '#' + selectedStoreIndex;
-//     }
-//     selectedStoreInput.style.backgroundColor = 'white';
-// });
+const itemSuggestionUl = document.getElementById('itemSuggestionUl');
 
 const itemForm = document.getElementById('itemForm');
 const itemNameInput = document.getElementById('itemName');
 const itemSuggestionList = document.getElementById('itemSuggestions');
-const itemCategoryInput = document.getElementById('itemCategory');
-const itemCategorySuggestionList = document.getElementById('itemCategorySuggestions');
+const itemCategorySelect = document.getElementById('itemCategory');
+// const itemCategorySuggestionList = document.getElementById('itemCategorySuggestions');
 const shopListBody = document.getElementById('shopListBody');
 const shopCartBody = document.getElementById('shopCartBody');
 
@@ -113,28 +81,43 @@ itemNameInput.addEventListener('dblclick', () => {
     itemNameInput.value = '';
 });
 
+itemNameInput.addEventListener('input', () => {
+    // let itemSuggestionList = [];
+    // for (const i of itemSuggestionArray) {
+    //     itemSuggestionList.push(i.name);
+    // }
+    const itemSuggestionList = itemSuggestionArray.map(item => item.name);
+    const inputText = itemNameInput.value.toLowerCase();
+    const matches = itemSuggestionList.filter(item => {
+        return item.toLowerCase().includes(inputText)
+    });
+    populateItemSuggestions(matches);
+    itemSuggestionUl.hidden = false;
+});
+
 itemNameInput.addEventListener('change', () => {
     for (let i = 0; i < itemSuggestionArray.length; i++) {
-        if (itemSuggestionArray[i].name.toLowerCase() === itemNameInput.value.split('#')[0].toLowerCase()) {
-            itemCategoryInput.value = itemSuggestionArray[i].category;
+        if (itemSuggestionArray[i].name.toLowerCase() === itemNameInput.value.toLowerCase()) {
+            console.log(itemSuggestionArray[i]);
+            if (itemSuggestionArray[i].categoryId !== undefined) {
+                itemCategorySelect.value = itemSuggestionArray[i].categoryId;
+            }
             break;
         }
     }
-});
-
-itemCategoryInput.addEventListener('dblclick', () => {
-    itemCategoryInput.value = '';
 });
 
 itemForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const itemName = itemNameInput.value.split('#')[0];
     const itemAmount = document.getElementById('itemAmount').value;
-    const itemCategory = itemCategoryInput.value;
+    // const itemCategory = itemCategorySelect.value;
+    // const itemCategory = itemCategorySelect.text;
     const newItem = {
         name: itemName,
         amount: itemAmount,
-        category: itemCategory,
+        category: itemCategorySelect.options[itemCategorySelect.selectedIndex].text,
+        categoryId: itemCategorySelect.value,
         inCart: false
     };
     stores[selectedStoreIndex].shopList = stores[selectedStoreIndex].shopList || [];
@@ -155,7 +138,9 @@ itemForm.addEventListener('submit', async (e) => {
 
 async function updateSuggestions(item) {
     for (let i = 0; i < itemSuggestionArray.length; i++) {
-        if (itemSuggestionArray[i].name.toLowerCase() === item.name.toLowerCase() && itemSuggestionArray[i].category.toLowerCase() === item.category.toLowerCase()) {
+        // if (itemSuggestionArray[i].name.toLowerCase() === item.name.toLowerCase() && itemSuggestionArray[i].category.toLowerCase() === item.category.toLowerCase()) {
+        if (itemSuggestionArray[i].name.toLowerCase() === item.name.toLowerCase() && itemSuggestionArray[i].categoryId === item.categoryId) {
+            console.log('eksisterer');
             return;
         }
     }
@@ -229,28 +214,37 @@ function populateStoreSuggestions() {
 
 }
 
-
-// Denne må fikses til å hente fra container shopitemsuggestionlist
-function populateItemSuggestions() {
-    itemSuggestionList.replaceChildren();
-    for (let i = 0; i < itemSuggestionArray.length; i++) {
-        const option = document.createElement('option');
-        option.value = itemSuggestionArray[i].name + '#' + i;
-        itemSuggestionList.appendChild(option);
-    };
-}
-
-function setItemCategoryBasedOnName(foodIndex) {
-    const selectedFoodCategory = foods[foodIndex].foodGroupId.split('.')[0];
-    itemCategoryInput.value = categories[selectedFoodCategory].name;
+function populateItemSuggestions(matches = []) {
+    // itemSuggestionList.replaceChildren();
+    // for (let i = 0; i < itemSuggestionArray.length; i++) {
+    //     const option = document.createElement('option');
+    //     option.value = itemSuggestionArray[i].name + '#' + i;
+    //     itemSuggestionList.appendChild(option);
+    // };
+    itemSuggestionUl.innerHTML = '';
+    console.log(matches);
+    matches.slice(0,8).forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        li.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            itemNameInput.value = item;
+            itemSuggestionUl.hidden = true;
+        });
+        itemSuggestionUl.appendChild(li);
+    });
+    itemSuggestionUl.hidden = matches.lenth === 0;
 }
 
 function populateCategorySuggestions() {
-    itemCategorySuggestionList.replaceChildren();
+    const option = document.createElement('option');
+    option.text = '';
+    itemCategorySelect.appendChild(option);
     for (let key in categories) {
         const option = document.createElement('option');
-        option.value = categories[key].name;
-        itemCategorySuggestionList.appendChild(option);
+        option.value = categories[key].id;
+        option.text = categories[key].name;
+        itemCategorySelect.appendChild(option);
     }
 }
 
@@ -384,10 +378,12 @@ async function createStoreInDB(store) {
         }
         const result = response.body;
         functions.showMessage('Butikk opprettet i database: ' + result);
+        return
     }
     catch (error) {
         functions.showMessage('Feil ved oppretting av butikk i database. Feil: ' + error, true, 7000);
         console.log('Feil ved oppretting av butikk i database. Feil: ' + error);
+        return error
     }
 }
 
@@ -411,6 +407,7 @@ async function updateStoreInDB(store) {
     catch (error) {
         functions.showMessage('Feil ved oppdatering av data til database. Feil: ' + error, true, 7000);
         console.log('Feil ved oppdatering av data til database. Feil: ' + error);
+        return error
     }
 }
 

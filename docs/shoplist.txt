@@ -149,6 +149,9 @@ Ikke rukket å teste etter siste endringer......
 * 15.05.2026
 > Gjort ferdig valg av butikk og foreløpig kommentert ut gammel løsning. Slettes når trygg
 > Commit
+> Begynt på kategori nedtrekksmeny.
+> Ordnet nedtrekken. Måtte jobbe litt for å få til at kategori blir valgt basert på tidligere inputs, men tror ok nå
+> Commit
 
 Få lagt til intervall for sjekk av om nye data i DB.
 Evt. sjekke om funksjon i cosmos for å sette et flagg eller noe som sjekkes

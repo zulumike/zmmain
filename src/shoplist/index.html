@@ -21,9 +21,6 @@
                 <!-- <label for="liveMode">Live modus</label>
                 <input type="checkbox" id="liveMode"> -->
 
-                <input id="selectedStore" type="text" list="storeList" autocomplete="off" required>
-                <datalist id="storeList"></datalist>
-
                 <label for="selectStore">Butikk:</label>
                 <select name="selectStore" id="selectStore">
                     <option value="Generell"></option>
@@ -32,11 +29,11 @@
             </div>
             <div class="form-div">
                 <form id="itemForm" action="">
-                    <input type="text" name="item-name" id="itemName" placeholder="Vare" list="itemSuggestions" required>
+                    <input type="text" name="item-name" id="itemName" placeholder="Vare" list="itemSuggestions" autocomplete="off" required>
+                    <ul id="itemSuggestionUl" hidden></ul>
                     <datalist id="itemSuggestions"></datalist>
                     <input type="number" name="item-amount" id="itemAmount" placeholder="1" value="1" required>
-                    <input type="text" name="item-category" id="itemCategory" placeholder="Kategori" list="itemCategorySuggestions">
-                    <datalist id="itemCategorySuggestions"></datalist>
+                    <select name="item-category" id="itemCategory"></select>
                     <button type="submit" id="itemSubmitBtn">Legg til</button>
                     <button type="button" id="delShopListBtn">Slett handlelisten</button>
                 </form>
