@@ -6,6 +6,8 @@ import { getUserInfo } from '../scripts/auth.js';
 const liveModeInput = document.getElementById('liveMode');
 const inCartHeader = document.getElementById('inCartHeader');
 const delShopListBtn = document.getElementById('delShopListBtn');
+const itemAmountInput = document.getElementById('itemAmount');
+
 delShopListBtn.addEventListener('click', async () => {
     if (!confirm('Er du sikker på at du vil slette hele handlelisten?')) {
         return;
@@ -71,9 +73,7 @@ const itemSuggestionUl = document.getElementById('itemSuggestionUl');
 
 const itemForm = document.getElementById('itemForm');
 const itemNameInput = document.getElementById('itemName');
-const itemSuggestionList = document.getElementById('itemSuggestions');
 const itemCategorySelect = document.getElementById('itemCategory');
-// const itemCategorySuggestionList = document.getElementById('itemCategorySuggestions');
 const shopListBody = document.getElementById('shopListBody');
 const shopCartBody = document.getElementById('shopCartBody');
 
@@ -82,10 +82,10 @@ itemNameInput.addEventListener('dblclick', () => {
 });
 
 itemNameInput.addEventListener('input', () => {
-    // let itemSuggestionList = [];
-    // for (const i of itemSuggestionArray) {
-    //     itemSuggestionList.push(i.name);
-    // }
+    if (itemNameInput.value === '') {
+        itemSuggestionUl.hidden = true;
+        return;
+    }
     const itemSuggestionList = itemSuggestionArray.map(item => item.name);
     const inputText = itemNameInput.value.toLowerCase();
     const matches = itemSuggestionList.filter(item => {
@@ -96,23 +96,13 @@ itemNameInput.addEventListener('input', () => {
 });
 
 itemNameInput.addEventListener('change', () => {
-    for (let i = 0; i < itemSuggestionArray.length; i++) {
-        if (itemSuggestionArray[i].name.toLowerCase() === itemNameInput.value.toLowerCase()) {
-            console.log(itemSuggestionArray[i]);
-            if (itemSuggestionArray[i].categoryId !== undefined) {
-                itemCategorySelect.value = itemSuggestionArray[i].categoryId;
-            }
-            break;
-        }
-    }
+    itemNameChange();
 });
 
 itemForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const itemName = itemNameInput.value.split('#')[0];
-    const itemAmount = document.getElementById('itemAmount').value;
-    // const itemCategory = itemCategorySelect.value;
-    // const itemCategory = itemCategorySelect.text;
+    const itemAmount = itemAmountInput.value;
     const newItem = {
         name: itemName,
         amount: itemAmount,
@@ -135,6 +125,20 @@ itemForm.addEventListener('submit', async (e) => {
     await populateShopList();
     itemForm.reset();
 });
+
+function itemNameChange() {
+    itemSuggestionUl.hidden = true;
+    itemAmountInput.focus();
+    itemAmountInput.select();
+    for (let i = 0; i < itemSuggestionArray.length; i++) {
+        if (itemSuggestionArray[i].name.toLowerCase() === itemNameInput.value.toLowerCase()) {
+            if (itemSuggestionArray[i].categoryId !== undefined) {
+                itemCategorySelect.value = itemSuggestionArray[i].categoryId;
+            }
+            break;
+        }
+    }
+}
 
 async function updateSuggestions(item) {
     for (let i = 0; i < itemSuggestionArray.length; i++) {
@@ -187,12 +191,6 @@ async function updateAccountFromDB() {
 }
 
 function populateStoreSuggestions() {
-    // storeList.replaceChildren();
-    // for (let key in stores) {
-    //     const option = document.createElement('option');
-    //     option.value = stores[key].name + '#' + key;
-    //     storeList.appendChild(option);
-    // }
     if (localSettings.defaultStoreId) {
         selectedStoreId = localSettings.defaultStoreId;
         selectedStoreIndex = stores.findIndex(item => item.id === selectedStoreId);
@@ -215,14 +213,7 @@ function populateStoreSuggestions() {
 }
 
 function populateItemSuggestions(matches = []) {
-    // itemSuggestionList.replaceChildren();
-    // for (let i = 0; i < itemSuggestionArray.length; i++) {
-    //     const option = document.createElement('option');
-    //     option.value = itemSuggestionArray[i].name + '#' + i;
-    //     itemSuggestionList.appendChild(option);
-    // };
     itemSuggestionUl.innerHTML = '';
-    console.log(matches);
     matches.slice(0,8).forEach(item => {
         const li = document.createElement('li');
         li.textContent = item;
@@ -230,6 +221,7 @@ function populateItemSuggestions(matches = []) {
             e.preventDefault();
             itemNameInput.value = item;
             itemSuggestionUl.hidden = true;
+            itemNameChange();
         });
         itemSuggestionUl.appendChild(li);
     });
@@ -261,7 +253,6 @@ async function populateShopList() {
         }
     shopListBody.replaceChildren();
     shopCartBody.replaceChildren();
-    // const currentStore = stores[selectedStoreIndex];
     const currentStore = stores.find(item => item.id === selectedStoreId);
     if (currentStore.shopList === undefined || currentStore.shopList.length < 1) {
         return;
@@ -302,10 +293,11 @@ async function populateShopList() {
         const item = sortedShopList[i];
         const row = shopListBody.insertRow(-1);
         const cartCell = row.insertCell();
+        cartCell.classList.add('icon-cell');
         const toggleCartBtn = document.createElement('img');
         toggleCartBtn.type ='image/svg+xml';
-        toggleCartBtn.width = 20;
-        toggleCartBtn.height = 20;
+        toggleCartBtn.width = 30;
+        toggleCartBtn.height = 30;
         toggleCartBtn.style.cursor = 'pointer';
         if (item.inCart) {
             toggleCartBtn.src = '../assets/img/cart-x.svg';
@@ -336,10 +328,11 @@ async function populateShopList() {
         const nameCell = row.insertCell();
         nameCell.textContent = item.name;
         const deleteItemCell = row.insertCell();
+        deleteItemCell.classList.add('icon-cell');
         const deleteItemBtn = document.createElement('img');
         deleteItemBtn.type ='image/svg+xml';
-        deleteItemBtn.width = 20;
-        deleteItemBtn.height = 20;
+        deleteItemBtn.width = 30;
+        deleteItemBtn.height = 30;
         deleteItemBtn.style.cursor = 'pointer';
         deleteItemBtn.src = '../assets/img/trash.svg';
         deleteItemBtn.alt = 'Slett vare';

@@ -153,6 +153,11 @@ Ikke rukket å teste etter siste endringer......
 > Ordnet nedtrekken. Måtte jobbe litt for å få til at kategori blir valgt basert på tidligere inputs, men tror ok nå
 > Commit
 
+* 17.05.2026
+> Fikset slik at antall-feltet kommer i fokus når valgt produkt
+> Ryddet litt i kode
+> Ordnet en del på styling
+
 Få lagt til intervall for sjekk av om nye data i DB.
 Evt. sjekke om funksjon i cosmos for å sette et flagg eller noe som sjekkes
 
