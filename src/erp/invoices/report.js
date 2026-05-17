@@ -35,6 +35,7 @@ const invoiceDueDate = document.getElementById('invoiceduedate');
 const orderNr = document.getElementById('ordernr');
 const invoiceText = document.getElementById('invoicetext');
 const invoiceLinesTHead = document.getElementById('tablehead');
+const invTableHeadRow = document.getElementById('tableHeadRow');
 const invoiceLinesTBody = document.getElementById('invoicelines');
 const summaryDiv = document.getElementById('summarydiv');
 const sumExTax = document.getElementById('sumextax');
@@ -47,6 +48,42 @@ const payAmount = document.getElementById('payamount');
 const payDueDate = document.getElementById('payduedate');
 const footerCompanyInfo = document.getElementById('footercompany');
 const pageNrInfo = document.getElementById('pagenr');
+const dateOnInput = document.getElementById('dateOnInput');
+
+let dateOn = false;
+
+dateOnInput.addEventListener('change', (e) => {
+    e.preventDefault();
+    dateOn = dateOnInput.checked;
+    initiatePage();
+})
+
+const invLineHeaders = {
+    date: {
+        label: 'Dato',
+        alignment: 'leftalign'
+    },
+    product: {
+        label: 'Vare',
+        alignment: 'leftalign'
+    },
+    price: {
+        label: 'Pris',
+        alignment: 'rightalign'
+    },
+    amount: {
+        label: 'Antall',
+        alignment: 'rightalign'
+    },
+    unit: {
+        label: 'Enhet',
+        alignment: 'leftalign'
+    },
+    total: {
+        label: 'Beløp',
+        alignment: 'rightalign'
+    }
+}
 
 const toPdfButton = document.getElementById('topdfbtn');
 const toMailButton = document.getElementById('tomailbtn');
@@ -136,24 +173,39 @@ async function initiateLastPage(iStart, pageNr) {
     elementPage2.appendChild(footer2Div);
     summary2Div.style.display = 'grid';
     payment2Div.style.display = 'grid';
+
+
+
+    invTableHeadRow.innerHTML = '';
+    for (const [key, value] of Object.entries(invLineHeaders)) {
+        if (!dateOn && key === "date") continue;
+
+        const tHeader = document.createElement('th');
+        tHeader.textContent = value.label;
+        tHeader.classList.add(value.alignment);
+        invTableHeadRow.appendChild(tHeader);
+    }
+
     for (let i = iStart; i < invoiceLinesAmount; i++) {
         const bodyRow = table2Body.insertRow(-1);
-        const date = bodyRow.insertCell(0)
-        date.innerText = new Date(invoiceData.invoiceLines[i].date).toLocaleDateString();
+        if (dateOn) {
+            const date = bodyRow.insertCell()
+            date.innerText = new Date(invoiceData.invoiceLines[i].date).toLocaleDateString();
+        }
         const product = bodyRow.insertCell(1);
         product.classList = ['leftalign'];
         const selectedProduct = productList.find((element) => element.id == invoiceData.invoiceLines[i].product);
         product.innerText = selectedProduct.name;
-        const productPrice = bodyRow.insertCell(2);
+        const productPrice = bodyRow.insertCell();
         productPrice.classList = ['rightalign'];
         productPrice.innerText = invoiceData.invoiceLines[i].price.toLocaleString("nb-NO", {minimumFractionDigits: 2});
-        const productAmount = bodyRow.insertCell(3);
+        const productAmount = bodyRow.insertCell();
         productAmount.classList = ['rightalign'];
         productAmount.innerText = invoiceData.invoiceLines[i].amount.toLocaleString("nb-NO", {minimumFractionDigits: 2});
-        const productUnit = bodyRow.insertCell(4);
+        const productUnit = bodyRow.insertCell();
         productUnit.classList = ['leftalign'];
         productUnit.innerText = invoiceData.invoiceLines[i].unit;
-        const productSum = bodyRow.insertCell(5);
+        const productSum = bodyRow.insertCell();
         productSum.classList = ['rightalign'];
         productSum.innerText = (invoiceData.invoiceLines[i].price * invoiceData.invoiceLines[i].amount).toLocaleString("nb-NO", {minimumFractionDigits: 2});
     }
@@ -161,6 +213,7 @@ async function initiateLastPage(iStart, pageNr) {
 
 async function initiatePage() {
     loaderOn();
+    invoiceLinesTBody.innerHTML = '';
     invoiceData = await getInvoice(documentId);
     customerData = await getCustomer(invoiceData.customer);
     companyData = await getCompany('1');
@@ -198,24 +251,37 @@ async function initiatePage() {
         companyData.email;
     pageNrInfo.innerText = 'Side ' +  currentPage + ' av ' + totalPages;
 
+    
+    invTableHeadRow.innerHTML = '';
+    for (const [key, value] of Object.entries(invLineHeaders)) {
+        if (!dateOn && key === "date") continue;
+
+        const tHeader = document.createElement('th');
+        tHeader.textContent = value.label;
+        tHeader.classList.add(value.alignment);
+        invTableHeadRow.appendChild(tHeader);
+    }
+
     for (let i = 0; i < invoiceData.invoiceLines.length; i++) {
         const bodyRow = invoiceLinesTBody.insertRow(-1);
-        const date = bodyRow.insertCell(0)
-        date.innerText = new Date(invoiceData.invoiceLines[i].date).toLocaleDateString();
-        const product = bodyRow.insertCell(1);
+        if (dateOn) {
+            const date = bodyRow.insertCell()
+            date.innerText = new Date(invoiceData.invoiceLines[i].date).toLocaleDateString();
+        }
+        const product = bodyRow.insertCell();
         product.classList = ['leftalign'];
         const selectedProduct = productList.find((element) => element.id == invoiceData.invoiceLines[i].product);
         product.innerText = selectedProduct.name;
-        const productPrice = bodyRow.insertCell(2);
+        const productPrice = bodyRow.insertCell();
         productPrice.classList = ['rightalign'];
         productPrice.innerText = invoiceData.invoiceLines[i].price.toLocaleString("nb-NO", {minimumFractionDigits: 2});
-        const productAmount = bodyRow.insertCell(3);
+        const productAmount = bodyRow.insertCell();
         productAmount.classList = ['rightalign'];
         productAmount.innerText = invoiceData.invoiceLines[i].amount.toLocaleString("nb-NO", {minimumFractionDigits: 2});
-        const productUnit = bodyRow.insertCell(4);
+        const productUnit = bodyRow.insertCell();
         productUnit.classList = ['leftalign'];
         productUnit.innerText = invoiceData.invoiceLines[i].unit;
-        const productSum = bodyRow.insertCell(5);
+        const productSum = bodyRow.insertCell();
         productSum.classList = ['rightalign'];
         productSum.innerText = (invoiceData.invoiceLines[i].price * invoiceData.invoiceLines[i].amount).toLocaleString("nb-NO", {minimumFractionDigits: 2});
         if (i == maxLinesOnePage && (invoiceLinesAmount - i) < maxLinesLastPage) {

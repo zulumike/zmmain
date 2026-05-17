@@ -313,6 +313,11 @@ const gql = `
 > La til slik at regnskapsår-valget i stats innehar en datalist utfylt med alle år 5 år tilbake og til og med idag.
 > Ordnet også slik at predefinert år er fjoråret hvis januar måned og i år hvis andre måneder.
 
+* 17.05.2026
+> La til valg for om man vil ha med datoer på fakturalinjer
+> Samt funksjon for å vise eller ikke vise dette.
+> Commit
+
 Må vel vurdere å lage til en funksjon som initielt fyller company-db med dummy-data
 
 Bør legge til try/catch i dbfunctions for å kunne formidle feil istedenfor at programmet blir stående med loader
