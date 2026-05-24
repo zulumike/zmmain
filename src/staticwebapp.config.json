@@ -5,7 +5,8 @@
   "routes": [
     {
         "route": "/erp/admin/*",
-        "allowedRoles": [ "admin" ]
+        "allowedRoles": [ "admin" ],
+        "rewrite": "/.auth/login/microsoft?prompt=select_account"
     },
     {
       "route": "/countdown/*",
@@ -16,14 +17,9 @@
       "allowedRoles": [ "anonymous", "authenticated", "admin", "user" ]
     },
     {
-      "route": "/*",
-      "allowedRoles": [ "admin", "user" ]
+      "route": "/erp/*",
+      "allowedRoles": [ "admin", "user" ],
+      "rewrite": "/.auth/login/microsoft?prompt=select_account"
     }
-  ],
-  "responseOverrides": {
-    "401": {
-      "statusCode": 302,
-      "redirect": "/.auth/login/aad"
-    }
-  }
+  ]
 }
