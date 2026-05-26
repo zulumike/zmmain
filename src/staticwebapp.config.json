@@ -20,6 +20,11 @@
       "route": "/erp/*",
       "allowedRoles": [ "admin", "user" ],
       "rewrite": "/.auth/login/microsoft?prompt=select_account"
+    },
+    {
+      "route": "/*",
+      "allowedRoles": [ "admin", "user", "authenticated", "anonymous" ],
+      "rewrite": "/.auth/login/microsoft?prompt=select_account"
     }
   ]
 }
