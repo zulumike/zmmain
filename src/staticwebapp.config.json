@@ -5,8 +5,7 @@
   "routes": [
     {
         "route": "/erp/admin/*",
-        "allowedRoles": [ "admin" ],
-        "rewrite": "/.auth/login/microsoft?prompt=select_account"
+        "allowedRoles": [ "admin" ]
     },
     {
       "route": "/countdown/*",
@@ -18,13 +17,22 @@
     },
     {
       "route": "/erp/*",
-      "allowedRoles": [ "admin", "user" ],
-      "rewrite": "/.auth/login/microsoft?prompt=select_account"
+      "allowedRoles": [ "admin", "user" ]
+    },
+    {
+      "route": "/logout",
+      "redirect": "/.auth/logout"
     },
     {
       "route": "/*",
-      "allowedRoles": [ "admin", "user", "authenticated", "anonymous" ],
-      "rewrite": "/.auth/login/microsoft?prompt=select_account"
+      "allowedRoles": [ "admin", "user", "authenticated", "anonymous" ]
     }
-  ]
+  ],
+  "responseOverrides": {
+    "401": {
+      "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer",
+      "statusCode": 302
+    }
+  }
+
 }
