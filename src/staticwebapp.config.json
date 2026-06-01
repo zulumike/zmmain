@@ -2,6 +2,11 @@
 "navigationFallback": {
     "rewrite": "/index.html"
   },
+  "mimeTypes": {
+    ".js": "application/javascript",
+    ".css": "text/css",
+    ".html": "text/html"
+  },
   "routes": [
     {
         "route": "/erp/admin/*",
