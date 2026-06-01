@@ -25,12 +25,10 @@
     },
     {
       "route": "/qr/qrview/*",
-      "redirect": "/qr/qrview/",
       "allowedRoles": [ "admin", "user" ]
     },
     {
       "route": "/qr/*",
-      "redirect": "/qr/",
       "allowedRoles": [ "admin", "user", "anonymous", "authenticated" ]
     },
     {
