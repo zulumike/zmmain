@@ -24,7 +24,13 @@
       "redirect": "/.auth/logout"
     },
     {
+      "route": "/qr/*",
+      "redirect": "/qr/",
+      "allowedRoles": [ "admin", "user", "anonymous", "authenticated" ]
+    },
+    {
       "route": "/qr/qrview/*",
+      "redirect": "/qr/qrview/",
       "allowedRoles": [ "admin", "user" ]
     },
     {
