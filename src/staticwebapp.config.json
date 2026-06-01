@@ -31,7 +31,8 @@
     },
     {
       "route": "/qr/qrview/*",
-      "allowedRoles": [ "admin", "user" ]
+      "allowedRoles": [ "admin", "user" ],
+      "redirect": "/qr/qrwrite"
     },
     {
       "route": "/*",
