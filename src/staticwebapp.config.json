@@ -25,10 +25,6 @@
       "allowedRoles": [ "admin", "user" ]
     },
     {
-      "route": "/qr/qrview/*",
-      "allowedRoles": [ "admin", "user" ]
-    },
-    {
       "route": "/logout",
       "redirect": "/.auth/logout"
     },
