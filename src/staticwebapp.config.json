@@ -32,7 +32,7 @@
     {
       "route": "/qr/qrview/*",
       "allowedRoles": [ "admin", "user" ],
-      "redirect": "/qr/qrwrite"
+      "redirect": "/qr/qrview"
     },
     {
       "route": "/*",
