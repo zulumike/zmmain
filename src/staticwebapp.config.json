@@ -1,7 +1,7 @@
 {
 "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/*.js", "/*.css", "/*.png", "/*.jpg", "/*.ico"]
+    "exclude": ["/qr/qrview/*.js", "/qr/qrview/*.css", "*.js", "*.css", "*.png", "*.jpg", "*.ico"]
   },
   "mimeTypes": {
     ".js": "application/javascript",
@@ -28,6 +28,10 @@
     {
       "route": "/logout",
       "redirect": "/.auth/logout"
+    },
+    {
+      "route": "/qr/qrview/*",
+      "allowedRoles": [ "admin", "user" ]
     },
     {
       "route": "/*",
