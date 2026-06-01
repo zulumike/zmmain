@@ -1,12 +1,6 @@
 {
 "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/qr/qrview/*.js", "/qr/qrview/*.css", "*.js", "*.css", "*.png", "*.jpg", "*.ico"]
-  },
-  "mimeTypes": {
-    ".js": "application/javascript",
-    ".css": "text/css",
-    ".html": "text/html"
+    "rewrite": "/index.html"
   },
   "routes": [
     {
@@ -31,8 +25,7 @@
     },
     {
       "route": "/qr/qrview/*",
-      "allowedRoles": [ "admin", "user" ],
-      "redirect": "/qr/qrview"
+      "allowedRoles": [ "admin", "user" ]
     },
     {
       "route": "/*",
